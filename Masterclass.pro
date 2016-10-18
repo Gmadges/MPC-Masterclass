@@ -11,13 +11,18 @@ isEqual(QT_MAJOR_VERSION, 5) {
 }
 
 MOC_DIR=moc
+UI_DIR=./include
 
 CONFIG-=app_bundle
 
-SOURCES+= $$PWD/src/main.cpp
+SOURCES+= $$PWD/src/main.cpp    \
+            $$PWD/src/mainWindow.cpp \
+            $$PWD/src/glWidget.cpp
 
-# HEADERS+= $$PWD/include/NGLScene.h \
-#          $$PWD/include/WindowParams.h
+HEADERS+= $$PWD/include/mainWindow.h    \
+            $$PWD/include/glWidget.h
+
+FORMS+= $$PWD/src/mainWindow.ui
 
 INCLUDEPATH += /usr/local/include/bullet ./include
 
