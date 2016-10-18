@@ -30,3 +30,5 @@
 
 #Qt
 *.qmake.cache
+*.o
+moc/

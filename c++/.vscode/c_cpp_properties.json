@@ -10,7 +10,7 @@
         },
         {
             "name": "Linux",
-            "includePath": ["/usr/include", "/usr/local/include/bullet/", "/home/george/projects/MPC-Masterclass/include/"],
+            "includePath": ["/usr/include", "/usr/local/include/bullet/", "/home/george/projects/MPC-Masterclass/c++/include/"],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""
