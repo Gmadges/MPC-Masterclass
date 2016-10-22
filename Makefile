@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Masterclass1.0.0
-DISTDIR = /home/george/projects/MPC-Masterclass/c++/obj/Masterclass1.0.0
+DISTDIR = /home/george/projects/MPC-Masterclass/obj/Masterclass1.0.0
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -L/usr/local/lib -lBulletDynamics -lBulletCollision -lLinearMath -lopenvdb -lHalf -ltbb -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -55,63 +55,7 @@ OBJECTS       = obj/main.o \
 		obj/mainWindow.o \
 		obj/glWidget.o \
 		obj/moc_mainWindow.o
-DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_device_lib_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformsupport_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resources.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/moc.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/unix/opengl.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/uic.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/unix/thread.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		Masterclass.pro include/mainWindow.h \
+DIST          = Masterclass.pro include/mainWindow.h \
 		include/glWidget.h src/main.cpp \
 		src/mainWindow.cpp \
 		src/glWidget.cpp
@@ -186,6 +130,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.cache \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
@@ -248,6 +193,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.cache:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf:
@@ -311,7 +257,7 @@ compiler_moc_header_make_all: moc/moc_mainWindow.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc/moc_mainWindow.cpp
 moc/moc_mainWindow.cpp: include/mainWindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass/c++ -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/c++/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainWindow.h -o moc/moc_mainWindow.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainWindow.h -o moc/moc_mainWindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
