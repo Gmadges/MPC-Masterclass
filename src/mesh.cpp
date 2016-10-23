@@ -1,12 +1,10 @@
 #include "mesh.h"
 
-#include <fstream>
-#include <sstream>
+#include <iostream>
 
-#include <cstdio>
-#include <cstdlib>
-
-#include <QFile>
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 Mesh::Mesh():
     indexBuf(QOpenGLBuffer::IndexBuffer)
@@ -21,7 +19,7 @@ Mesh::Mesh():
     // Initializes cube geometry and transfers it to VBOs
     initMesh();
 
-    color = QVector4D(0,0,1,1);
+    color = QVector4D(98.0f/255.0f,201.0f/255.0f,109.0f/255.0f,1);
 }
 
 Mesh::~Mesh()

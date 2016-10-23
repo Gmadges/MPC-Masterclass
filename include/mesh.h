@@ -5,13 +5,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 
-#include <iostream>
 #include <vector>
-#include <string>
-
-#include <assimp/cimport.h>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 class Mesh : protected QOpenGLFunctions
 {
