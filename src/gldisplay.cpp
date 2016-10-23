@@ -1,17 +1,26 @@
 #include "gldisplay.h"
 
 #include <iostream>
-#include <cmath>
 #include <QMouseEvent>
-
+#include <QQuaternion>
 #include "mesh.h"
 
-GLDisplay::GLDisplay(QWidget *parent):
-    QOpenGLWidget(parent)
-{
-    // camera start postion
-    matrix.translate(0.0, 0.0, -5.0);
+constexpr float INCREMENT=0.01f;
+constexpr float ZOOM=0.1f;
 
+GLDisplay::GLDisplay(QWidget *parent):
+    QOpenGLWidget(parent),
+    cam_pos(0.0f, 0.0f, -5.0f),
+    bRotate(false),
+    bTranslate(false),
+    origX(0),
+    origY(0),
+    origXPos(0),
+    origYPos(0),
+    spinXFace(0),
+    spinYFace(0)
+{
+    // opengl surface config
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
     format.setSamples(16);
     format.setSwapInterval(0);
@@ -21,119 +30,63 @@ GLDisplay::GLDisplay(QWidget *parent):
 
 GLDisplay::~GLDisplay()
 {
-    makeCurrent();
-    doneCurrent();
-}
-
-void GLDisplay::mousePressEvent(QMouseEvent *e)
-{
-    mousePressPosition = QVector2D(e->localPos());
-}
-
-void GLDisplay::mouseMoveEvent(QMouseEvent *e)
-{
-    if(e->MouseButtonPress)
-    {
-        QVector2D displacement(e->localPos().x()-mousePressPosition.x(),
-                               e->localPos().y()-mousePressPosition.y());
-        QVector2D absisca(1,0); QVector2D ordinates(0,1);
-        float dota = QVector2D::dotProduct(displacement, absisca);
-        float dotb = QVector2D::dotProduct(displacement, ordinates);
-        if(e->buttons() == Qt::LeftButton)
-        {
-            if(fabs(dotb) > fabs(dota))
-            {
-                if(e->localPos().y() > mousePressPosition.y())
-                    matrix.rotate(0.5, QVector3D(1,0,0));
-                if(e->localPos().y() < mousePressPosition.y())
-                    matrix.rotate(-0.5, QVector3D(1,0,0));
-            }
-            if(fabs(dota) > fabs(dotb))
-            {
-                if(e->localPos().x() > mousePressPosition.x())
-                    matrix.rotate(0.5, QVector3D(0,1,0));
-                if(e->localPos().x() < mousePressPosition.y())
-                    matrix.rotate(-0.5, QVector3D(0,1,0));
-            }
-        }
-        if(e->buttons() == Qt::RightButton)
-        {
-            if(fabs(dotb) > fabs(dota))
-            {
-                if(e->localPos().y() > mousePressPosition.y())
-                    matrix.translate(0,-0.02,0);
-                if(e->localPos().y() < mousePressPosition.y())
-                    matrix.translate(0,0.02,0);
-            }
-            if(fabs(dota) > fabs(dotb))
-            {
-                if(e->localPos().x() > mousePressPosition.x())
-                    matrix.translate(0.02,0,0);
-                if(e->localPos().x() < mousePressPosition.y())
-                    matrix.translate(-0.02,0,0);
-            }
-        }
-        if(e->buttons() == Qt::MidButton)
-        {
-            if(e->localPos().y() > mousePressPosition.y())
-                matrix.translate(0,0,0.02);
-            if(e->localPos().y() < mousePressPosition.y())
-                matrix.translate(0,0,-0.02);
-        }
-    }
-
-    normal = matrix.normalMatrix();
-    update();
-}
-
-void GLDisplay::mouseReleaseEvent(QMouseEvent *e)
-{
-    e = e;
-}
-
-void GLDisplay::timerEvent(QTimerEvent *e)
-{
-    e = e;
-    update();
 }
 
 void GLDisplay::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
     initShaders();
 
     glEnable(GL_DEPTH_TEST);
 
-    pMesh.reset(new Mesh());
+    glEnable(GL_MULTISAMPLE);
 
-    timer.start(12, this);
+    //load mesh
+    pMesh.reset(new Mesh());
 }
 
 void GLDisplay::resizeGL(int w, int h)
 {
     qreal aspect = qreal(w) / qreal(h ? h : 1);
-
     const qreal zNear = 3.0, zFar = 30.0, fov = 45.0;
-
-    projection.setToIdentity();
-    projection.perspective(fov, aspect, zNear, zFar);
+    projMat.setToIdentity();
+    projMat.perspective(fov, aspect, zNear, zFar);
 }
 
 void GLDisplay::paintGL()
-{
+{   
+    // clear tings
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    program.setUniformValue("normal_matrix", normal);
+    // load matrices;
+    loadMatricesToShader();
 
-    program.setUniformValue("mvp_matrix", projection * matrix);
+    // draw
+    pMesh->drawMesh(&program);
+}
 
+void GLDisplay::loadMatricesToShader()
+{
+    // create view mat
+    QMatrix4x4 mat;
+    mat.translate(cam_pos);
+    mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
+    viewMat = mat;
+
+    normMat = viewMat.normalMatrix();
+
+    // normal matrix
+    program.setUniformValue("normal_matrix", normMat);
+
+    // MVP matrix
+    program.setUniformValue("mvp_matrix", projMat * modelMat * viewMat);
+
+    //light position
     m_lightPosLoc = program.uniformLocation("lightPos");
     program.setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
-
-    pMesh->drawMesh(&program);
 }
 
 void GLDisplay::initShaders()
@@ -149,4 +102,88 @@ void GLDisplay::initShaders()
 
     if (!program.bind())
         close();
+}
+
+void GLDisplay::mousePressEvent(QMouseEvent *_event)
+{
+    if(_event->button() == Qt::LeftButton)
+    {
+        origX = _event->x();
+        origY = _event->y();
+        bRotate =true;
+    }
+    // right mouse translate mode
+    else if(_event->button() == Qt::RightButton)
+    {
+        origXPos = _event->x();
+        origYPos = _event->y();
+        bTranslate=true;
+    }
+}
+
+void GLDisplay::mouseMoveEvent(QMouseEvent *_event)
+{
+    if(bRotate && _event->buttons() == Qt::LeftButton)
+    {
+        int diffx=_event->x()-origX;
+        int diffy=_event->y()-origY;
+        spinXFace += static_cast<int>( 0.5f * diffy);
+        spinYFace += static_cast<int>( 0.5f * diffx);
+        origX = _event->x();
+        origY = _event->y();
+        update();
+    }
+    // right mouse translate code
+    else if(bTranslate && _event->buttons() == Qt::RightButton)
+    {
+        int diffX = static_cast<int>(_event->x() - origXPos);
+        int diffY = static_cast<int>(_event->y() - origYPos);
+        origXPos=_event->x();
+        origYPos=_event->y();
+        cam_pos += QVector3D(INCREMENT * diffX, -(INCREMENT * diffY), 0.0f);
+        update();
+    }
+}
+
+void GLDisplay::mouseReleaseEvent(QMouseEvent *_event)
+{
+    // we then set Rotate to false
+    if (_event->button() == Qt::LeftButton)
+    {
+        bRotate=false;
+    }
+    // right mouse translate mode
+    if (_event->button() == Qt::RightButton)
+    {
+        bTranslate=false;
+    }
+}
+
+void GLDisplay::keyPressEvent(QKeyEvent *_event)
+{
+    // that method is called every time the main window recives a key event.
+    // we then switch on the key value and set the camera in the GLWindow
+    switch (_event->key())
+    {
+        // turn on wirframe rendering
+        case Qt::Key_W : glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); break;
+        // turn off wire frame
+        case Qt::Key_S : glPolygonMode(GL_FRONT_AND_BACK,GL_FILL); break;
+        default : break;
+    }
+    update();
+}
+
+void GLDisplay::wheelEvent(QWheelEvent *_event)
+{
+	// check the diff of the wheel position (0 means no change)
+	if(_event->delta() > 0)
+	{
+		cam_pos += QVector3D(0.0f, 0.0f, ZOOM);
+	}
+	else if(_event->delta() <0 )
+	{
+		cam_pos += QVector3D(0.0f, 0.0f, -ZOOM);
+	}
+	update();
 }

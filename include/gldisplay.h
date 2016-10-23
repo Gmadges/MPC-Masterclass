@@ -7,7 +7,6 @@
 #include <QQuaternion>
 #include <QVector2D>
 #include <QVector3D>
-#include <QBasicTimer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
@@ -25,21 +24,21 @@ public:
 
 protected:
 
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
+    // controls
+    void mousePressEvent(QMouseEvent *_event) override;
+    void mouseMoveEvent(QMouseEvent *_event) override;
+    void mouseReleaseEvent(QMouseEvent *_event) override;
+    void keyPressEvent(QKeyEvent *_event) override;
+    void wheelEvent(QWheelEvent *_event) override;
 
-    void initializeGL() Q_DECL_OVERRIDE;
-    void resizeGL(int w, int h) Q_DECL_OVERRIDE;
-    void paintGL() Q_DECL_OVERRIDE;
+    void initializeGL() override;
+    void resizeGL(int w, int h) override;
+    void paintGL() override;
 
     void initShaders();
+    void loadMatricesToShader();
 
 private:
-    //simulation loop
-    QBasicTimer timer;
-
     //geometry
     std::shared_ptr<Mesh> pMesh;
 
@@ -50,12 +49,22 @@ private:
     QOpenGLShaderProgram program;
 
     //matrices
-    QMatrix4x4 projection; // projection matrix
-    QMatrix4x4 matrix; //model view matrix
-    QMatrix3x3 normal; // normal matrix
+    QMatrix4x4 projMat; // projection matrix
+    QMatrix4x4 modelMat; //modelmatrix
+    QMatrix4x4 viewMat; // view matrix
+    QMatrix3x3 normMat; // normal matrix
 
-    //mouse
-    QVector2D mousePressPosition;
+    QVector3D cam_pos;
+
+    //view variables
+    bool bRotate;
+    bool bTranslate;
+    int origX;
+    int origY;
+    int origXPos;
+    int origYPos;
+    int spinXFace;
+    int spinYFace; 
 };
 
 #endif // GLDISPLAY_H
