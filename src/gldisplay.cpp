@@ -2,13 +2,15 @@
 
 #include <iostream>
 #include <cmath>
-
 #include <QMouseEvent>
+
+#include "mesh.h"
 
 GLDisplay::GLDisplay(QWidget *parent):
     QOpenGLWidget(parent),
-    m_mesh(0)
+    pMesh(0)
 {
+    // camera start postion
     matrix.translate(0.0, 0.0, -5.0);
 
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
@@ -21,7 +23,6 @@ GLDisplay::GLDisplay(QWidget *parent):
 GLDisplay::~GLDisplay()
 {
     makeCurrent();
-    delete m_mesh;
     doneCurrent();
 }
 
@@ -107,7 +108,7 @@ void GLDisplay::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
 
-    m_mesh = new Mesh("");
+    pMesh.reset(new Mesh(""));
 
     timer.start(12, this);
 }
@@ -133,7 +134,7 @@ void GLDisplay::paintGL()
     m_lightPosLoc = program.uniformLocation("lightPos");
     program.setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
 
-    m_mesh->drawMesh(&program);
+    pMesh->drawMesh(&program);
 }
 
 void GLDisplay::initShaders()

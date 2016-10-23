@@ -41,4 +41,4 @@ DISTFILES += \
 
 RESOURCES += shaders.qrc
 
-CONFIG += console
+CONFIG += console c++11

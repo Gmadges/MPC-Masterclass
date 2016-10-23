@@ -12,7 +12,9 @@
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
 
-#include "mesh.h"
+#include <memory>
+
+class Mesh;
 
 class GLDisplay : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -22,6 +24,7 @@ public:
     ~GLDisplay();
 
 protected:
+
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
@@ -38,7 +41,7 @@ private:
     QBasicTimer timer;
 
     //geometry
-    Mesh *m_mesh;
+    std::shared_ptr<Mesh> pMesh;
 
     //lights
     int m_lightPosLoc;
