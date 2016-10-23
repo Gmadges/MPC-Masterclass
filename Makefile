@@ -306,7 +306,8 @@ obj/main.o: src/main.cpp include/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
-		include/ui_mainwindow.h
+		include/ui_mainwindow.h \
+		include/gldisplay.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/gldisplay.o: src/gldisplay.cpp include/gldisplay.h \
