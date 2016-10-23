@@ -1,5 +1,5 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainWindow.ui'
+** Form generated from reading UI file 'mainwindow.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.5.1
 **
@@ -13,37 +13,48 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "glWidget.h"
+#include "gldisplay.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow
 {
 public:
-    QWidget *centralwidget;
-    QGridLayout *gridLayout_2;
-    GLWidget *openGLWidget;
+    QWidget *centralWidget;
+    GLDisplay *openGLWidget;
+    QMenuBar *menuBar;
+    QToolBar *mainToolBar;
+    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->setWindowModality(Qt::ApplicationModal);
-        MainWindow->resize(898, 626);
-        centralwidget = new QWidget(MainWindow);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout_2 = new QGridLayout(centralwidget);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        openGLWidget = new GLWidget(centralwidget);
+        MainWindow->resize(396, 299);
+        centralWidget = new QWidget(MainWindow);
+        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        openGLWidget = new GLDisplay(centralWidget);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
-
-        gridLayout_2->addWidget(openGLWidget, 0, 0, 1, 1);
-
-        MainWindow->setCentralWidget(centralwidget);
+        openGLWidget->setGeometry(QRect(9, -1, 800, 600));
+        openGLWidget->setMinimumSize(QSize(800, 600));
+        openGLWidget->setMaximumSize(QSize(800, 600));
+        MainWindow->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 396, 20));
+        MainWindow->setMenuBar(menuBar);
+        mainToolBar = new QToolBar(MainWindow);
+        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        statusBar = new QStatusBar(MainWindow);
+        statusBar->setObjectName(QStringLiteral("statusBar"));
+        MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
 

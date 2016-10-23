@@ -36,7 +36,7 @@ DISTNAME      = Masterclass1.0.0
 DISTDIR = /home/george/projects/MPC-Masterclass/obj/Masterclass1.0.0
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -L/usr/local/lib -lBulletDynamics -lBulletCollision -lLinearMath -lopenvdb -lHalf -ltbb -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -L/usr/local/lib -lBulletDynamics -lBulletCollision -lLinearMath -lopenvdb -lHalf -ltbb -lassimp -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -49,16 +49,26 @@ OBJECTS_DIR   = obj/
 ####### Files
 
 SOURCES       = src/main.cpp \
-		src/mainWindow.cpp \
-		src/glWidget.cpp moc/moc_mainWindow.cpp
+		src/mainwindow.cpp \
+		src/gldisplay.cpp \
+		src/mesh.cpp qrc_shaders.cpp \
+		moc/moc_mainwindow.cpp \
+		moc/moc_gldisplay.cpp
 OBJECTS       = obj/main.o \
-		obj/mainWindow.o \
-		obj/glWidget.o \
-		obj/moc_mainWindow.o
-DIST          = Masterclass.pro include/mainWindow.h \
-		include/glWidget.h src/main.cpp \
-		src/mainWindow.cpp \
-		src/glWidget.cpp
+		obj/mainwindow.o \
+		obj/gldisplay.o \
+		obj/mesh.o \
+		obj/qrc_shaders.o \
+		obj/moc_mainwindow.o \
+		obj/moc_gldisplay.o
+DIST          = shaders/simple.vert \
+		shaders/simple.frag \
+		Masterclass.pro include/mainwindow.h \
+		include/gldisplay.h \
+		include/mesh.h src/main.cpp \
+		src/mainwindow.cpp \
+		src/gldisplay.cpp \
+		src/mesh.cpp
 QMAKE_TARGET  = Masterclass
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Masterclass
@@ -86,7 +96,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): include/ui_mainWindow.h $(OBJECTS)  
+$(TARGET): include/ui_mainwindow.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -147,6 +157,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Masterclass.pro \
+		shaders.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
@@ -210,6 +221,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 Masterclass.pro:
+shaders.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
@@ -228,9 +240,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainWindow.h include/glWidget.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainWindow.cpp src/glWidget.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/mainWindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents include/mainwindow.h include/gldisplay.h include/mesh.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/gldisplay.cpp src/mesh.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -251,22 +264,33 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_shaders.cpp
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc/moc_mainWindow.cpp
+	-$(DEL_FILE) qrc_shaders.cpp
+qrc_shaders.cpp: shaders.qrc \
+		shaders/simple.frag \
+		shaders/simple.vert
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
+
+compiler_moc_header_make_all: moc/moc_mainwindow.cpp moc/moc_gldisplay.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_mainWindow.cpp
-moc/moc_mainWindow.cpp: include/mainWindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainWindow.h -o moc/moc_mainWindow.cpp
+	-$(DEL_FILE) moc/moc_mainwindow.cpp moc/moc_gldisplay.cpp
+moc/moc_mainwindow.cpp: include/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
+
+moc/moc_gldisplay.cpp: include/mesh.h \
+		include/gldisplay.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/gldisplay.h -o moc/moc_gldisplay.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: include/ui_mainWindow.h
+compiler_uic_make_all: include/ui_mainwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) include/ui_mainWindow.h
-include/ui_mainWindow.h: src/mainWindow.ui \
-		include/glWidget.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic src/mainWindow.ui -o include/ui_mainWindow.h
+	-$(DEL_FILE) include/ui_mainwindow.h
+include/ui_mainwindow.h: forms/mainwindow.ui \
+		include/gldisplay.h \
+		include/mesh.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -274,23 +298,34 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
-obj/main.o: src/main.cpp include/mainWindow.h
+obj/main.o: src/main.cpp include/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
-obj/mainWindow.o: src/mainWindow.cpp include/mainWindow.h \
-		include/ui_mainWindow.h \
-		include/glWidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainWindow.o src/mainWindow.cpp
+obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
+		include/ui_mainwindow.h \
+		include/gldisplay.h \
+		include/mesh.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
-obj/glWidget.o: src/glWidget.cpp include/glWidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glWidget.o src/glWidget.cpp
+obj/gldisplay.o: src/gldisplay.cpp include/gldisplay.h \
+		include/mesh.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/gldisplay.o src/gldisplay.cpp
 
-obj/moc_mainWindow.o: moc/moc_mainWindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainWindow.o moc/moc_mainWindow.cpp
+obj/mesh.o: src/mesh.cpp include/mesh.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
+
+obj/qrc_shaders.o: qrc_shaders.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp
+
+obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
+
+obj/moc_gldisplay.o: moc/moc_gldisplay.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_gldisplay.o moc/moc_gldisplay.cpp
 
 ####### Install
 

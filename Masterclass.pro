@@ -1,6 +1,8 @@
 
 TARGET=Masterclass
 
+TEMPLATE= app
+
 OBJECTS_DIR=obj
 
 QT+=gui opengl core
@@ -16,21 +18,27 @@ UI_DIR=./include
 CONFIG-=app_bundle
 
 SOURCES+= $$PWD/src/main.cpp    \
-            $$PWD/src/mainWindow.cpp \
-            $$PWD/src/glWidget.cpp
+            $$PWD/src/mainwindow.cpp \
+            $$PWD/src/gldisplay.cpp \
+            $$PWD/src/mesh.cpp
 
-HEADERS+= $$PWD/include/mainWindow.h    \
-            $$PWD/include/glWidget.h
+HEADERS+= $$PWD/include/mainwindow.h    \
+            $$PWD/include/gldisplay.h \
+            $$PWD/include/mesh.h
 
-FORMS+= $$PWD/src/mainWindow.ui
+FORMS+= $$PWD/forms/mainwindow.ui
 
 INCLUDEPATH += /usr/local/include/bullet ./include
 
-LIBS += -L/usr/local/lib -lBulletDynamics  -lBulletCollision  -lLinearMath -lopenvdb -lpthread -lHalf -ltbb 
+LIBS += -L/usr/local/lib -lBulletDynamics  -lBulletCollision  -lLinearMath -lopenvdb -lpthread -lHalf -ltbb -lassimp
 
 DESTDIR=./
 
-# OTHER_FILES+= shaders/*.glsl \
-#							README.md
+DISTFILES += \
+    $$PWD/shaders/simple.vert \
+    $$PWD/shaders/simple.frag
+
+
+RESOURCES += shaders.qrc
 
 CONFIG += console
