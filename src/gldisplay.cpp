@@ -7,8 +7,7 @@
 #include "mesh.h"
 
 GLDisplay::GLDisplay(QWidget *parent):
-    QOpenGLWidget(parent),
-    pMesh(0)
+    QOpenGLWidget(parent)
 {
     // camera start postion
     matrix.translate(0.0, 0.0, -5.0);
@@ -108,7 +107,7 @@ void GLDisplay::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
 
-    pMesh.reset(new Mesh(""));
+    pMesh.reset(new Mesh());
 
     timer.start(12, this);
 }

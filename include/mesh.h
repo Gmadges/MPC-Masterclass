@@ -16,7 +16,7 @@
 class Mesh : protected QOpenGLFunctions
 {
 public:
-    Mesh(std::string mesh_path);
+    Mesh();
     virtual ~Mesh();
 
     void drawMesh(QOpenGLShaderProgram *program);
@@ -27,8 +27,6 @@ private:
     void initMesh();
 
     QVector4D color;
-
-    std::string m_mesh_path;
 
     std::vector<QVector3D> m_vertices;
     std::vector<QVector2D> m_texcoord;

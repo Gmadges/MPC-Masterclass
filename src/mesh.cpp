@@ -8,9 +8,8 @@
 
 #include <QFile>
 
-Mesh::Mesh(std::string mesh_path):
-    indexBuf(QOpenGLBuffer::IndexBuffer),
-    m_mesh_path(mesh_path)
+Mesh::Mesh():
+    indexBuf(QOpenGLBuffer::IndexBuffer)
 {
     initializeOpenGLFunctions();
 
@@ -63,10 +62,10 @@ void Mesh::loadMesh()
       }
 
       //loop over meshes
-      for (int i = 0; i < scene->mNumMeshes; ++i)
+      for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
       {
           //loop into current mesh for vertices
-          for (int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
+          for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
           {
               QVector3D p = QVector3D(scene->mMeshes[i]->mVertices[j].x,
                                       scene->mMeshes[i]->mVertices[j].y,
@@ -75,17 +74,17 @@ void Mesh::loadMesh()
           }
 
           //loop into current mesh for indices
-          for (int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j)
+          for (unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j)
           {
               aiFace f = scene->mMeshes[i]->mFaces[j];
-              for (int k = 0; k < f.mNumIndices; ++k)
+              for (unsigned int k = 0; k < f.mNumIndices; ++k)
               {
                   m_faces.push_back(f.mIndices[k]);
               }
           }
 
           //loop into current mesh for normals, one normal per vertex
-          for (int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
+          for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
           {
               QVector3D m = QVector3D(scene->mMeshes[i]->mNormals[j].x,
                                       scene->mMeshes[i]->mNormals[j].y,
@@ -93,7 +92,7 @@ void Mesh::loadMesh()
               m_normals.push_back(m);
           }
       }
-      aiReleaseImport( scene);
+      aiReleaseImport(scene);
 }
 
 void Mesh::drawMesh(QOpenGLShaderProgram *program)
