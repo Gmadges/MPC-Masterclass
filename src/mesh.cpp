@@ -6,7 +6,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-Mesh::Mesh():
+Mesh::Mesh(std::string _path):
     indexBuf(QOpenGLBuffer::IndexBuffer)
 {
     initializeOpenGLFunctions();
@@ -17,7 +17,7 @@ Mesh::Mesh():
     normalBuf.create();
 
     // Initializes cube geometry and transfers it to VBOs
-    initMesh();
+    initMesh(_path);
 
     color = QVector4D(98.0f/255.0f,201.0f/255.0f,109.0f/255.0f,1);
 }
@@ -29,9 +29,9 @@ Mesh::~Mesh()
     normalBuf.destroy();
 }
 
-void Mesh::initMesh()
+void Mesh::initMesh(std::string _path)
 {
-    loadMesh();
+    loadMesh(_path);
 
     arrayBuf.bind();
     arrayBuf.allocate(m_vertices.data(), m_vertices.size() * sizeof(QVector3D));
@@ -44,9 +44,9 @@ void Mesh::initMesh()
     normalBuf.allocate(m_normals.data(), m_normals.size() * sizeof(QVector3D));
 }
 
-void Mesh::loadMesh()
+void Mesh::loadMesh(std::string _path)
 {
-    const aiScene* scene = aiImportFile( "./models/cube.obj",
+    const aiScene* scene = aiImportFile( _path.c_str(),
                                          aiProcess_CalcTangentSpace       |
                                          aiProcess_GenNormals             |
                                          aiProcess_Triangulate            |

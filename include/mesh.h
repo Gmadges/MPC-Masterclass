@@ -6,19 +6,20 @@
 #include <QOpenGLBuffer>
 
 #include <vector>
+#include <string>
 
 class Mesh : protected QOpenGLFunctions
 {
 public:
-    Mesh();
+    Mesh(std::string _path);
     virtual ~Mesh();
 
     void drawMesh(QOpenGLShaderProgram *program);
 
-    void loadMesh();
+    void loadMesh(std::string _path);
 
 private:
-    void initMesh();
+    void initMesh(std::string _path);
 
     QVector4D color;
 

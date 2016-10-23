@@ -45,7 +45,7 @@ void GLDisplay::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load mesh
-    pMesh.reset(new Mesh());
+    pMesh.reset(new Mesh("./models/cube.obj"));
 }
 
 void GLDisplay::resizeGL(int w, int h)
