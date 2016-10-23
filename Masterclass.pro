@@ -1,7 +1,6 @@
+TARGET=a.out
 
-TARGET=Masterclass
-
-TEMPLATE= app
+TEMPLATE=app
 
 OBJECTS_DIR=obj
 
