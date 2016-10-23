@@ -14,8 +14,7 @@ varying vec4 col;
 void main(void)
 {
     gl_Position = mvp_matrix * a_position;
-
     vertex = a_position;
-    vertexNormal = a_normal;
+    vertexNormal = normal_matrix * a_normal;
     col = vec4(objectColor.x, objectColor.y, objectColor.z, 1);
 }
