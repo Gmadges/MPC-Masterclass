@@ -10,6 +10,7 @@
 #include <memory>
 
 class ModelController;
+class PhysicsWorld;
 
 class GLScene : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -41,6 +42,7 @@ protected:
 private:
     //geometry
     std::shared_ptr<ModelController> pModelController;
+    std::shared_ptr<PhysicsWorld> pPhysicsWorld;
 
     //lights
     int m_lightPosLoc;

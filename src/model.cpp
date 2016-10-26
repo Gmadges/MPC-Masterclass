@@ -1,5 +1,4 @@
 #include "model.h"
-
 #include "mesh.h"
 
 Model::Model(std::string _path) :

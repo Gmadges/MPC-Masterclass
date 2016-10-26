@@ -3,7 +3,9 @@
 #include <iostream>
 #include <QMouseEvent>
 #include <QQuaternion>
+
 #include "modelController.h"
+#include "physicsWorld.h"
 
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
@@ -11,6 +13,7 @@ constexpr float ZOOM=0.1f;
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
+    pPhysicsWorld(new PhysicsWorld()),
     cam_pos(0.0f, 0.0f, -10.0f),
     bRotate(false),
     bTranslate(false),
