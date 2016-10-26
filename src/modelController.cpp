@@ -8,24 +8,24 @@ ModelController::~ModelController()
 {
 }
 
-bool ModelController::loadMesh(std::string _path)
+void ModelController::loadModelFromFile(std::string _path)
 {  
-    m_meshes.push_back(std::make_shared<Mesh>(_path));
+    m_models.push_back(std::make_shared<Model>(_path));
 }
 
-void ModelController::DrawAll(QOpenGLShaderProgram *pShader)
+void ModelController::drawAll(QOpenGLShaderProgram *pShader)
 {
-    if(m_meshes.size() != 0)
+    if(m_models.size() != 0)
     {
-        for(auto mesh : m_meshes)
+        for(auto model : m_models)
         {
-            mesh->drawMesh(pShader);
+            model->draw(pShader);
         }
     }
 }
 
-std::shared_ptr<Mesh> ModelController::GetMesh(int index)
+std::shared_ptr<Model> ModelController::getModel(int index)
 {
-    return m_meshes[index];
+    return m_models[index];
 }
 

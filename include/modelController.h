@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "mesh.h"
+#include "model.h"
 
 class QOpenGLShaderProgram;
 
@@ -16,17 +16,17 @@ public:
     virtual ~ModelController();
 
     // draw all meshes
-    void DrawAll(QOpenGLShaderProgram *pShader);
+    void drawAll(QOpenGLShaderProgram *pShader);
 
     // load mesh
-    bool loadMesh(std::string _path);
+    void loadModelFromFile(std::string _path);
 
     // returns pointer to mesh of index
-    std::shared_ptr<Mesh> GetMesh(int index);
+    std::shared_ptr<Model> getModel(int index);
     
 private:
-    // my meshs
-    std::vector<std::shared_ptr<Mesh>> m_meshes;
+    // my models
+    std::vector<std::shared_ptr<Model>> m_models;
 
 };
 

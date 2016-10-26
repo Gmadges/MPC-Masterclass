@@ -52,7 +52,8 @@ SOURCES       = src/main.cpp \
 		src/mainwindow.cpp \
 		src/glscene.cpp \
 		src/mesh.cpp \
-		src/modelController.cpp qrc_shaders.cpp \
+		src/modelController.cpp \
+		src/model.cpp qrc_shaders.cpp \
 		moc/moc_mainwindow.cpp \
 		moc/moc_glscene.cpp
 OBJECTS       = obj/main.o \
@@ -60,6 +61,7 @@ OBJECTS       = obj/main.o \
 		obj/glscene.o \
 		obj/mesh.o \
 		obj/modelController.o \
+		obj/model.o \
 		obj/qrc_shaders.o \
 		obj/moc_mainwindow.o \
 		obj/moc_glscene.o
@@ -68,11 +70,13 @@ DIST          = shaders/simple.vert \
 		Masterclass.pro include/mainwindow.h \
 		include/glscene.h \
 		include/mesh.h \
-		include/modelController.h src/main.cpp \
+		include/modelController.h \
+		include/model.h src/main.cpp \
 		src/mainwindow.cpp \
 		src/glscene.cpp \
 		src/mesh.cpp \
-		src/modelController.cpp
+		src/modelController.cpp \
+		src/model.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -247,8 +251,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -316,15 +320,18 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 
 obj/glscene.o: src/glscene.cpp include/glscene.h \
 		include/modelController.h \
-		include/mesh.h
+		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glscene.o src/glscene.cpp
 
 obj/mesh.o: src/mesh.cpp include/mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
 
 obj/modelController.o: src/modelController.cpp include/modelController.h \
-		include/mesh.h
+		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/modelController.o src/modelController.cpp
+
+obj/model.o: src/model.cpp include/model.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/model.o src/model.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp

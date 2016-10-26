@@ -46,7 +46,7 @@ void GLScene::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load 
-    pModelController->loadMesh("./models/cube.obj");
+    pModelController->loadModelFromFile("./models/cube.obj");
 }
 
 void GLScene::resizeGL(int w, int h)
@@ -66,7 +66,7 @@ void GLScene::paintGL()
     loadMatricesToShader();
 
     // draw
-    pModelController->DrawAll(&program);
+    pModelController->drawAll(&program);
 }
 
 void GLScene::loadMatricesToShader()
