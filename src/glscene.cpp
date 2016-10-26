@@ -3,13 +3,14 @@
 #include <iostream>
 #include <QMouseEvent>
 #include <QQuaternion>
-#include "mesh.h"
+#include "modelController.h"
 
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
+    pModelController(new ModelController()),
     cam_pos(0.0f, 0.0f, -10.0f),
     bRotate(false),
     bTranslate(false),
@@ -44,8 +45,8 @@ void GLScene::initializeGL()
 
     glEnable(GL_MULTISAMPLE);
 
-    //load mesh
-    pMesh.reset(new Mesh("./models/cube.obj"));
+    //load 
+    pModelController->loadMesh("./models/cube.obj");
 }
 
 void GLScene::resizeGL(int w, int h)
@@ -65,7 +66,7 @@ void GLScene::paintGL()
     loadMatricesToShader();
 
     // draw
-    pMesh->drawMesh(&program);
+    pModelController->DrawAll(&program);
 }
 
 void GLScene::loadMatricesToShader()

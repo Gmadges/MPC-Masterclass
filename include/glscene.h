@@ -9,7 +9,7 @@
 
 #include <memory>
 
-class Mesh;
+class ModelController;
 
 class GLScene : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -40,7 +40,7 @@ protected:
 
 private:
     //geometry
-    std::shared_ptr<Mesh> pMesh;
+    std::shared_ptr<ModelController> pModelController;
 
     //lights
     int m_lightPosLoc;
