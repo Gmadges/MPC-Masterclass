@@ -23,6 +23,9 @@ public:
     //dtor
     ~GLScene();
 
+    void toggleSim();
+    void resetSim();
+
 protected:
 
     // controls
@@ -31,6 +34,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *_event) override;
     void keyPressEvent(QKeyEvent *_event) override;
     void wheelEvent(QWheelEvent *_event) override;
+    void timerEvent(QTimerEvent *_event) override;
 
     void initializeGL() override;
     void resizeGL(int w, int h) override;
@@ -40,7 +44,8 @@ protected:
     void loadMatricesToShader();
 
 private:
-    //geometry
+    
+    // the real deals
     std::shared_ptr<ModelController> pModelController;
     std::shared_ptr<PhysicsWorld> pPhysicsWorld;
 
@@ -67,6 +72,9 @@ private:
     int origYPos;
     int spinXFace;
     int spinYFace; 
+
+    //sim variables
+    bool bSimulate;
 };
 
 #endif // GLSCENE_H

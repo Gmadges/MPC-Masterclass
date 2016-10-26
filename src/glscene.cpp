@@ -22,7 +22,8 @@ GLScene::GLScene(QWidget *parent) :
     origXPos(0),
     origYPos(0),
     spinXFace(0),
-    spinYFace(0)
+    spinYFace(0),
+    bSimulate(false)
 {
     // opengl surface config
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
@@ -30,6 +31,8 @@ GLScene::GLScene(QWidget *parent) :
     format.setSwapInterval(0);
     QSurfaceFormat::setDefaultFormat(format);
     this->setFormat(format);
+
+    startTimer(10);
 }
 
 GLScene::~GLScene()
@@ -106,6 +109,29 @@ void GLScene::initShaders()
 
     if (!program.bind())
         close();
+}
+
+void GLScene::toggleSim()
+{   
+    bSimulate = !bSimulate;
+
+    // just some debug 
+    if(bSimulate)
+    {
+        std::cout<< "simulation on \n";
+    }
+    else 
+    {
+        std::cout<< "simulation off \n";
+    }
+}
+
+void GLScene::resetSim()
+{
+    if(pPhysicsWorld)
+    {
+        pPhysicsWorld->reset();
+    }
 }
 
 void GLScene::mousePressEvent(QMouseEvent *_event)
@@ -190,4 +216,13 @@ void GLScene::wheelEvent(QWheelEvent *_event)
 		cam_pos += QVector3D(0.0f, 0.0f, -ZOOM);
 	}
 	update();
+}
+
+void GLScene::timerEvent(QTimerEvent *_event)
+{
+  if(bSimulate)
+  {
+    pPhysicsWorld->step(1.0/60.0,1);
+  }
+  update();
 }

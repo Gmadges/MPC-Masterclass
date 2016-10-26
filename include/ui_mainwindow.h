@@ -16,6 +16,9 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "glscene.h"
 
@@ -26,25 +29,49 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    GLScene *openGLWidget;
+    GLScene *scene;
+    QVBoxLayout *verticalLayout;
+    QPushButton *button_toggleSim;
+    QPushButton *button_resetSim;
+    QSpacerItem *verticalSpacer;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(818, 618);
+        MainWindow->resize(932, 618);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        openGLWidget = new GLScene(centralWidget);
-        openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
-        openGLWidget->setMinimumSize(QSize(800, 600));
-        openGLWidget->setMaximumSize(QSize(800, 600));
+        scene = new GLScene(centralWidget);
+        scene->setObjectName(QStringLiteral("scene"));
+        scene->setMinimumSize(QSize(800, 600));
+        scene->setMaximumSize(QSize(800, 600));
 
-        gridLayout->addWidget(openGLWidget, 0, 0, 1, 1);
+        gridLayout->addWidget(scene, 0, 0, 1, 1);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        button_toggleSim = new QPushButton(centralWidget);
+        button_toggleSim->setObjectName(QStringLiteral("button_toggleSim"));
+
+        verticalLayout->addWidget(button_toggleSim);
+
+        button_resetSim = new QPushButton(centralWidget);
+        button_resetSim->setObjectName(QStringLiteral("button_resetSim"));
+
+        verticalLayout->addWidget(button_resetSim);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout->addItem(verticalSpacer);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
 
@@ -56,6 +83,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
+        button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
     } // retranslateUi
 
 };

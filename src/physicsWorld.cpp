@@ -30,10 +30,7 @@ PhysicsWorld::PhysicsWorld()
 	groundTransform.setIdentity();
 	{
 		btScalar mass(0.0f);
-
-
 		btVector3 localInertia(0,0,0);
-
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,m_groundShape.get(),localInertia);
