@@ -1,26 +1,26 @@
-#ifndef GLDISPLAY_H
-#define GLDISPLAY_H
+#ifndef GLSCENE_H
+#define GLSCENE_H
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QMatrix4x4>
-#include <QQuaternion>
-#include <QVector2D>
 #include <QVector3D>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLTexture>
-#include <QOpenGLBuffer>
 
 #include <memory>
 
 class Mesh;
 
-class GLDisplay : public QOpenGLWidget, protected QOpenGLFunctions
+class GLScene : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:
-    explicit GLDisplay(QWidget *parent = 0);
-    ~GLDisplay();
+    
+    //ctor
+    GLScene(QWidget *parent = 0);
+
+    //dtor
+    ~GLScene();
 
 protected:
 
@@ -67,4 +67,4 @@ private:
     int spinYFace; 
 };
 
-#endif // GLDISPLAY_H
+#endif // GLSCENE_H

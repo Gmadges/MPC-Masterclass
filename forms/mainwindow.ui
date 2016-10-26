@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="GLDisplay" name="openGLWidget">
+     <widget class="GLScene" name="openGLWidget">
       <property name="minimumSize">
        <size>
         <width>800</width>
@@ -37,9 +37,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>GLDisplay</class>
+   <class>GLScene</class>
    <extends>QOpenGLWidget</extends>
-   <header>gldisplay.h</header>
+   <header>glscene.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,4 +1,4 @@
-#include "gldisplay.h"
+#include "glscene.h"
 
 #include <iostream>
 #include <QMouseEvent>
@@ -8,9 +8,9 @@
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
-GLDisplay::GLDisplay(QWidget *parent):
+GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
-    cam_pos(0.0f, 0.0f, -5.0f),
+    cam_pos(0.0f, 0.0f, -10.0f),
     bRotate(false),
     bTranslate(false),
     origX(0),
@@ -28,11 +28,11 @@ GLDisplay::GLDisplay(QWidget *parent):
     this->setFormat(format);
 }
 
-GLDisplay::~GLDisplay()
+GLScene::~GLScene()
 {
 }
 
-void GLDisplay::initializeGL()
+void GLScene::initializeGL()
 {
     initializeOpenGLFunctions();
 
@@ -48,7 +48,7 @@ void GLDisplay::initializeGL()
     pMesh.reset(new Mesh("./models/cube.obj"));
 }
 
-void GLDisplay::resizeGL(int w, int h)
+void GLScene::resizeGL(int w, int h)
 {
     qreal aspect = qreal(w) / qreal(h ? h : 1);
     const qreal zNear = 3.0, zFar = 30.0, fov = 45.0;
@@ -56,7 +56,7 @@ void GLDisplay::resizeGL(int w, int h)
     projMat.perspective(fov, aspect, zNear, zFar);
 }
 
-void GLDisplay::paintGL()
+void GLScene::paintGL()
 {   
     // clear tings
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,7 +68,7 @@ void GLDisplay::paintGL()
     pMesh->drawMesh(&program);
 }
 
-void GLDisplay::loadMatricesToShader()
+void GLScene::loadMatricesToShader()
 {
     // create view mat
     QMatrix4x4 mat;
@@ -89,7 +89,7 @@ void GLDisplay::loadMatricesToShader()
     program.setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
 }
 
-void GLDisplay::initShaders()
+void GLScene::initShaders()
 {
     if (!program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/simple.vert"))
         close();
@@ -104,7 +104,7 @@ void GLDisplay::initShaders()
         close();
 }
 
-void GLDisplay::mousePressEvent(QMouseEvent *_event)
+void GLScene::mousePressEvent(QMouseEvent *_event)
 {
     if(_event->button() == Qt::LeftButton)
     {
@@ -121,7 +121,7 @@ void GLDisplay::mousePressEvent(QMouseEvent *_event)
     }
 }
 
-void GLDisplay::mouseMoveEvent(QMouseEvent *_event)
+void GLScene::mouseMoveEvent(QMouseEvent *_event)
 {
     if(bRotate && _event->buttons() == Qt::LeftButton)
     {
@@ -145,7 +145,7 @@ void GLDisplay::mouseMoveEvent(QMouseEvent *_event)
     }
 }
 
-void GLDisplay::mouseReleaseEvent(QMouseEvent *_event)
+void GLScene::mouseReleaseEvent(QMouseEvent *_event)
 {
     // we then set Rotate to false
     if (_event->button() == Qt::LeftButton)
@@ -159,7 +159,7 @@ void GLDisplay::mouseReleaseEvent(QMouseEvent *_event)
     }
 }
 
-void GLDisplay::keyPressEvent(QKeyEvent *_event)
+void GLScene::keyPressEvent(QKeyEvent *_event)
 {
     // that method is called every time the main window recives a key event.
     // we then switch on the key value and set the camera in the GLWindow
@@ -174,7 +174,7 @@ void GLDisplay::keyPressEvent(QKeyEvent *_event)
     update();
 }
 
-void GLDisplay::wheelEvent(QWheelEvent *_event)
+void GLScene::wheelEvent(QWheelEvent *_event)
 {
 	// check the diff of the wheel position (0 means no change)
 	if(_event->delta() > 0)

@@ -50,24 +50,24 @@ OBJECTS_DIR   = obj/
 
 SOURCES       = src/main.cpp \
 		src/mainwindow.cpp \
-		src/gldisplay.cpp \
+		src/glscene.cpp \
 		src/mesh.cpp qrc_shaders.cpp \
 		moc/moc_mainwindow.cpp \
-		moc/moc_gldisplay.cpp
+		moc/moc_glscene.cpp
 OBJECTS       = obj/main.o \
 		obj/mainwindow.o \
-		obj/gldisplay.o \
+		obj/glscene.o \
 		obj/mesh.o \
 		obj/qrc_shaders.o \
 		obj/moc_mainwindow.o \
-		obj/moc_gldisplay.o
+		obj/moc_glscene.o
 DIST          = shaders/simple.vert \
 		shaders/simple.frag \
 		Masterclass.pro include/mainwindow.h \
-		include/gldisplay.h \
+		include/glscene.h \
 		include/mesh.h src/main.cpp \
 		src/mainwindow.cpp \
-		src/gldisplay.cpp \
+		src/glscene.cpp \
 		src/mesh.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
@@ -243,8 +243,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainwindow.h include/gldisplay.h include/mesh.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/gldisplay.cpp src/mesh.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -274,14 +274,14 @@ qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
 
-compiler_moc_header_make_all: moc/moc_mainwindow.cpp moc/moc_gldisplay.cpp
+compiler_moc_header_make_all: moc/moc_mainwindow.cpp moc/moc_glscene.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_mainwindow.cpp moc/moc_gldisplay.cpp
+	-$(DEL_FILE) moc/moc_mainwindow.cpp moc/moc_glscene.cpp
 moc/moc_mainwindow.cpp: include/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
 
-moc/moc_gldisplay.cpp: include/gldisplay.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/gldisplay.h -o moc/moc_gldisplay.cpp
+moc/moc_glscene.cpp: include/glscene.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/glscene.h -o moc/moc_glscene.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -289,7 +289,7 @@ compiler_uic_make_all: include/ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) include/ui_mainwindow.h
 include/ui_mainwindow.h: forms/mainwindow.ui \
-		include/gldisplay.h
+		include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
@@ -309,9 +309,9 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
-obj/gldisplay.o: src/gldisplay.cpp include/gldisplay.h \
+obj/glscene.o: src/glscene.cpp include/glscene.h \
 		include/mesh.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/gldisplay.o src/gldisplay.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glscene.o src/glscene.cpp
 
 obj/mesh.o: src/mesh.cpp include/mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
@@ -322,8 +322,8 @@ obj/qrc_shaders.o: qrc_shaders.cpp
 obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
 
-obj/moc_gldisplay.o: moc/moc_gldisplay.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_gldisplay.o moc/moc_gldisplay.cpp
+obj/moc_glscene.o: moc/moc_glscene.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_glscene.o moc/moc_glscene.cpp
 
 ####### Install
 

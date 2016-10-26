@@ -18,11 +18,11 @@ CONFIG-=app_bundle
 
 SOURCES+= $$PWD/src/main.cpp    \
             $$PWD/src/mainwindow.cpp \
-            $$PWD/src/gldisplay.cpp \
+            $$PWD/src/glscene.cpp \
             $$PWD/src/mesh.cpp
 
 HEADERS+= $$PWD/include/mainwindow.h    \
-            $$PWD/include/gldisplay.h \
+            $$PWD/include/glscene.h \
             $$PWD/include/mesh.h
 
 FORMS+= $$PWD/forms/mainwindow.ui

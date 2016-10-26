@@ -17,7 +17,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QWidget>
-#include "gldisplay.h"
+#include "glscene.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -26,7 +26,7 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    GLDisplay *openGLWidget;
+    GLScene *openGLWidget;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -39,7 +39,7 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        openGLWidget = new GLDisplay(centralWidget);
+        openGLWidget = new GLScene(centralWidget);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
         openGLWidget->setMinimumSize(QSize(800, 600));
         openGLWidget->setMaximumSize(QSize(800, 600));
