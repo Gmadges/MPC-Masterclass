@@ -1,5 +1,7 @@
 #include "physicsWorld.h"
 
+#include <iostream>
+
 PhysicsWorld::PhysicsWorld()
 {
     // Jon snippet -----------------------------------------------------------------------------------------------------------------------
@@ -21,6 +23,8 @@ PhysicsWorld::PhysicsWorld()
 														m_solver.get(),
 														m_collisionConfiguration.get()));
     // ---------------------------------------------------------------------------------------------------------------------------------
+
+	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
     //hardcode plane for now
 
@@ -48,9 +52,23 @@ PhysicsWorld::~PhysicsWorld()
 void PhysicsWorld::reset()
 {
     // todo
+	std::cout << "reset Sim \n";
 }
 
 void PhysicsWorld::step(float _time, float _step)
 {
+	std::cout << "step " << _time << "ms \n";
     m_dynamicsWorld->stepSimulation(_time,_step);
+}
+
+void PhysicsWorld::addRigidBody(btRigidBody* pBody)
+{
+	std::cout << "Adding Rigid Body \n";
+	m_dynamicsWorld->addRigidBody(pBody);
+}
+
+void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
+{
+	std::cout << "removing rigid body \n";
+	m_dynamicsWorld->removeRigidBody(pBody);
 }

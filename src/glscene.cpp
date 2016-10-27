@@ -52,7 +52,7 @@ void GLScene::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load 
-    pModelController->loadModelFromFile("./models/cube.obj");
+    pModelController->loadModelFromFile("./models/cube.obj", pPhysicsWorld);
 }
 
 void GLScene::resizeGL(int w, int h)
@@ -89,7 +89,8 @@ void GLScene::loadMatricesToShader()
     program.setUniformValue("normal_matrix", normMat);
 
     // MVP matrix
-    program.setUniformValue("mvp_matrix", projMat * modelMat * viewMat);
+    program.setUniformValue("proj_matrix", projMat);
+    program.setUniformValue("view_matrix", viewMat);
 
     //light position
     m_lightPosLoc = program.uniformLocation("lightPos");
@@ -222,7 +223,7 @@ void GLScene::timerEvent(QTimerEvent *_event)
 {
   if(bSimulate)
   {
-    pPhysicsWorld->step(1.0/60.0,1);
+      pPhysicsWorld->step(1.0/60.0,1);
   }
   update();
 }

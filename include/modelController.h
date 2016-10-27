@@ -8,6 +8,7 @@
 #include "model.h"
 
 class QOpenGLShaderProgram;
+class PhysicsWorld;
 
 class ModelController 
 {
@@ -19,7 +20,7 @@ public:
     void drawAll(QOpenGLShaderProgram *pShader);
 
     // load mesh
-    void loadModelFromFile(std::string _path);
+    void loadModelFromFile(std::string _path, std::shared_ptr<PhysicsWorld> _phys);
 
     // returns pointer to mesh of index
     std::shared_ptr<Model> getModel(int index);

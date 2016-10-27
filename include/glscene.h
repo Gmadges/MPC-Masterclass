@@ -57,7 +57,6 @@ private:
 
     //matrices
     QMatrix4x4 projMat; // projection matrix
-    QMatrix4x4 modelMat; //modelmatrix
     QMatrix4x4 viewMat; // view matrix
     QMatrix3x3 normMat; // normal matrix
 

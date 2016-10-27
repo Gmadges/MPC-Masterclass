@@ -17,19 +17,21 @@ UI_DIR=./include
 CONFIG-=app_bundle
 
 SOURCES+= $$PWD/src/main.cpp    \
-            $$PWD/src/mainwindow.cpp \
-            $$PWD/src/glscene.cpp \
-            $$PWD/src/mesh.cpp  \
-            $$PWD/src/modelController.cpp \
-            $$PWD/src/model.cpp \
-            $$PWD/src/physicsWorld.cpp
+            $$PWD/src/mainwindow.cpp        \
+            $$PWD/src/glscene.cpp           \
+            $$PWD/src/mesh.cpp              \
+            $$PWD/src/modelController.cpp   \
+            $$PWD/src/model.cpp             \
+            $$PWD/src/physicsWorld.cpp      \
+            $$PWD/src/physicsModel.cpp
 
-HEADERS+= $$PWD/include/mainwindow.h    \
-            $$PWD/include/glscene.h \
-            $$PWD/include/mesh.h    \
-            $$PWD/include/modelController.h \
-            $$PWD/include/model.h \
-            $$PWD/include/physicsWorld.h
+HEADERS+= $$PWD/include/mainwindow.h            \
+            $$PWD/include/glscene.h             \
+            $$PWD/include/mesh.h                \
+            $$PWD/include/modelController.h     \
+            $$PWD/include/model.h               \
+            $$PWD/include/physicsWorld.h        \
+            $$PWD/include/physicsModel.h
 
 FORMS+= $$PWD/forms/mainwindow.ui
 

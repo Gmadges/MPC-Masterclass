@@ -8,9 +8,9 @@ ModelController::~ModelController()
 {
 }
 
-void ModelController::loadModelFromFile(std::string _path)
+void ModelController::loadModelFromFile(std::string _path, std::shared_ptr<PhysicsWorld> _phys)
 {  
-    m_models.push_back(std::make_shared<Model>(_path));
+    m_models.push_back(std::make_shared<Model>(_path, _phys));
 }
 
 void ModelController::drawAll(QOpenGLShaderProgram *pShader)

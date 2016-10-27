@@ -14,6 +14,9 @@ public:
     void reset(); //TODO
     void step(float _time, float _step);
 
+    void addRigidBody(btRigidBody* pBody);
+    void removeRigidBody(btRigidBody* pBody);
+
 private:
 
     std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
@@ -24,6 +27,9 @@ private:
 
     //the ground
     std::unique_ptr<btCollisionShape> m_groundShape;
+
+    // active things in simulation
+    // TODO
 
 };
 
