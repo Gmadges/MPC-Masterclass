@@ -30,11 +30,7 @@ void Model::draw(QOpenGLShaderProgram *pShader)
         {
             float modelMat[16];
             pPhysicsModel->getTransformMatrix().getOpenGLMatrix(modelMat);
-            pShader->setUniformValue("model_matrix", QMatrix4x4(modelMat));
-
-            std::cout << "matrix \n";
-            std::copy(modelMat, modelMat + sizeof(modelMat) / sizeof(modelMat[0]), std::ostream_iterator<float>(std::cout, ","));
-            std::cout << "\n";
+            pShader->setUniformValue("model_matrix", QMatrix4x4(modelMat).transposed());
         }
 
         pMesh->drawMesh(pShader);

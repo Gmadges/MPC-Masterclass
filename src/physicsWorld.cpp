@@ -57,7 +57,6 @@ void PhysicsWorld::reset()
 
 void PhysicsWorld::step(float _time, float _step)
 {
-	std::cout << "step " << _time << "ms \n";
     m_dynamicsWorld->stepSimulation(_time,_step);
 }
 
