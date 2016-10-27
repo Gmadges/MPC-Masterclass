@@ -6,6 +6,7 @@
 
 #include "modelController.h"
 #include "physicsWorld.h"
+#include "floorPlane.h"
 
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
@@ -14,7 +15,7 @@ GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
     pPhysicsWorld(new PhysicsWorld()),
-    cam_pos(0.0f, 0.0f, -10.0f),
+    cam_pos(0.0f, 0.0f, -20.0f),
     bRotate(false),
     bTranslate(false),
     origX(0),
@@ -53,6 +54,8 @@ void GLScene::initializeGL()
 
     //load 
     pModelController->loadModelFromFile("./models/cube.obj", pPhysicsWorld);
+
+    pFloorPlane.reset(new FloorPlane());
 }
 
 void GLScene::resizeGL(int w, int h)
@@ -73,6 +76,8 @@ void GLScene::paintGL()
 
     // draw
     pModelController->drawAll(&program);
+
+    pFloorPlane->draw(&program); 
 }
 
 void GLScene::loadMatricesToShader()

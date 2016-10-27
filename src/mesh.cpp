@@ -76,7 +76,7 @@ void Mesh::loadMesh(std::string _path)
           {
               aiFace f = scene->mMeshes[i]->mFaces[j];
               for (unsigned int k = 0; k < f.mNumIndices; ++k)
-              {
+              { 
                   m_faces.push_back(f.mIndices[k]);
               }
           }
