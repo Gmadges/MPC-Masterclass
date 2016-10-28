@@ -6,6 +6,8 @@
 #include <iterator>
 #include <algorithm>
 
+#include "openVDBTools.h"
+
 Model::Model(std::string _path, 
                 std::shared_ptr<PhysicsWorld> _phys)
 :
@@ -14,6 +16,10 @@ Model::Model(std::string _path,
     bShowMesh(true),
     bShowPhysShapes(true)
 {
+
+    //testing
+
+    OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
 
 }
 

@@ -18,6 +18,9 @@ public:
 
     void loadMesh(std::string _path);
 
+    std::vector<QVector3D>& getVerts();
+    std::vector<unsigned int>& getFaces();
+
 private:
     void initMesh(std::string _path);
 

@@ -118,3 +118,13 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     // Draw cube geometry using indices from VBO 1
     glDrawElements(GL_TRIANGLES, m_faces.size(), GL_UNSIGNED_INT, 0);
 }
+
+std::vector<QVector3D>& Mesh::getVerts()
+{
+    return m_vertices;
+}
+
+std::vector<unsigned int>& Mesh::getFaces()
+{
+    return m_faces;
+}

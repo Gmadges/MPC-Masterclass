@@ -25,7 +25,8 @@ SOURCES+= $$PWD/src/main.cpp    \
             $$PWD/src/physicsWorld.cpp      \
             $$PWD/src/physicsModel.cpp      \
             $$PWD/src/floorPlane.cpp        \
-            $$PWD/src/sphere.cpp
+            $$PWD/src/sphere.cpp            \
+            $$PWD/src/openVDBTools.cpp
 
 HEADERS+= $$PWD/include/mainwindow.h            \
             $$PWD/include/glscene.h             \
@@ -35,7 +36,8 @@ HEADERS+= $$PWD/include/mainwindow.h            \
             $$PWD/include/physicsWorld.h        \
             $$PWD/include/physicsModel.h        \
             $$PWD/include/floorPlane.h          \
-            $$PWD/include/sphere.h
+            $$PWD/include/sphere.h              \
+            $$PWD/include/openVDBTools.h
 
 FORMS+= $$PWD/forms/mainwindow.ui
 
