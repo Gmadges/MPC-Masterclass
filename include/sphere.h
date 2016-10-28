@@ -1,26 +1,28 @@
-#ifndef FLOORPLANE_H
-#define FLOORPLANE_H
+#ifndef SPHERE_H
+#define SPHERE_H
 
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 
-class FloorPlane : protected QOpenGLFunctions
+class Sphere : protected QOpenGLFunctions
 {
 public:
-    FloorPlane();
-    virtual ~FloorPlane();
+    Sphere();
+    virtual ~Sphere();
 
     void draw(QOpenGLShaderProgram *program);
 
 private:
-    void initPlane();
+    void initSphere();
 
     QVector4D color;
 
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;
     QOpenGLBuffer normalBuf;
+
+    unsigned int indexCount;
 };
 
 #endif // FLOORPLANE_H

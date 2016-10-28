@@ -9,6 +9,9 @@ class PhysicsModel;
 class PhysicsWorld;
 class QOpenGLShaderProgram; 
 
+//test
+class Sphere;
+
 class Model 
 {
 public:
@@ -23,6 +26,9 @@ private:
     // my meshs
     std::shared_ptr<Mesh> pMesh;
     std::shared_ptr<PhysicsModel> pPhysicsModel;
+
+    //test
+    std::shared_ptr<Sphere> pSphere;
 };
 
 #endif // MODEL_H

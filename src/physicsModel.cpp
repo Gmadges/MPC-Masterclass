@@ -15,7 +15,7 @@ PhysicsModel::~PhysicsModel()
 void PhysicsModel::init()
 {
     //hardcode alot for now for testing
-    btCollisionShape* colShape = new btSphereShape(1.0f);
+    btCollisionShape* colShape = new btSphereShape(0.5f);
     btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
     btScalar mass = 1;
     btVector3 fallInertia(0, 0, 0);
@@ -38,6 +38,11 @@ void PhysicsModel::init()
 
     // rigid body created so now we add to physics world
     pPhysicsWorld->addRigidBody(pRigidBody.get());
+}
+
+void PhysicsModel::debugDraw()
+{
+    // draw spheres bruv.
 }
 
 btTransform PhysicsModel::getTransformMatrix()

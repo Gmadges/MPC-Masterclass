@@ -15,6 +15,9 @@ public:
 
     btTransform getTransformMatrix();
 
+    // This draws all the physics things, mainly spheres and contrainsts when we have them
+    void debugDraw();
+
 private:
 
     void init();

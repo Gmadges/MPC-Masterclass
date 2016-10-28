@@ -27,10 +27,6 @@ private:
 
     //the ground
     std::unique_ptr<btCollisionShape> m_groundShape;
-
-    // active things in simulation
-    // TODO
-
 };
 
 #endif // PHYSICSWORLD

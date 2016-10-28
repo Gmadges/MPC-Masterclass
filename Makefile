@@ -56,7 +56,8 @@ SOURCES       = src/main.cpp \
 		src/model.cpp \
 		src/physicsWorld.cpp \
 		src/physicsModel.cpp \
-		src/floorPlane.cpp qrc_shaders.cpp \
+		src/floorPlane.cpp \
+		src/sphere.cpp qrc_shaders.cpp \
 		moc/moc_mainwindow.cpp \
 		moc/moc_glscene.cpp
 OBJECTS       = obj/main.o \
@@ -68,6 +69,7 @@ OBJECTS       = obj/main.o \
 		obj/physicsWorld.o \
 		obj/physicsModel.o \
 		obj/floorPlane.o \
+		obj/sphere.o \
 		obj/qrc_shaders.o \
 		obj/moc_mainwindow.o \
 		obj/moc_glscene.o
@@ -80,7 +82,8 @@ DIST          = shaders/simple.vert \
 		include/model.h \
 		include/physicsWorld.h \
 		include/physicsModel.h \
-		include/floorPlane.h src/main.cpp \
+		include/floorPlane.h \
+		include/sphere.h src/main.cpp \
 		src/mainwindow.cpp \
 		src/glscene.cpp \
 		src/mesh.cpp \
@@ -88,7 +91,8 @@ DIST          = shaders/simple.vert \
 		src/model.cpp \
 		src/physicsWorld.cpp \
 		src/physicsModel.cpp \
-		src/floorPlane.cpp
+		src/floorPlane.cpp \
+		src/sphere.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -263,8 +267,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h include/physicsWorld.h include/physicsModel.h include/floorPlane.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp src/physicsWorld.cpp src/physicsModel.cpp src/floorPlane.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h include/physicsWorld.h include/physicsModel.h include/floorPlane.h include/sphere.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp src/physicsWorld.cpp src/physicsModel.cpp src/floorPlane.cpp src/sphere.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -326,8 +330,7 @@ obj/main.o: src/main.cpp include/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
-		include/ui_mainwindow.h \
-		include/glscene.h
+		include/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/glscene.o: src/glscene.cpp include/glscene.h \
@@ -358,6 +361,9 @@ obj/physicsModel.o: src/physicsModel.cpp include/physicsModel.h \
 
 obj/floorPlane.o: src/floorPlane.cpp include/floorPlane.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/floorPlane.o src/floorPlane.cpp
+
+obj/sphere.o: src/sphere.cpp include/sphere.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp

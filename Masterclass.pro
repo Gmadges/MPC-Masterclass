@@ -24,7 +24,8 @@ SOURCES+= $$PWD/src/main.cpp    \
             $$PWD/src/model.cpp             \
             $$PWD/src/physicsWorld.cpp      \
             $$PWD/src/physicsModel.cpp      \
-            $$PWD/src/floorPlane.cpp
+            $$PWD/src/floorPlane.cpp        \
+            $$PWD/src/sphere.cpp
 
 HEADERS+= $$PWD/include/mainwindow.h            \
             $$PWD/include/glscene.h             \
@@ -33,7 +34,8 @@ HEADERS+= $$PWD/include/mainwindow.h            \
             $$PWD/include/model.h               \
             $$PWD/include/physicsWorld.h        \
             $$PWD/include/physicsModel.h        \
-            $$PWD/include/floorPlane.h
+            $$PWD/include/floorPlane.h          \
+            $$PWD/include/sphere.h
 
 FORMS+= $$PWD/forms/mainwindow.ui
 
