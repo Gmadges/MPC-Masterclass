@@ -6,6 +6,8 @@
 #include <memory>
 
 class PhysicsWorld;
+class Sphere;
+class QOpenGLShaderProgram;
 
 class PhysicsModel
 {
@@ -16,7 +18,7 @@ public:
     btTransform getTransformMatrix();
 
     // This draws all the physics things, mainly spheres and contrainsts when we have them
-    void debugDraw();
+    void draw(QOpenGLShaderProgram *pShader);
 
 private:
 
@@ -27,6 +29,9 @@ private:
 
     //RIGID body
     std::shared_ptr<btRigidBody> pRigidBody;
+
+    // sphere thing
+    std::shared_ptr<Sphere> pSphere;
 
 };
 

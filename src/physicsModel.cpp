@@ -1,9 +1,13 @@
 #include "physicsModel.h"
 #include "physicsWorld.h"
+#include "sphere.h"
+
+#include <QOpenGLShaderProgram>
 
 PhysicsModel::PhysicsModel(std::shared_ptr<PhysicsWorld> _phys)
 :
-    pPhysicsWorld(_phys)
+    pPhysicsWorld(_phys),
+    pSphere(new Sphere())
 {
     init();
 }
@@ -40,9 +44,13 @@ void PhysicsModel::init()
     pPhysicsWorld->addRigidBody(pRigidBody.get());
 }
 
-void PhysicsModel::debugDraw()
+void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
 {
-    // draw spheres bruv.
+    float modelMat[16];
+    getTransformMatrix().getOpenGLMatrix(modelMat);
+    pShader->setUniformValue("model_matrix", QMatrix4x4(modelMat).transposed());
+
+    pSphere->draw(pShader);
 }
 
 btTransform PhysicsModel::getTransformMatrix()

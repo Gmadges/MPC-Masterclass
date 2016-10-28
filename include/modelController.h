@@ -24,6 +24,9 @@ public:
 
     // returns pointer to mesh of index
     std::shared_ptr<Model> getModel(int index);
+
+    void showAllMeshes(bool show);
+    void showAllPhysShapes(bool show);
     
 private:
     // my models

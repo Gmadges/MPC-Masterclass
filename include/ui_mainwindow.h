@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
@@ -33,6 +34,8 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *button_toggleSim;
     QPushButton *button_resetSim;
+    QCheckBox *check_showMesh;
+    QCheckBox *check_showPhys;
     QSpacerItem *verticalSpacer;
 
     void setupUi(QMainWindow *MainWindow)
@@ -66,6 +69,18 @@ public:
 
         verticalLayout->addWidget(button_resetSim);
 
+        check_showMesh = new QCheckBox(centralWidget);
+        check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
+        check_showMesh->setChecked(true);
+
+        verticalLayout->addWidget(check_showMesh);
+
+        check_showPhys = new QCheckBox(centralWidget);
+        check_showPhys->setObjectName(QStringLiteral("check_showPhys"));
+        check_showPhys->setChecked(true);
+
+        verticalLayout->addWidget(check_showPhys);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -85,6 +100,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
+        check_showMesh->setText(QApplication::translate("MainWindow", "show mesh", 0));
+        check_showPhys->setText(QApplication::translate("MainWindow", "show phys", 0));
     } // retranslateUi
 
 };

@@ -9,9 +9,6 @@ class PhysicsModel;
 class PhysicsWorld;
 class QOpenGLShaderProgram; 
 
-//test
-class Sphere;
-
 class Model 
 {
 public:
@@ -21,14 +18,17 @@ public:
     // draw
     void draw(QOpenGLShaderProgram *pShader);
     void update();
+
+    void setShowMesh(bool show);
+    void setShowPhys(bool show);
     
 private:
     // my meshs
     std::shared_ptr<Mesh> pMesh;
     std::shared_ptr<PhysicsModel> pPhysicsModel;
 
-    //test
-    std::shared_ptr<Sphere> pSphere;
+    bool bShowMesh;
+    bool bShowPhysShapes;
 };
 
 #endif // MODEL_H

@@ -15,17 +15,30 @@ void ModelController::loadModelFromFile(std::string _path, std::shared_ptr<Physi
 
 void ModelController::drawAll(QOpenGLShaderProgram *pShader)
 {
-    if(m_models.size() != 0)
+    for(auto model : m_models)
     {
-        for(auto model : m_models)
-        {
-            model->draw(pShader);
-        }
+        model->draw(pShader);
     }
 }
 
 std::shared_ptr<Model> ModelController::getModel(int index)
 {
     return m_models[index];
+}
+
+void ModelController::showAllMeshes(bool show)
+{
+    for(auto model : m_models)
+    {
+        model->setShowMesh(show);
+    }
+}
+
+void ModelController::showAllPhysShapes(bool show)
+{
+    for(auto model : m_models)
+    {
+        model->setShowPhys(show);
+    }
 }
 

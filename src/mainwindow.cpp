@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // link the buttons to their methods
     connect(ui->button_toggleSim, &QPushButton::clicked, ui->scene, &GLScene::toggleSim);
     connect(ui->button_resetSim, &QPushButton::clicked, ui->scene, &GLScene::resetSim);
+    connect(ui->check_showMesh, &QCheckBox::clicked, ui->scene, &GLScene::showMesh);
+    connect(ui->check_showPhys, &QCheckBox::clicked, ui->scene, &GLScene::showPhys);
 }
 
 MainWindow::~MainWindow()

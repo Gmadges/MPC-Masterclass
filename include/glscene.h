@@ -27,6 +27,9 @@ public:
     void toggleSim();
     void resetSim();
 
+    void showMesh(bool show);
+    void showPhys(bool show);
+
 protected:
 
     // controls
