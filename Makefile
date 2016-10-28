@@ -362,6 +362,7 @@ obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsWorld.o src/physicsWorld.cpp
 
 obj/physicsModel.o: src/physicsModel.cpp include/physicsModel.h \
+		include/openVDBTools.h \
 		include/physicsWorld.h \
 		include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsModel.o src/physicsModel.cpp

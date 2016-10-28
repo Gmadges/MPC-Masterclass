@@ -18,8 +18,8 @@ Model::Model(std::string _path,
 {
 
     //testing
-
-    OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
+    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
+    pPhysicsModel->initModelWithSpheres(spheres);
 
 }
 

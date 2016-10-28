@@ -53,7 +53,7 @@ void GLScene::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load this stuff here because we need to have openGL initialised
-    pModelController->loadModelFromFile("./models/cube.obj", pPhysicsWorld);
+    pModelController->loadModelFromFile("./models/teapot.obj", pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }

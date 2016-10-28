@@ -4,23 +4,32 @@
 
 #include <QOpenGLShaderProgram>
 
+#include <iostream>
+
 PhysicsModel::PhysicsModel(std::shared_ptr<PhysicsWorld> _phys)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere())
 {
-    init();
 }
 
 PhysicsModel::~PhysicsModel()
 {
 }
 
-void PhysicsModel::init()
+void PhysicsModel::initModelWithSpheres(std::vector<SphereData>& _spheres)
+{
+    for(auto sphere : _spheres)
+    {
+        addSphere(sphere);
+    }
+}
+
+void PhysicsModel::addSphere(SphereData _sphere)
 {
     //hardcode alot for now for testing
-    btCollisionShape* colShape = new btSphereShape(0.5f);
-    btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
+    btCollisionShape* colShape = new btSphereShape(_sphere.radius);
+    btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(_sphere.x, _sphere.y, _sphere.z)));
     btScalar mass = 1;
     btVector3 fallInertia(0, 0, 0);
     colShape->calculateLocalInertia(mass, fallInertia);
@@ -35,33 +44,33 @@ void PhysicsModel::init()
         }
     };
 
-    pRigidBody.reset(new btRigidBody(fallRigidBodyCI), deleter);
+    std::shared_ptr<btRigidBody> pBody(new btRigidBody(fallRigidBodyCI), deleter); 
 
     // no velocity
-    pRigidBody->setActivationState(DISABLE_DEACTIVATION);
+    pBody->setActivationState(DISABLE_DEACTIVATION);
 
     // rigid body created so now we add to physics world
-    pPhysicsWorld->addRigidBody(pRigidBody.get());
+    pPhysicsWorld->addRigidBody(pBody.get());
+
+    // to our list of bodies for this model
+    rigid_bodies.push_back(pBody);
 }
 
 void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
-{
-    float modelMat[16];
-    getTransformMatrix().getOpenGLMatrix(modelMat);
-    pShader->setUniformValue("model_matrix", QMatrix4x4(modelMat).transposed());
+{   
+    //iterate through all bodies
+    for(auto body : rigid_bodies)
+    {
+        float modelMat[16];
+        btTransform trans;
+        body->getMotionState()->getWorldTransform(trans); 
+        trans.getOpenGLMatrix(modelMat);
 
-    pSphere->draw(pShader);
-}
+        QMatrix4x4 model = QMatrix4x4(modelMat).transposed();
+        model.scale(2.0f, 2.0f);
+        pShader->setUniformValue("model_matrix", model);
 
-btTransform PhysicsModel::getTransformMatrix()
-{
-    btTransform trans;
-
-    if (pRigidBody && pRigidBody->getMotionState())
-	{
-		pRigidBody->getMotionState()->getWorldTransform(trans);
-	}
-
-    return trans;
+        pSphere->draw(pShader);
+    }
 }
 
