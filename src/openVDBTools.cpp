@@ -24,23 +24,12 @@ std::vector<SphereData> OpenVDBTools::getSpheresForMesh(std::vector<QVector3D>& 
     std::vector<openvdb::Vec3I> tris;
 
     //convert to their format
-    for (auto it = verts.begin(); it != verts.end(); it++) {
-        points.push_back(openvdb::Vec3s((*it).x(),(*it).y(),(*it).z()));
+    for (auto vec : verts) {
+        points.push_back(openvdb::Vec3f(vec.x(),vec.y(),vec.z()));
     }
 
     for (auto it = indices.begin(); it != indices.end();) {
         tris.push_back(openvdb::Vec3I((*it++),(*it++),(*it++)));
-    }
-    
-    //testing 
-    for (auto thing : points) 
-    {
-        std::cout << thing << "\n";
-    }
-
-    for (auto thing : tris) 
-    {
-        std::cout << thing << "\n";
     }
 
 

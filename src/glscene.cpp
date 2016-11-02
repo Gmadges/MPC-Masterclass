@@ -53,7 +53,7 @@ void GLScene::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load this stuff here because we need to have openGL initialised
-    pModelController->loadModelFromFile("./models/teapot.obj", pPhysicsWorld);
+    pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }
@@ -61,7 +61,7 @@ void GLScene::initializeGL()
 void GLScene::resizeGL(int w, int h)
 {
     qreal aspect = qreal(w) / qreal(h ? h : 1);
-    const qreal zNear = 3.0, zFar = 30.0, fov = 45.0;
+    const qreal zNear = 1.0, zFar = 1000.0, fov = 45.0;
     projMat.setToIdentity();
     projMat.perspective(fov, aspect, zNear, zFar);
 }
