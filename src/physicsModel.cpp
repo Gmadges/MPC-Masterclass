@@ -52,8 +52,8 @@ void PhysicsModel::addSphere(SphereData _sphere)
     // rigid body created so now we add to physics world
     pPhysicsWorld->addRigidBody(pBody.get());
 
-    // to our list of bodies for this model
-    rigid_bodies.push_back(pBody);
+    // add to our list of bodies for this model
+    rigid_bodies.emplace_back(pBody, _sphere.radius);
 }
 
 void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
@@ -63,11 +63,13 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
     {
         float modelMat[16];
         btTransform trans;
-        body->getMotionState()->getWorldTransform(trans); 
+        body.first->getMotionState()->getWorldTransform(trans); 
         trans.getOpenGLMatrix(modelMat);
 
         QMatrix4x4 model = QMatrix4x4(modelMat).transposed();
-        model.scale(2.0f, 2.0f);
+        
+        // use stored radius to scale
+        model.scale(body.second * 2.0f, body.second * 2.0f);
         pShader->setUniformValue("model_matrix", model);
 
         pSphere->draw(pShader);
