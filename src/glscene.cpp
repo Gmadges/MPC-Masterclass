@@ -134,10 +134,9 @@ void GLScene::toggleSim()
 
 void GLScene::resetSim()
 {
-    if(pPhysicsWorld)
-    {
-        pPhysicsWorld->reset();
-    }
+    
+    pModelController->emptyModels();
+    pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
 }
 
 void GLScene::showMesh(bool show)

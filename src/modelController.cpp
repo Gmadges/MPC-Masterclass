@@ -42,3 +42,8 @@ void ModelController::showAllPhysShapes(bool show)
     }
 }
 
+void ModelController::emptyModels()
+{
+    m_models.clear();
+}
+

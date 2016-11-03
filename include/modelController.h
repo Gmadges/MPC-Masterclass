@@ -27,6 +27,7 @@ public:
 
     void showAllMeshes(bool show);
     void showAllPhysShapes(bool show);
+    void emptyModels();
     
 private:
     // my models
