@@ -58,8 +58,7 @@ SOURCES       = src/main.cpp \
 		src/physicsModel.cpp \
 		src/floorPlane.cpp \
 		src/sphere.cpp \
-		src/openVDBTools.cpp \
-		src/camera.cpp qrc_shaders.cpp \
+		src/openVDBTools.cpp qrc_shaders.cpp \
 		moc/moc_mainwindow.cpp \
 		moc/moc_glscene.cpp
 OBJECTS       = obj/main.o \
@@ -73,7 +72,6 @@ OBJECTS       = obj/main.o \
 		obj/floorPlane.o \
 		obj/sphere.o \
 		obj/openVDBTools.o \
-		obj/camera.o \
 		obj/qrc_shaders.o \
 		obj/moc_mainwindow.o \
 		obj/moc_glscene.o
@@ -88,8 +86,7 @@ DIST          = shaders/simple.vert \
 		include/physicsModel.h \
 		include/floorPlane.h \
 		include/sphere.h \
-		include/openVDBTools.h \
-		include/camera.h src/main.cpp \
+		include/openVDBTools.h src/main.cpp \
 		src/mainwindow.cpp \
 		src/glscene.cpp \
 		src/mesh.cpp \
@@ -99,8 +96,7 @@ DIST          = shaders/simple.vert \
 		src/physicsModel.cpp \
 		src/floorPlane.cpp \
 		src/sphere.cpp \
-		src/openVDBTools.cpp \
-		src/camera.cpp
+		src/openVDBTools.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -275,8 +271,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h include/physicsWorld.h include/physicsModel.h include/floorPlane.h include/sphere.h include/openVDBTools.h include/camera.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp src/physicsWorld.cpp src/physicsModel.cpp src/floorPlane.cpp src/sphere.cpp src/openVDBTools.cpp src/camera.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h include/physicsWorld.h include/physicsModel.h include/floorPlane.h include/sphere.h include/openVDBTools.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp src/physicsWorld.cpp src/physicsModel.cpp src/floorPlane.cpp src/sphere.cpp src/openVDBTools.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -379,9 +375,6 @@ obj/sphere.o: src/sphere.cpp include/sphere.h
 
 obj/openVDBTools.o: src/openVDBTools.cpp include/openVDBTools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/openVDBTools.o src/openVDBTools.cpp
-
-obj/camera.o: src/camera.cpp include/camera.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/camera.o src/camera.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp

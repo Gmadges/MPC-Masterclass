@@ -63,13 +63,14 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
     {
         float modelMat[16];
         btTransform trans;
-        body.first->getMotionState()->getWorldTransform(trans); 
+        body.first->getMotionState()->getWorldTransform(trans);
         trans.getOpenGLMatrix(modelMat);
 
-        QMatrix4x4 model = QMatrix4x4(modelMat).transposed();
+        QMatrix4x4 model;
+        model.setToIdentity();
+        model *= QMatrix4x4(modelMat).transposed();
+        model.scale(body.second*2.0f, body.second*2.0f, body.second*2.0f);
         
-        // use stored radius to scale
-        model.scale(body.second * 2.0f, body.second * 2.0f);
         pShader->setUniformValue("model_matrix", model);
 
         pSphere->draw(pShader);

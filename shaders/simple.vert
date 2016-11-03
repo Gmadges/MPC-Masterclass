@@ -16,7 +16,7 @@ varying vec4 col;
 
 void main(void)
 {
-    mat4 MVP = proj_matrix * model_matrix * view_matrix;
+    mat4 MVP = proj_matrix * view_matrix * model_matrix;
     gl_Position = MVP * a_position;
     vertex = a_position;
     vertexNormal = normal_matrix * a_normal;
