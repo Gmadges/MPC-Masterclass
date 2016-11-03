@@ -14,7 +14,7 @@ FloorPlane::FloorPlane():
     // Initializes cube geometry and transfers it to VBOs
     initPlane();
 
-    color = QVector4D( 255.0f/255.0f, 21.0f/255.0f, 1.0f/255.0f, 1.0f);
+    color = QVector4D( 204.0f/255.0f, 204.0f/255.0f, 204.0f/255.0f, 1.0f);
 }
 
 FloorPlane::~FloorPlane()
@@ -28,22 +28,10 @@ void FloorPlane::initPlane()
 {
     // hard code floor    
 
-    // o Plane 1
-    // v -10 -2.220446049250313e-15 -10
-    // v 10 -2.220446049250313e-15 -10
-    // v -10 2.220446049250313e-15 10
-    // v 10 2.220446049250313e-15 10
-    // vn 0 0.10000000149011612 -2.2204460823375376e-17
-    // vn 0 0.10000000149011612 -2.2204460823375376e-17
-    // vn 0 0.10000000149011612 -2.2204460823375376e-17
-    // vn 0 0.10000000149011612 -2.2204460823375376e-17
-    // f 1/1/1 3/3/3 2/2/2
-    // f 3/3/3 4/4/4 2/2/2
-
-    float verts[16] = { -5.0f, 0.0f, -5.0f,
-                        5.0f,  0.0f, -5.0f,
-                        -5.0f, 0.0f, 5.0f,
-                        5.0f,  0.0f, 5.0f };
+    float verts[16] = { -100.0f, 0.0f, -100.0f,
+                        100.0f,  0.0f, -100.0f,
+                        -100.0f, 0.0f, 100.0f,
+                        100.0f,  0.0f, 100.0f };
     
     unsigned int faces[6] = { 0, 2, 1, 2, 3, 1 };
 
@@ -69,7 +57,10 @@ void FloorPlane::draw(QOpenGLShaderProgram *program)
     indexBuf.bind();
 
     program->setUniformValue("objectColor", color);
-    program->setUniformValue("model_matrix", QMatrix4x4());
+
+    QMatrix4x4 model;
+    model.setToIdentity();
+    program->setUniformValue("model_matrix", model);
 
     // Offset for position
     quintptr offset = 0;

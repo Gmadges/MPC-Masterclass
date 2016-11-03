@@ -15,7 +15,7 @@ GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
     pPhysicsWorld(new PhysicsWorld()),
-    cam_pos(0.0f, 0.0f, -20.0f),
+    cam_pos(0.0f, 20.0f, -50.0f),
     bRotate(false),
     bTranslate(false),
     origX(0),
@@ -83,10 +83,10 @@ void GLScene::paintGL()
 void GLScene::loadMatricesToShader()
 {
     // create view mat
-    QMatrix4x4 mat;
-    mat.translate(cam_pos);
-    mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
-    viewMat = mat;
+    //mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
+    viewMat.setToIdentity();
+    viewMat.lookAt(cam_pos, QVector3D(0,0,0), QVector3D(0,1,0));
+
 
     normMat = viewMat.normalMatrix();
 
@@ -99,7 +99,7 @@ void GLScene::loadMatricesToShader()
 
     //light position
     m_lightPosLoc = program.uniformLocation("lightPos");
-    program.setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
+    program.setUniformValue(m_lightPosLoc, QVector3D(0, 50, 100));
 }
 
 void GLScene::initShaders()

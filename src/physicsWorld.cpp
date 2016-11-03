@@ -27,22 +27,12 @@ PhysicsWorld::PhysicsWorld()
 	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
     //hardcode plane for now
-
-    m_groundShape.reset(new btStaticPlaneShape(btVector3(0,1,0), 0.0f));
-
-	btTransform groundTransform;
-	groundTransform.setIdentity();
-	{
-		btScalar mass(0.0f);
-		btVector3 localInertia(0,0,0);
-		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,m_groundShape.get(),localInertia);
-		rbInfo.m_rollingFriction=1.0f;
-		btRigidBody* body = new btRigidBody(rbInfo);
-		//add the body to the dynamics world
-		m_dynamicsWorld->addRigidBody(body);
-	}
+	m_groundShape.reset(new btStaticPlaneShape(btVector3(0, 1, 0), 1));
+	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+	btRigidBody::btRigidBodyConstructionInfo
+	groundRigidBodyCI(0, groundMotionState, m_groundShape.get(), btVector3(0, 0, 0));
+	btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
+	m_dynamicsWorld->addRigidBody(groundRigidBody);
 }
 
 PhysicsWorld::~PhysicsWorld()
