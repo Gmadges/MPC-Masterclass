@@ -52,12 +52,10 @@ void PhysicsWorld::step(float _time, float _step)
 
 void PhysicsWorld::addRigidBody(btRigidBody* pBody)
 {
-	std::cout << "Adding Rigid Body \n";
 	m_dynamicsWorld->addRigidBody(pBody);
 }
 
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
 {
-	std::cout << "removing rigid body \n";
 	m_dynamicsWorld->removeRigidBody(pBody);
 }
