@@ -51,8 +51,13 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         scene = new GLScene(centralWidget);
         scene->setObjectName(QStringLiteral("scene"));
-        scene->setMinimumSize(QSize(800, 600));
-        scene->setMaximumSize(QSize(800, 600));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(scene->sizePolicy().hasHeightForWidth());
+        scene->setSizePolicy(sizePolicy);
+        scene->setMinimumSize(QSize(0, 0));
+        scene->setMaximumSize(QSize(1920, 1080));
 
         gridLayout->addWidget(scene, 0, 0, 1, 1);
 
