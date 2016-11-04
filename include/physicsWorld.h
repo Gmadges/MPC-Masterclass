@@ -26,7 +26,7 @@ private:
     std::unique_ptr<btDiscreteDynamicsWorld> m_dynamicsWorld;
 
     //the ground
-    std::unique_ptr<btCollisionShape> m_groundShape;
+    std::unique_ptr<btRigidBody> m_groundBody;
 };
 
 #endif // PHYSICSWORLD
