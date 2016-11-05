@@ -17,7 +17,7 @@ Model::Model(std::string _path,
     bShowPhysShapes(true)
 {
 
-    //testing
+    //testing may just leave this here.
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
     pPhysicsModel->initModelWithSpheres(spheres);
 

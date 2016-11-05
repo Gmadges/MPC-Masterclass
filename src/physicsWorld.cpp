@@ -26,15 +26,7 @@ PhysicsWorld::PhysicsWorld()
 
 	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    //hardcode plane for now no need to destructor, always leave the ground plane
-	btCollisionShape *groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-	btRigidBody::btRigidBodyConstructionInfo
-	groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
-	m_groundBody.reset(new btRigidBody(groundRigidBodyCI));
-
-	// accessing raw point, soooo bad. but okay for now
-	m_dynamicsWorld->addRigidBody(m_groundBody.get());
+	addGroundPlane();
 }
 
 PhysicsWorld::~PhysicsWorld()
@@ -60,4 +52,17 @@ void PhysicsWorld::addRigidBody(btRigidBody* pBody)
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
 {
 	m_dynamicsWorld->removeRigidBody(pBody);
+}
+
+void PhysicsWorld::addGroundPlane()
+{
+	//hardcode plane for now no need to destructor, always leave the ground plane
+	btCollisionShape *groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+	btRigidBody::btRigidBodyConstructionInfo
+	groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+	m_groundBody.reset(new btRigidBody(groundRigidBodyCI));
+
+	// accessing raw point, soooo bad. but okay for now
+	m_dynamicsWorld->addRigidBody(m_groundBody.get());
 }

@@ -19,6 +19,10 @@ public:
 
 private:
 
+    void addGroundPlane();
+
+private:
+
     std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
     std::unique_ptr<btCollisionDispatcher> m_dispatcher;
     std::unique_ptr<btBroadphaseInterface> m_overlappingPairCache ;
