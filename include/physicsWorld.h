@@ -17,6 +17,12 @@ public:
     void addRigidBody(btRigidBody* pBody);
     void removeRigidBody(btRigidBody* pBody);
 
+    // This method is a strange one
+    // we need to know masks prior to adding rigid bodies(no more than 15)
+    // reload models after we have set these values.
+    void CalcCollisionMasks(int num);
+    void setUseCollisionMasks(bool use);
+
 private:
 
     void addGroundPlane();
@@ -31,6 +37,8 @@ private:
 
     //the ground
     std::unique_ptr<btRigidBody> m_groundBody;
+
+    bool bUseCollisionMasks;
 };
 
 #endif // PHYSICSWORLD

@@ -3,6 +3,8 @@
 #include <iostream>
 
 PhysicsWorld::PhysicsWorld()
+:
+bUseCollisionMasks(false)
 {
     // Jon snippet -----------------------------------------------------------------------------------------------------------------------
 
@@ -46,7 +48,14 @@ void PhysicsWorld::step(float _time, float _step)
 
 void PhysicsWorld::addRigidBody(btRigidBody* pBody)
 {
-	m_dynamicsWorld->addRigidBody(pBody);
+	if(bUseCollisionMasks)
+	{
+		//TODO
+	}
+	else
+	{
+		m_dynamicsWorld->addRigidBody(pBody);
+	}
 }
 
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
@@ -63,6 +72,27 @@ void PhysicsWorld::addGroundPlane()
 	groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
 	m_groundBody.reset(new btRigidBody(groundRigidBodyCI));
 
-	// accessing raw point, soooo bad. but okay for now
-	m_dynamicsWorld->addRigidBody(m_groundBody.get());
+	// accessing raw point, soooo bad. but okay for 
+	
+	if(bUseCollisionMasks)
+	{
+		//TODO
+	}
+	else
+	{
+		m_dynamicsWorld->addRigidBody(m_groundBody.get());
+	}
+}
+
+void PhysicsWorld::CalcCollisionMasks(int num)
+{	
+	// obvs we're using them, otherwise we wouldnt calculate
+	bUseCollisionMasks = true;
+
+	//TODO
+}
+
+void PhysicsWorld::setUseCollisionMasks(bool use)
+{
+	bUseCollisionMasks = use;
 }
