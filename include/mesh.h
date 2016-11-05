@@ -26,8 +26,8 @@ private:
 
     QVector4D color;
 
+    // store these incase we need them later.... we do
     std::vector<QVector3D> m_vertices;
-    std::vector<QVector2D> m_texcoord;
     std::vector<unsigned int> m_faces;
     std::vector<QVector3D> m_normals;
 
