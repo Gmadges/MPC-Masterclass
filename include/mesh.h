@@ -16,13 +16,12 @@ public:
 
     void drawMesh(QOpenGLShaderProgram *program);
 
-    void loadMesh(std::string _path);
-
     std::vector<QVector3D>& getVerts();
     std::vector<unsigned int>& getFaces();
 
 private:
     void initMesh(std::string _path);
+    void loadMesh(std::string _path);
 
     QVector4D color;
 
