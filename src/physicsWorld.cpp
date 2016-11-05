@@ -51,6 +51,7 @@ void PhysicsWorld::addRigidBody(btRigidBody* pBody)
 	if(bUseCollisionMasks)
 	{
 		//TODO
+		m_dynamicsWorld->addRigidBody(pBody, 4, 2);
 	}
 	else
 	{
@@ -75,8 +76,8 @@ void PhysicsWorld::addGroundPlane()
 	// accessing raw point, soooo bad. but okay for 
 	
 	if(bUseCollisionMasks)
-	{
-		//TODO
+	{	
+		m_dynamicsWorld->addRigidBody(m_groundBody.get(), 2, 0);
 	}
 	else
 	{
@@ -84,15 +85,17 @@ void PhysicsWorld::addGroundPlane()
 	}
 }
 
-void PhysicsWorld::CalcCollisionMasks(int num)
+void PhysicsWorld::SetMaskAmount(int amount)
 {	
-	// obvs we're using them, otherwise we wouldnt calculate
-	bUseCollisionMasks = true;
-
-	//TODO
+	m_maskNum = amount;	
 }
 
 void PhysicsWorld::setUseCollisionMasks(bool use)
 {
 	bUseCollisionMasks = use;
+}
+
+std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(int idx)
+{
+
 }

@@ -20,12 +20,15 @@ public:
     // This method is a strange one
     // we need to know masks prior to adding rigid bodies(no more than 15)
     // reload models after we have set these values.
-    void CalcCollisionMasks(int num);
+    void SetMaskAmount(int amount);
     void setUseCollisionMasks(bool use);
 
 private:
 
     void addGroundPlane();
+
+    // returns category and mask for rigid body, given its index
+    std::pair<unsigned short int, unsigned short int> getMaskValues(int idx);
 
 private:
 
@@ -39,6 +42,7 @@ private:
     std::unique_ptr<btRigidBody> m_groundBody;
 
     bool bUseCollisionMasks;
+    int m_maskNum;
 };
 
 #endif // PHYSICSWORLD

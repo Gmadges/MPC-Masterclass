@@ -34,6 +34,8 @@ GLScene::GLScene(QWidget *parent) :
     this->setFormat(format);
 
     startTimer(10);
+
+    pPhysicsWorld->setUseCollisionMasks(true);
 }
 
 GLScene::~GLScene()
