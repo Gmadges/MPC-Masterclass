@@ -37,7 +37,7 @@ GLScene::GLScene(QWidget *parent) :
 
     pPhysicsWorld->setUseCollisionMasks(true);
     // hardcode this to one, because i know only one model will be being loaded.
-    pPhysicsWorld->SetMaskAmount(2);
+    pPhysicsWorld->SetMaskAmount(1);
 }
 
 GLScene::~GLScene()
@@ -58,7 +58,6 @@ void GLScene::initializeGL()
 
     //load this stuff here because we need to have openGL initialised
     pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
-    pModelController->loadModelFromFile("./models/test.obj", pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }
@@ -142,7 +141,6 @@ void GLScene::resetSim()
     
     pModelController->emptyModels();
     pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
-    pModelController->loadModelFromFile("./models/test.obj", pPhysicsWorld);
 }
 
 void GLScene::showMesh(bool show)
