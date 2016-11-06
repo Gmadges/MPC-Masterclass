@@ -46,11 +46,11 @@ void PhysicsWorld::step(float _time, float _step)
     m_dynamicsWorld->stepSimulation(_time,_step);
 }
 
-void PhysicsWorld::addRigidBody(btRigidBody* pBody)
+void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
 {
 	if(bUseCollisionMasks)
 	{
-		auto values = getMaskValues(0);
+		auto values = getMaskValues(idx);
 
 		m_dynamicsWorld->addRigidBody(pBody, values.first, values.second);
 	}

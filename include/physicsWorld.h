@@ -14,7 +14,7 @@ public:
     void reset(); //TODO
     void step(float _time, float _step);
 
-    void addRigidBody(btRigidBody* pBody);
+    void addRigidBody(btRigidBody* pBody, int idx);
     void removeRigidBody(btRigidBody* pBody);
 
     // This method is a strange one

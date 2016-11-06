@@ -9,10 +9,11 @@
 #include "openVDBTools.h"
 
 Model::Model(std::string _path, 
-                std::shared_ptr<PhysicsWorld> _phys)
+                std::shared_ptr<PhysicsWorld> _phys,
+                int _id)
 :
     pMesh(new Mesh(_path)),
-    pPhysicsModel(new PhysicsModel(_phys)),
+    pPhysicsModel(new PhysicsModel(_phys, _id)),
     bShowMesh(true),
     bShowPhysShapes(true)
 {

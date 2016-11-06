@@ -12,7 +12,7 @@ class QOpenGLShaderProgram;
 class Model 
 {
 public:
-    Model(std::string _path, std::shared_ptr<PhysicsWorld> _phys);
+    Model(std::string _path, std::shared_ptr<PhysicsWorld> _phys, int _id);
     virtual ~Model();
 
     // draw
