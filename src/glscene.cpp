@@ -11,6 +11,9 @@
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
+// global for testing
+static std::string MODEL_PATH = "./models/GiantTeapot.obj";
+
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
@@ -57,7 +60,7 @@ void GLScene::initializeGL()
     glEnable(GL_MULTISAMPLE);
 
     //load this stuff here because we need to have openGL initialised
-    pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
+    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }
@@ -140,7 +143,7 @@ void GLScene::resetSim()
 {
     
     pModelController->emptyModels();
-    pModelController->loadModelFromFile("./models/GiantTeapot.obj", pPhysicsWorld);
+    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 }
 
 void GLScene::showMesh(bool show)
