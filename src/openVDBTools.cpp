@@ -47,8 +47,6 @@ std::vector<SphereData> OpenVDBTools::getSpheresForMesh(std::vector<QVector3D>& 
     //package data up and pass it back
     std::vector<SphereData> return_spheres;
     for (auto sphere : spheres) {
-        std::cout << sphere.str() << "\n";
-
         SphereData tmp;
 
         tmp.x = sphere.x();

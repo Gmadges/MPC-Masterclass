@@ -3,6 +3,8 @@
 #include <iostream>
 
 PhysicsWorld::PhysicsWorld()
+:
+bUseCollisionMasks(false)
 {
     // Jon snippet -----------------------------------------------------------------------------------------------------------------------
 
@@ -44,9 +46,18 @@ void PhysicsWorld::step(float _time, float _step)
     m_dynamicsWorld->stepSimulation(_time,_step);
 }
 
-void PhysicsWorld::addRigidBody(btRigidBody* pBody)
+void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
 {
-	m_dynamicsWorld->addRigidBody(pBody);
+	if(bUseCollisionMasks)
+	{
+		auto values = getMaskValues(idx);
+
+		m_dynamicsWorld->addRigidBody(pBody, values.first, values.second);
+	}
+	else
+	{
+		m_dynamicsWorld->addRigidBody(pBody);
+	}
 }
 
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
@@ -63,6 +74,46 @@ void PhysicsWorld::addGroundPlane()
 	groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
 	m_groundBody.reset(new btRigidBody(groundRigidBodyCI));
 
-	// accessing raw point, soooo bad. but okay for now
-	m_dynamicsWorld->addRigidBody(m_groundBody.get());
+	// accessing raw point, soooo bad. but okay for 
+	
+	if(bUseCollisionMasks)
+	{	
+		m_dynamicsWorld->addRigidBody(m_groundBody.get(), 2, 0);
+	}
+	else
+	{
+		m_dynamicsWorld->addRigidBody(m_groundBody.get());
+	}
+}
+
+void PhysicsWorld::SetMaskAmount(int amount)
+{	
+	m_maskNum = amount;	
+}
+
+void PhysicsWorld::setUseCollisionMasks(bool use)
+{
+	bUseCollisionMasks = use;
+}
+
+std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(int idx)
+{
+	unsigned short int ID = 0; 
+
+	// mask is set to 2 as default because everything will collide with the ground and that is 2.
+	unsigned short int mask = 2;
+
+	//Okay, I'm not crazy, we add 2 because we dont want 0 and the ground shape is 1;
+	int val = idx + 2;
+
+	ID = pow(2, val);
+
+	for(int i = 0; i < m_maskNum; i++)
+	{
+		if(i == idx) continue;
+
+		mask += pow(2, i + 2);
+	}
+
+	return std::make_pair(ID, mask);
 }

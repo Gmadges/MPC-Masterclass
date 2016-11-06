@@ -34,6 +34,10 @@ GLScene::GLScene(QWidget *parent) :
     this->setFormat(format);
 
     startTimer(10);
+
+    pPhysicsWorld->setUseCollisionMasks(true);
+    // hardcode this to one, because i know only one model will be being loaded.
+    pPhysicsWorld->SetMaskAmount(1);
 }
 
 GLScene::~GLScene()

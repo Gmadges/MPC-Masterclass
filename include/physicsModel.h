@@ -13,7 +13,7 @@ class QOpenGLShaderProgram;
 class PhysicsModel
 {
 public:
-    PhysicsModel(std::shared_ptr<PhysicsWorld> _phys);
+    PhysicsModel(std::shared_ptr<PhysicsWorld> _phys, int _id);
     virtual ~PhysicsModel();
 
     // This draws all the physics things, mainly spheres and contrainsts when we have them
@@ -34,6 +34,9 @@ private:
 
     // sphere thing
     std::shared_ptr<Sphere> pSphere;
+
+    // ID
+    int m_id;
 
 };
 
