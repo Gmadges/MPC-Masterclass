@@ -26,11 +26,17 @@ private:
 
     void addSphere(SphereData _sphere);
 
+    void applyConstraints();
+
+private:
+
     //pointer to physics world for ease
     std::shared_ptr<PhysicsWorld> pPhysicsWorld;
 
     //store pointers to rigid body, and radius. because it sucks trying to retrive it
     std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> rigid_bodies;
+
+    std::vector<btPoint2PointConstraint*> constraints;
 
     // sphere thing
     std::shared_ptr<Sphere> pSphere;

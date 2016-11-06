@@ -24,6 +24,8 @@ void PhysicsModel::initModelWithSpheres(std::vector<SphereData>& _spheres)
     {
         addSphere(sphere);
     }
+
+    applyConstraints();
 }
 
 void PhysicsModel::addSphere(SphereData _sphere)
@@ -75,6 +77,41 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
         pShader->setUniformValue("model_matrix", model);
 
         pSphere->draw(pShader);
+    }
+}
+
+void PhysicsModel::applyConstraints()
+{   
+
+    // really basic method that just applies constaints to all spheres from all others
+    for(unsigned int i = 0; i < rigid_bodies.size(); i++)
+    {   
+
+        for(unsigned int j = 0; j < rigid_bodies.size(); j++)
+        {   
+            if(j < i) continue;
+
+            auto rigid1 = rigid_bodies[i].first;
+            auto rigid2 = rigid_bodies[j].first;
+
+            // get positions
+            btTransform trans1;
+            rigid1->getMotionState()->getWorldTransform(trans1);
+            const btVector3 rigid1Pos = trans1.getOrigin();
+
+            btTransform trans2;
+            rigid2->getMotionState()->getWorldTransform(trans2);
+            const btVector3 rigid2Pos = trans2.getOrigin();
+
+            btPoint2PointConstraint *constraint = new btPoint2PointConstraint(*(rigid1.get()),
+                                                                                *(rigid2.get()),
+                                                                                rigid1Pos,
+                                                                                rigid2Pos);
+
+            pPhysicsWorld->addConstraint(constraint);
+
+            constraints.push_back(constraint);
+        }
     }
 }
 
