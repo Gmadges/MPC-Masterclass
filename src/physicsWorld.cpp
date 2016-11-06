@@ -50,8 +50,9 @@ void PhysicsWorld::addRigidBody(btRigidBody* pBody)
 {
 	if(bUseCollisionMasks)
 	{
-		//TODO
-		m_dynamicsWorld->addRigidBody(pBody, 4, 2);
+		auto values = getMaskValues(0);
+
+		m_dynamicsWorld->addRigidBody(pBody, values.first, values.second);
 	}
 	else
 	{
@@ -97,5 +98,22 @@ void PhysicsWorld::setUseCollisionMasks(bool use)
 
 std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(int idx)
 {
+	unsigned short int ID = 0; 
 
+	// mask is set to 2 as default because everything will collide with the ground and that is 2.
+	unsigned short int mask = 2;
+
+	//Okay, I'm not crazy, we add 2 because we dont want 0 and the ground shape is 1;
+	int val = idx + 2;
+
+	ID = pow(2, val);
+
+	for(int i = 0; i < m_maskNum; i++)
+	{
+		if(i == idx) continue;
+
+		mask += pow(2, i + 2);
+	}
+
+	return std::make_pair(ID, mask);
 }
