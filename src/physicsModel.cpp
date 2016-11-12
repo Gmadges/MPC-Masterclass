@@ -94,24 +94,30 @@ void PhysicsModel::applyConstraints()
             auto rigid1 = rigid_bodies[i].first;
             auto rigid2 = rigid_bodies[j].first;
 
-            // get positions
-            btTransform trans1;
-            rigid1->getMotionState()->getWorldTransform(trans1);
-            const btVector3 rigid1Pos = trans1.getOrigin();
-
-            btTransform trans2;
-            rigid2->getMotionState()->getWorldTransform(trans2);
-            const btVector3 rigid2Pos = trans2.getOrigin();
-
-            btPoint2PointConstraint *constraint = new btPoint2PointConstraint(*(rigid1.get()),
-                                                                                *(rigid2.get()),
-                                                                                rigid1Pos,
-                                                                                rigid2Pos);
-
-            pPhysicsWorld->addConstraint(constraint);
-
-            constraints.push_back(constraint);
+            addConstraint(rigid1, rigid2);
         }
     }
 }
 
+void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
+{
+    // get positions
+    btVector3 rigid1Pos = getPositionForBody(pBody1);
+    btVector3 rigid2Pos = getPositionForBody(pBody2);
+
+    btPoint2PointConstraint *constraint = new btPoint2PointConstraint(*(pBody1.get()),
+                                                                        *(pBody2.get()),
+                                                                        rigid1Pos,
+                                                                        rigid2Pos);
+
+    pPhysicsWorld->addConstraint(constraint);
+
+    constraints.push_back(constraint);
+}
+
+btVector3 PhysicsModel::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    return trans1.getOrigin();
+}

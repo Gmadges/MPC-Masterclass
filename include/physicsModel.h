@@ -28,6 +28,10 @@ private:
 
     void applyConstraints();
 
+    void addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
+
+    btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody);
+
 private:
 
     //pointer to physics world for ease
