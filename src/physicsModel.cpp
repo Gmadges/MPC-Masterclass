@@ -82,19 +82,43 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
 
 void PhysicsModel::applyConstraints()
 {   
+    //store containts we've made'
+    std::vector<std::vector<unsigned int>> consts(rigid_bodies.size());
+
+    float lookFactor = 1.25f;
 
     // really basic method that just applies constaints to all spheres from all others
     for(unsigned int i = 0; i < rigid_bodies.size(); i++)
     {   
+        // get position and radius around 
+        auto body = rigid_bodies[i].first;
+        float bodyRadius = rigid_bodies[i].second * lookFactor;
+        btVector3 bodyPos = getPositionForBody(body);
 
         for(unsigned int j = 0; j < rigid_bodies.size(); j++)
         {   
-            if(j < i) continue;
+            //check their not already linked
+            bool bNext = false;
+            for(unsigned int bod : consts[j])
+            {
+                if(bod == i)
+                {
+                    bNext = true;
+                    break;
+                }
+            }
+            if(bNext) break;
 
-            auto rigid1 = rigid_bodies[i].first;
-            auto rigid2 = rigid_bodies[j].first;
+            auto compareBody = rigid_bodies[j].first;
+            btVector3 comparePos = getPositionForBody(compareBody);
 
-            addConstraint(rigid1, rigid2);
+            //check if their near each other
+            float dist = bodyPos.dot(comparePos);
+            if(abs(dist) <= bodyRadius)
+            {
+                addConstraint(body, compareBody);
+                consts[i].push_back(j);
+            } 
         }
     }
 }
@@ -109,6 +133,7 @@ void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::share
                                                                         *(pBody2.get()),
                                                                         rigid1Pos,
                                                                         rigid2Pos);
+
 
     pPhysicsWorld->addConstraint(constraint);
 
