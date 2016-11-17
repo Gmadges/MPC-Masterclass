@@ -24,6 +24,8 @@ void PhysicsModel::initModelWithSpheres(std::vector<SphereData>& _spheres)
     {
         addSphere(sphere);
     }
+
+    applyConstraints();
 }
 
 void PhysicsModel::addSphere(SphereData _sphere)
@@ -78,3 +80,81 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
     }
 }
 
+void PhysicsModel::applyConstraints()
+{   
+    //store containts we've made'
+    std::vector<std::vector<unsigned int>> consts(rigid_bodies.size());
+
+    float lookFactor = 1.25f;
+
+    // really basic method that just applies constaints to all spheres from all others
+    for(unsigned int i = 0; i < rigid_bodies.size(); i++)
+    {   
+        // get position and radius around 
+        auto body = rigid_bodies[i].first;
+        float bodyRadius = rigid_bodies[i].second * lookFactor;
+        btVector3 bodyPos = getPositionForBody(body);
+
+        for(unsigned int j = 0; j < rigid_bodies.size(); j++)
+        {   
+            //check their not already linked
+            bool bNext = false;
+            for(unsigned int bod : consts[j])
+            {
+                if(bod == i)
+                {
+                    bNext = true;
+                    break;
+                }
+            }
+            if(bNext) break;
+
+            auto compareBody = rigid_bodies[j].first;
+            btVector3 comparePos = getPositionForBody(compareBody);
+
+            //check if their near each other
+            //float dist = bodyPos.dot(comparePos);
+            //if(abs(dist) <= bodyRadius)
+            //{
+                addConstraint(body, compareBody);
+                consts[i].push_back(j);
+            //} 
+        }
+    }
+}
+
+void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
+{
+    // get positions
+    btVector3 rigid1Pos = getPositionForBody(pBody1);
+
+    btTransform frameInA;
+    btTransform frameInB;
+    
+    frameInA.setIdentity();
+    frameInB.setIdentity();
+    
+    frameInA.setOrigin( rigid1Pos );
+
+    btTransform inv = pBody2->getCenterOfMassTransform().inverse();
+
+    btTransform globalFrameA = pBody1->getCenterOfMassTransform() * frameInA;
+
+    frameInB = inv  * globalFrameA;
+
+    btFixedConstraint *constraint = new btFixedConstraint(*(pBody1.get()),
+                                                            *(pBody2.get()),
+                                                            frameInA,
+                                                            frameInB);
+
+    pPhysicsWorld->addConstraint(constraint);
+
+    constraints.push_back(constraint);
+}
+
+btVector3 PhysicsModel::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    return trans1.getOrigin();
+}

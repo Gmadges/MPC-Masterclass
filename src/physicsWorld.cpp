@@ -60,6 +60,11 @@ void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
 	}
 }
 
+void PhysicsWorld::addConstraint(btTypedConstraint* pConst)
+{
+	m_dynamicsWorld->addConstraint(pConst);
+}
+
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
 {
 	m_dynamicsWorld->removeRigidBody(pBody);

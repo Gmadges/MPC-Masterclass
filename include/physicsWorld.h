@@ -17,6 +17,8 @@ public:
     void addRigidBody(btRigidBody* pBody, int idx);
     void removeRigidBody(btRigidBody* pBody);
 
+    void addConstraint(btTypedConstraint* pConst);
+    
     // This method is a strange one
     // we need to know masks prior to adding rigid bodies(no more than 15)
     // reload models after we have set these values.
