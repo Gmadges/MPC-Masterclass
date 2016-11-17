@@ -112,13 +112,13 @@ void PhysicsModel::applyConstraints()
             auto compareBody = rigid_bodies[j].first;
             btVector3 comparePos = getPositionForBody(compareBody);
 
-            //check if their near each other
-            float dist = bodyPos.dot(comparePos);
-            if(abs(dist) <= bodyRadius)
-            {
+            // //check if their near each other
+            // float dist = bodyPos.dot(comparePos);
+            // if(abs(dist) <= bodyRadius)
+            // {
                 addConstraint(body, compareBody);
                 consts[i].push_back(j);
-            } 
+            // } 
         }
     }
 }
@@ -129,11 +129,36 @@ void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::share
     btVector3 rigid1Pos = getPositionForBody(pBody1);
     btVector3 rigid2Pos = getPositionForBody(pBody2);
 
-    btPoint2PointConstraint *constraint = new btPoint2PointConstraint(*(pBody1.get()),
-                                                                        *(pBody2.get()),
-                                                                        rigid1Pos,
-                                                                        rigid2Pos);
+    btTransform frameInA;
+    btTransform frameInB;
+    
+    frameInA.setIdentity();
+    frameInB.setIdentity();
 
+    // btVector3 axis1(axis1X,axis1Y,axis1Z);
+    // btVector3 axis2(axis2X,axis2Y,axis2Z);
+
+    // if (axis1.length() == 0.0)
+    // {
+    //     btPlaneSpace1( axisInA, axis1, axis2 );
+    // }
+
+    // frameInA.getBasis().setValue( axisInA.x(), axis1.x(), axis2.x(),
+    //                                 axisInA.y(), axis1.y(), axis2.y(),
+    //                                 axisInA.z(), axis1.z(), axis2.z() );
+    
+    frameInA.setOrigin( rigid1Pos );
+
+    btTransform inv = pBody2->getCenterOfMassTransform().inverse();
+
+    btTransform globalFrameA = pBody1->getCenterOfMassTransform() * frameInA;
+
+    frameInB = inv  * globalFrameA;
+
+    btFixedConstraint *constraint = new btFixedConstraint(*(pBody1.get()),
+                                                                        *(pBody2.get()),
+                                                                        frameInA,
+                                                                        frameInB);
 
     pPhysicsWorld->addConstraint(constraint);
 
