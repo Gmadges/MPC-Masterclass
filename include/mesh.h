@@ -20,8 +20,12 @@ public:
     std::vector<unsigned int>& getFaces();
 
 private:
+
+    // This loads mesh from file and then loads to the GPU buffers
     void initMesh(std::string _path);
-    void loadMesh(std::string _path);
+
+    // This uses assimp to get the data from the file and fill our arrays, ready to be loaded.
+    void loadMeshFromFile(std::string _path);
 
     QVector4D color;
 

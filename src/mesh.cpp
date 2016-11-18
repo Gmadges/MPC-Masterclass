@@ -31,7 +31,7 @@ Mesh::~Mesh()
 
 void Mesh::initMesh(std::string _path)
 {
-    loadMesh(_path);
+    loadMeshFromFile(_path);
 
     arrayBuf.bind();
     arrayBuf.allocate( vertices.data(),  vertices.size() * sizeof(QVector3D));
@@ -44,7 +44,7 @@ void Mesh::initMesh(std::string _path)
     normalBuf.allocate( normals.data(),  normals.size() * sizeof(QVector3D));
 }
 
-void Mesh::loadMesh(std::string _path)
+void Mesh::loadMeshFromFile(std::string _path)
 {
     const aiScene* scene = aiImportFile( _path.c_str(),
                                          aiProcess_CalcTangentSpace       |
