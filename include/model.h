@@ -5,7 +5,7 @@
 #include <memory>
 
 class Mesh;
-class PhysicsModel;
+class PhysicsBody;
 class PhysicsWorld;
 class QOpenGLShaderProgram; 
 
@@ -25,7 +25,7 @@ public:
 private:
     // my meshs
     std::shared_ptr<Mesh> pMesh;
-    std::shared_ptr<PhysicsModel> pPhysicsModel;
+    std::shared_ptr<PhysicsBody> pPhysicsBody;
 
     bool bShowMesh;
     bool bShowPhysShapes;

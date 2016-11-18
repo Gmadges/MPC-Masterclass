@@ -48,55 +48,55 @@ OBJECTS_DIR   = obj/
 
 ####### Files
 
-SOURCES       = src/main.cpp \
-		src/mainwindow.cpp \
+SOURCES       = src/floorPlane.cpp \
 		src/glscene.cpp \
+		src/main.cpp \
+		src/mainwindow.cpp \
 		src/mesh.cpp \
-		src/modelController.cpp \
 		src/model.cpp \
+		src/modelController.cpp \
+		src/openVDBTools.cpp \
+		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/physicsModel.cpp \
-		src/floorPlane.cpp \
-		src/sphere.cpp \
-		src/openVDBTools.cpp qrc_shaders.cpp \
-		moc/moc_mainwindow.cpp \
-		moc/moc_glscene.cpp
-OBJECTS       = obj/main.o \
-		obj/mainwindow.o \
+		src/sphere.cpp qrc_shaders.cpp \
+		moc/moc_glscene.cpp \
+		moc/moc_mainwindow.cpp
+OBJECTS       = obj/floorPlane.o \
 		obj/glscene.o \
+		obj/main.o \
+		obj/mainwindow.o \
 		obj/mesh.o \
-		obj/modelController.o \
 		obj/model.o \
-		obj/physicsWorld.o \
-		obj/physicsModel.o \
-		obj/floorPlane.o \
-		obj/sphere.o \
+		obj/modelController.o \
 		obj/openVDBTools.o \
+		obj/physicsBody.o \
+		obj/physicsWorld.o \
+		obj/sphere.o \
 		obj/qrc_shaders.o \
-		obj/moc_mainwindow.o \
-		obj/moc_glscene.o
+		obj/moc_glscene.o \
+		obj/moc_mainwindow.o
 DIST          = shaders/simple.vert \
 		shaders/simple.frag \
-		Masterclass.pro include/mainwindow.h \
+		Masterclass.pro include/floorPlane.h \
 		include/glscene.h \
+		include/mainwindow.h \
 		include/mesh.h \
-		include/modelController.h \
 		include/model.h \
+		include/modelController.h \
+		include/openVDBTools.h \
+		include/physicsBody.h \
 		include/physicsWorld.h \
-		include/physicsModel.h \
-		include/floorPlane.h \
-		include/sphere.h \
-		include/openVDBTools.h src/main.cpp \
-		src/mainwindow.cpp \
+		include/sphere.h src/floorPlane.cpp \
 		src/glscene.cpp \
+		src/main.cpp \
+		src/mainwindow.cpp \
 		src/mesh.cpp \
-		src/modelController.cpp \
 		src/model.cpp \
+		src/modelController.cpp \
+		src/openVDBTools.cpp \
+		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/physicsModel.cpp \
-		src/floorPlane.cpp \
-		src/sphere.cpp \
-		src/openVDBTools.cpp
+		src/sphere.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -271,8 +271,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/mainwindow.h include/glscene.h include/mesh.h include/modelController.h include/model.h include/physicsWorld.h include/physicsModel.h include/floorPlane.h include/sphere.h include/openVDBTools.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/glscene.cpp src/mesh.cpp src/modelController.cpp src/model.cpp src/physicsWorld.cpp src/physicsModel.cpp src/floorPlane.cpp src/sphere.cpp src/openVDBTools.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -302,14 +302,14 @@ qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
 
-compiler_moc_header_make_all: moc/moc_mainwindow.cpp moc/moc_glscene.cpp
+compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_mainwindow.cpp moc/moc_glscene.cpp
-moc/moc_mainwindow.cpp: include/mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
-
+	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp
 moc/moc_glscene.cpp: include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/glscene.h -o moc/moc_glscene.cpp
+
+moc/moc_mainwindow.cpp: include/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -330,12 +330,8 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-obj/main.o: src/main.cpp include/mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
-
-obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
-		include/ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
+obj/floorPlane.o: src/floorPlane.cpp include/floorPlane.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/floorPlane.o src/floorPlane.cpp
 
 obj/glscene.o: src/glscene.cpp include/glscene.h \
 		include/modelController.h \
@@ -344,45 +340,49 @@ obj/glscene.o: src/glscene.cpp include/glscene.h \
 		include/floorPlane.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glscene.o src/glscene.cpp
 
+obj/main.o: src/main.cpp include/mainwindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
+
+obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
+		include/ui_mainwindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
+
 obj/mesh.o: src/mesh.cpp include/mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
+
+obj/model.o: src/model.cpp include/model.h \
+		include/mesh.h \
+		include/physicsBody.h \
+		include/openVDBTools.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/model.o src/model.cpp
 
 obj/modelController.o: src/modelController.cpp include/modelController.h \
 		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/modelController.o src/modelController.cpp
 
-obj/model.o: src/model.cpp include/model.h \
-		include/mesh.h \
-		include/physicsModel.h \
-		include/openVDBTools.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/model.o src/model.cpp
+obj/openVDBTools.o: src/openVDBTools.cpp include/openVDBTools.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/openVDBTools.o src/openVDBTools.cpp
+
+obj/physicsBody.o: src/physicsBody.cpp include/physicsBody.h \
+		include/openVDBTools.h \
+		include/physicsWorld.h \
+		include/sphere.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsBody.o src/physicsBody.cpp
 
 obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsWorld.o src/physicsWorld.cpp
 
-obj/physicsModel.o: src/physicsModel.cpp include/physicsModel.h \
-		include/openVDBTools.h \
-		include/physicsWorld.h \
-		include/sphere.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsModel.o src/physicsModel.cpp
-
-obj/floorPlane.o: src/floorPlane.cpp include/floorPlane.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/floorPlane.o src/floorPlane.cpp
-
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
-
-obj/openVDBTools.o: src/openVDBTools.cpp include/openVDBTools.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/openVDBTools.o src/openVDBTools.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp
 
-obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
-
 obj/moc_glscene.o: moc/moc_glscene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_glscene.o moc/moc_glscene.cpp
+
+obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
 
 ####### Install
 

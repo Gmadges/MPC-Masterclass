@@ -1,7 +1,7 @@
 #include "model.h"
 
 #include "mesh.h"
-#include "physicsModel.h"
+#include "physicsBody.h"
 #include <iostream>
 #include <iterator>
 #include <algorithm>
@@ -13,14 +13,14 @@ Model::Model(std::string _path,
                 int _id)
 :
     pMesh(new Mesh(_path)),
-    pPhysicsModel(new PhysicsModel(_phys, _id)),
+    pPhysicsBody(new PhysicsBody(_phys, _id)),
     bShowMesh(true),
     bShowPhysShapes(true)
 {
 
     //testing may just leave this here.
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
-    pPhysicsModel->initModelWithSpheres(spheres);
+    pPhysicsBody->initModelWithSpheres(spheres);
 
 }
 
@@ -38,11 +38,11 @@ void Model::draw(QOpenGLShaderProgram *pShader)
         }
     }
 
-    if(pPhysicsModel)
+    if(pPhysicsBody)
     {
         if(bShowPhysShapes)
         {
-            pPhysicsModel->draw(pShader);
+            pPhysicsBody->draw(pShader);
         }
     }
 }

@@ -1,5 +1,5 @@
-#ifndef PHYSICSMODEL_H
-#define PHYSICSMODEL_H 
+#ifndef PHYSICSBODY_H
+#define PHYSICSBODY_H 
 
 #include <btBulletDynamicsCommon.h>
 #include <memory>
@@ -10,11 +10,11 @@ class PhysicsWorld;
 class Sphere;
 class QOpenGLShaderProgram;
 
-class PhysicsModel
+class PhysicsBody
 {
 public:
-    PhysicsModel(std::shared_ptr<PhysicsWorld> _phys, int _id);
-    virtual ~PhysicsModel();
+    PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id);
+    virtual ~PhysicsBody();
 
     // This draws all the physics things, mainly spheres and contrainsts when we have them
     void draw(QOpenGLShaderProgram *pShader);
@@ -50,4 +50,4 @@ private:
 
 };
 
-#endif // PHYSICSMODEL
+#endif // PHYSICSBODY

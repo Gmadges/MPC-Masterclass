@@ -1,4 +1,4 @@
-#include "physicsModel.h"
+#include "physicsBody.h"
 #include "physicsWorld.h"
 #include "sphere.h"
 
@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-PhysicsModel::PhysicsModel(std::shared_ptr<PhysicsWorld> _phys, int _id)
+PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
@@ -14,11 +14,11 @@ PhysicsModel::PhysicsModel(std::shared_ptr<PhysicsWorld> _phys, int _id)
 {
 }
 
-PhysicsModel::~PhysicsModel()
+PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsModel::initModelWithSpheres(std::vector<SphereData>& _spheres)
+void PhysicsBody::initModelWithSpheres(std::vector<SphereData>& _spheres)
 {
     for(auto sphere : _spheres)
     {
@@ -28,7 +28,7 @@ void PhysicsModel::initModelWithSpheres(std::vector<SphereData>& _spheres)
     applyConstraints();
 }
 
-void PhysicsModel::addSphere(SphereData _sphere)
+void PhysicsBody::addSphere(SphereData _sphere)
 {
     //hardcode alot for now for testing
     btCollisionShape* colShape = new btSphereShape(_sphere.radius);
@@ -59,7 +59,7 @@ void PhysicsModel::addSphere(SphereData _sphere)
     rigid_bodies.emplace_back(pBody, _sphere.radius);
 }
 
-void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
+void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
 {   
     //iterate through all bodies
     for(auto body : rigid_bodies)
@@ -80,7 +80,7 @@ void PhysicsModel::draw(QOpenGLShaderProgram *pShader)
     }
 }
 
-void PhysicsModel::applyConstraints()
+void PhysicsBody::applyConstraints()
 {   
     //store containts we've made'
     std::vector<std::vector<unsigned int>> consts(rigid_bodies.size());
@@ -123,7 +123,7 @@ void PhysicsModel::applyConstraints()
     }
 }
 
-void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
+void PhysicsBody::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
 {
     // get positions
     btVector3 rigid1Pos = getPositionForBody(pBody1);
@@ -152,7 +152,7 @@ void PhysicsModel::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::share
     constraints.push_back(constraint);
 }
 
-btVector3 PhysicsModel::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+btVector3 PhysicsBody::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
 {
     btTransform trans1;
     pBody->getMotionState()->getWorldTransform(trans1);
