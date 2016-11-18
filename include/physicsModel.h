@@ -46,7 +46,7 @@ private:
     std::shared_ptr<Sphere> pSphere;
 
     // ID
-    int m_id;
+    int  id;
 
 };
 

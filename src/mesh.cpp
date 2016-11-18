@@ -34,14 +34,14 @@ void Mesh::initMesh(std::string _path)
     loadMesh(_path);
 
     arrayBuf.bind();
-    arrayBuf.allocate(m_vertices.data(), m_vertices.size() * sizeof(QVector3D));
+    arrayBuf.allocate( vertices.data(),  vertices.size() * sizeof(QVector3D));
 
     indexBuf.bind();
-    indexBuf.allocate(m_faces.data(), m_faces.size() * sizeof(unsigned int));
+    indexBuf.allocate( faces.data(),  faces.size() * sizeof(unsigned int));
 
     normalBuf.bind();
 
-    normalBuf.allocate(m_normals.data(), m_normals.size() * sizeof(QVector3D));
+    normalBuf.allocate( normals.data(),  normals.size() * sizeof(QVector3D));
 }
 
 void Mesh::loadMesh(std::string _path)
@@ -68,7 +68,7 @@ void Mesh::loadMesh(std::string _path)
               QVector3D p = QVector3D(scene->mMeshes[i]->mVertices[j].x,
                                       scene->mMeshes[i]->mVertices[j].y,
                                       scene->mMeshes[i]->mVertices[j].z);
-              m_vertices.push_back(p);
+               vertices.push_back(p);
           }
 
           //loop into current mesh for indices
@@ -77,7 +77,7 @@ void Mesh::loadMesh(std::string _path)
               aiFace f = scene->mMeshes[i]->mFaces[j];
               for (unsigned int k = 0; k < f.mNumIndices; ++k)
               { 
-                  m_faces.push_back(f.mIndices[k]);
+                   faces.push_back(f.mIndices[k]);
               }
           }
 
@@ -87,7 +87,7 @@ void Mesh::loadMesh(std::string _path)
               QVector3D m = QVector3D(scene->mMeshes[i]->mNormals[j].x,
                                       scene->mMeshes[i]->mNormals[j].y,
                                       scene->mMeshes[i]->mNormals[j].z);
-              m_normals.push_back(m);
+               normals.push_back(m);
           }
       }
       aiReleaseImport(scene);
@@ -116,15 +116,15 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
     // Draw cube geometry using indices from VBO 1
-    glDrawElements(GL_TRIANGLES, m_faces.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
 }
 
 std::vector<QVector3D>& Mesh::getVerts()
 {
-    return m_vertices;
+    return  vertices;
 }
 
 std::vector<unsigned int>& Mesh::getFaces()
 {
-    return m_faces;
+    return  faces;
 }

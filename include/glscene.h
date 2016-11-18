@@ -55,7 +55,7 @@ private:
     std::shared_ptr<FloorPlane> pFloorPlane;
 
     //lights
-    int m_lightPosLoc;
+    int lightPosLoc;
 
     //shaders
     QOpenGLShaderProgram program;

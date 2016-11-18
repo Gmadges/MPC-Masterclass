@@ -10,7 +10,7 @@ PhysicsModel::PhysicsModel(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
-    m_id(_id)
+     id(_id)
 {
 }
 
@@ -53,7 +53,7 @@ void PhysicsModel::addSphere(SphereData _sphere)
     pBody->setActivationState(DISABLE_DEACTIVATION);
 
     // rigid body created so now we add to physics world
-    pPhysicsWorld->addRigidBody(pBody.get(), m_id);
+    pPhysicsWorld->addRigidBody(pBody.get(),  id);
 
     // add to our list of bodies for this model
     rigid_bodies.emplace_back(pBody, _sphere.radius);

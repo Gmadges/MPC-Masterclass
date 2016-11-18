@@ -26,9 +26,9 @@ private:
     QVector4D color;
 
     // store these incase we need them later.... we do
-    std::vector<QVector3D> m_vertices;
-    std::vector<unsigned int> m_faces;
-    std::vector<QVector3D> m_normals;
+    std::vector<QVector3D> vertices;
+    std::vector<unsigned int> faces;
+    std::vector<QVector3D> normals;
 
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;

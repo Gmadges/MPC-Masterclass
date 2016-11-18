@@ -34,17 +34,17 @@ private:
 
 private:
 
-    std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
-    std::unique_ptr<btCollisionDispatcher> m_dispatcher;
-    std::unique_ptr<btBroadphaseInterface> m_overlappingPairCache ;
-    std::unique_ptr<btSequentialImpulseConstraintSolver> m_solver;
-    std::unique_ptr<btDiscreteDynamicsWorld> m_dynamicsWorld;
+    std::unique_ptr<btDefaultCollisionConfiguration> collisionConfiguration;
+    std::unique_ptr<btCollisionDispatcher> dispatcher;
+    std::unique_ptr<btBroadphaseInterface> overlappingPairCache ;
+    std::unique_ptr<btSequentialImpulseConstraintSolver> solver;
+    std::unique_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
 
     //the ground
-    std::unique_ptr<btRigidBody> m_groundBody;
+    std::unique_ptr<btRigidBody> groundBody;
 
     bool bUseCollisionMasks;
-    int m_maskNum;
+    int  maskNum;
 };
 
 #endif // PHYSICSWORLD

@@ -31,7 +31,7 @@ public:
     
 private:
     // my models
-    std::vector<std::shared_ptr<Model>> m_models;
+    std::vector<std::shared_ptr<Model>> models;
 
 };
 

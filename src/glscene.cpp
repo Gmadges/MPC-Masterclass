@@ -105,8 +105,8 @@ void GLScene::loadMatricesToShader()
     program.setUniformValue("view_matrix", viewMat);
 
     //light position
-    m_lightPosLoc = program.uniformLocation("lightPos");
-    program.setUniformValue(m_lightPosLoc, QVector3D(0, 50, 100));
+    lightPosLoc = program.uniformLocation("lightPos");
+    program.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
 }
 
 void GLScene::initShaders()

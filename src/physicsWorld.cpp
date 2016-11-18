@@ -9,24 +9,24 @@ bUseCollisionMasks(false)
     // Jon snippet -----------------------------------------------------------------------------------------------------------------------
 
     ///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
-	m_collisionConfiguration.reset( new btDefaultCollisionConfiguration());
+	 collisionConfiguration.reset( new btDefaultCollisionConfiguration());
 
 	///use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
-	m_dispatcher.reset(new btCollisionDispatcher(m_collisionConfiguration.get()));
+	 dispatcher.reset(new btCollisionDispatcher( collisionConfiguration.get()));
 
 	///btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
-	m_overlappingPairCache.reset(new btDbvtBroadphase());
+	 overlappingPairCache.reset(new btDbvtBroadphase());
 
 	///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
-	m_solver.reset(new btSequentialImpulseConstraintSolver());
+	 solver.reset(new btSequentialImpulseConstraintSolver());
 
-	m_dynamicsWorld.reset(new btDiscreteDynamicsWorld(m_dispatcher.get(),
-													    m_overlappingPairCache.get(),
-														m_solver.get(),
-														m_collisionConfiguration.get()));
+	 dynamicsWorld.reset(new btDiscreteDynamicsWorld( dispatcher.get(),
+													     overlappingPairCache.get(),
+														 solver.get(),
+														 collisionConfiguration.get()));
     // ---------------------------------------------------------------------------------------------------------------------------------
 
-	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
+	 dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
 	addGroundPlane();
 }
@@ -43,7 +43,7 @@ void PhysicsWorld::reset()
 
 void PhysicsWorld::step(float _time, float _step)
 {
-    m_dynamicsWorld->stepSimulation(_time,_step);
+     dynamicsWorld->stepSimulation(_time,_step);
 }
 
 void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
@@ -52,22 +52,22 @@ void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
 	{
 		auto values = getMaskValues(idx);
 
-		m_dynamicsWorld->addRigidBody(pBody, values.first, values.second);
+		 dynamicsWorld->addRigidBody(pBody, values.first, values.second);
 	}
 	else
 	{
-		m_dynamicsWorld->addRigidBody(pBody);
+		 dynamicsWorld->addRigidBody(pBody);
 	}
 }
 
 void PhysicsWorld::addConstraint(btTypedConstraint* pConst)
 {
-	m_dynamicsWorld->addConstraint(pConst);
+	 dynamicsWorld->addConstraint(pConst);
 }
 
 void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
 {
-	m_dynamicsWorld->removeRigidBody(pBody);
+	 dynamicsWorld->removeRigidBody(pBody);
 }
 
 void PhysicsWorld::addGroundPlane()
@@ -77,23 +77,23 @@ void PhysicsWorld::addGroundPlane()
 	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo
 	groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
-	m_groundBody.reset(new btRigidBody(groundRigidBodyCI));
+	 groundBody.reset(new btRigidBody(groundRigidBodyCI));
 
 	// accessing raw point, soooo bad. but okay for 
 	
 	if(bUseCollisionMasks)
 	{	
-		m_dynamicsWorld->addRigidBody(m_groundBody.get(), 2, 0);
+		 dynamicsWorld->addRigidBody( groundBody.get(), 2, 0);
 	}
 	else
 	{
-		m_dynamicsWorld->addRigidBody(m_groundBody.get());
+		 dynamicsWorld->addRigidBody( groundBody.get());
 	}
 }
 
 void PhysicsWorld::SetMaskAmount(int amount)
 {	
-	m_maskNum = amount;	
+	 maskNum = amount;	
 }
 
 void PhysicsWorld::setUseCollisionMasks(bool use)
@@ -113,7 +113,7 @@ std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(in
 
 	ID = pow(2, val);
 
-	for(int i = 0; i < m_maskNum; i++)
+	for(int i = 0; i <  maskNum; i++)
 	{
 		if(i == idx) continue;
 

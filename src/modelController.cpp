@@ -10,12 +10,12 @@ ModelController::~ModelController()
 
 void ModelController::loadModelFromFile(std::string _path, std::shared_ptr<PhysicsWorld> _phys)
 {  
-    m_models.push_back(std::make_shared<Model>(_path, _phys, m_models.size()));
+     models.push_back(std::make_shared<Model>(_path, _phys,  models.size()));
 }
 
 void ModelController::drawAll(QOpenGLShaderProgram *pShader)
 {
-    for(auto model : m_models)
+    for(auto model :  models)
     {
         model->draw(pShader);
     }
@@ -23,12 +23,12 @@ void ModelController::drawAll(QOpenGLShaderProgram *pShader)
 
 std::shared_ptr<Model> ModelController::getModel(int index)
 {
-    return m_models[index];
+    return  models[index];
 }
 
 void ModelController::showAllMeshes(bool show)
 {
-    for(auto model : m_models)
+    for(auto model :  models)
     {
         model->setShowMesh(show);
     }
@@ -36,7 +36,7 @@ void ModelController::showAllMeshes(bool show)
 
 void ModelController::showAllPhysShapes(bool show)
 {
-    for(auto model : m_models)
+    for(auto model :  models)
     {
         model->setShowPhys(show);
     }
@@ -44,6 +44,6 @@ void ModelController::showAllPhysShapes(bool show)
 
 void ModelController::emptyModels()
 {
-    m_models.clear();
+     models.clear();
 }
 
