@@ -2,7 +2,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -31,4 +30,8 @@
 #Qt
 *.qmake.cache
 *.o
+
 moc/
+obj/
+
+Makefile

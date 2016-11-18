@@ -12,13 +12,13 @@ constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
 // global for testing
-static std::string MODEL_PATH = "./models/GiantTeapot.obj";
+static std::string MODEL_PATH = "./models/teapot.obj";
 
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
     pPhysicsWorld(new PhysicsWorld()),
-    cam_pos(0.0f, 20.0f, -50.0f),
+    cam_pos(0.0f, 25.0f, -75.0f),
     bRotate(false),
     bTranslate(false),
     origX(0),
@@ -92,7 +92,7 @@ void GLScene::loadMatricesToShader()
     // create view mat
     //mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
     viewMat.setToIdentity();
-    viewMat.lookAt(cam_pos, QVector3D(0,0,0), QVector3D(0,1,0));
+    viewMat.lookAt(cam_pos, QVector3D(0,5,0), QVector3D(0,1,0));
 
 
     normMat = viewMat.normalMatrix();
