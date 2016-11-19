@@ -32,6 +32,6 @@ DISTFILES += \
     $$PWD/shaders/simple.frag
 
 
-RESOURCES += shaders.qrc
+RESOURCES += shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc
 
 CONFIG += console c++11

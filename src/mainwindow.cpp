@@ -9,6 +9,19 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //load up stylesheet
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        this->setStyleSheet(ts.readAll());
+    }
+
     // link the buttons to their methods
     connect(ui->button_toggleSim, &QPushButton::clicked, ui->scene, &GLScene::toggleSim);
     connect(ui->button_resetSim, &QPushButton::clicked, ui->scene, &GLScene::resetSim);

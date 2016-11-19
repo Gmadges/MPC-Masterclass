@@ -59,6 +59,7 @@ SOURCES       = src/floorPlane.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
 		src/sphere.cpp qrc_shaders.cpp \
+		qrc_style.cpp \
 		moc/moc_glscene.cpp \
 		moc/moc_mainwindow.cpp
 OBJECTS       = obj/floorPlane.o \
@@ -73,6 +74,7 @@ OBJECTS       = obj/floorPlane.o \
 		obj/physicsWorld.o \
 		obj/sphere.o \
 		obj/qrc_shaders.o \
+		obj/qrc_style.o \
 		obj/moc_glscene.o \
 		obj/moc_mainwindow.o
 DIST          = shaders/simple.vert \
@@ -188,6 +190,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Masterclass.pro \
 		shaders.qrc \
+		QDarkStyleSheet/qdarkstyle/style.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
@@ -253,6 +256,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 Masterclass.pro:
 shaders.qrc:
+QDarkStyleSheet/qdarkstyle/style.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
@@ -271,7 +275,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/ui_mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
@@ -295,13 +299,56 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all: qrc_shaders.cpp
+compiler_rcc_make_all: qrc_shaders.cpp qrc_style.cpp
 compiler_rcc_clean:
-	-$(DEL_FILE) qrc_shaders.cpp
+	-$(DEL_FILE) qrc_shaders.cpp qrc_style.cpp
 qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.frag \
 		shaders/simple.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
+
+qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
+		QDarkStyleSheet/qdarkstyle/rc/Vsepartoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/close-pressed.png \
+		QDarkStyleSheet/qdarkstyle/rc/Hmovetoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/up_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/left_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/close-hover.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/Hsepartoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/sizegrip.png \
+		QDarkStyleSheet/qdarkstyle/rc/down_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-branch-more.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_closed-on.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_open.png \
+		QDarkStyleSheet/qdarkstyle/rc/left_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-branch-end.png \
+		QDarkStyleSheet/qdarkstyle/rc/undock.png \
+		QDarkStyleSheet/qdarkstyle/rc/right_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_indeterminate.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-vline.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_closed.png \
+		QDarkStyleSheet/qdarkstyle/rc/right_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/down_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_open-on.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/Vmovetoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/transparent.png \
+		QDarkStyleSheet/qdarkstyle/rc/close.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked.png \
+		QDarkStyleSheet/qdarkstyle/rc/up_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_indeterminate_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked_focus.png \
+		QDarkStyleSheet/qdarkstyle/style.qss
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name style QDarkStyleSheet/qdarkstyle/style.qrc -o qrc_style.cpp
 
 compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp
 compiler_moc_header_clean:
@@ -379,6 +426,9 @@ obj/sphere.o: src/sphere.cpp include/sphere.h
 
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp
+
+obj/qrc_style.o: qrc_style.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_style.o qrc_style.cpp
 
 obj/moc_glscene.o: moc/moc_glscene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_glscene.o moc/moc_glscene.cpp
