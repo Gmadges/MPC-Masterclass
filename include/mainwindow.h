@@ -16,7 +16,6 @@ public:
     ~MainWindow();
 
 private:
-
     void initStyleSheet();
     void initConnections();
 
