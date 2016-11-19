@@ -36,8 +36,6 @@ GLScene::GLScene(QWidget *parent) :
     startTimer(10);
 
     pPhysicsWorld->setUseCollisionMasks(true);
-    // hardcode this to one, because i know only one model will be being loaded.
-    pPhysicsWorld->SetMaskAmount(1);
 }
 
 GLScene::~GLScene()
@@ -247,6 +245,15 @@ void GLScene::timerEvent(QTimerEvent *_event)
 }
 
 void GLScene::loadObject(std::string filePath)
-{
+{   
+    // if using masks we need to reset how many we have and then reset all the models
+    if(pPhysicsWorld->isUsingCollisionMask())
+    {
+        // add one to it for the next one
+        pPhysicsWorld->setMaskAmount(pModelController->getNumModels() + 1);
+
+        pModelController->resetModels();
+    }
+    
     pModelController->loadModelFromFile(filePath, pPhysicsWorld);
 }

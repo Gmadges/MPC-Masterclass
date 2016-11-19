@@ -29,6 +29,8 @@ public:
     void showAllPhysShapes(bool show);
     void emptyModels();
     void resetModels();
+
+    int getNumModels();
     
 private:
     // my models

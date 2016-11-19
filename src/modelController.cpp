@@ -55,3 +55,8 @@ void ModelController::resetModels()
     }
 }
 
+int ModelController::getNumModels()
+{
+    return models.size();
+}
+

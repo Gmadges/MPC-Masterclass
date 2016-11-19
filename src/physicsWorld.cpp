@@ -96,7 +96,7 @@ void PhysicsWorld::addGroundPlane()
 	}
 }
 
-void PhysicsWorld::SetMaskAmount(int amount)
+void PhysicsWorld::setMaskAmount(int amount)
 {	
 	 maskNum = amount;	
 }
@@ -126,4 +126,9 @@ std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(in
 	}
 
 	return std::make_pair(ID, mask);
+}
+
+bool PhysicsWorld::isUsingCollisionMask()
+{
+	return bUseCollisionMasks;
 }
