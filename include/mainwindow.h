@@ -22,6 +22,8 @@ private:
     std::string browseFiles();
     void loadObject();
 
+    void addObjectSetting();
+
 private:
     Ui::MainWindow *ui;
 };

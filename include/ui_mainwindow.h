@@ -19,7 +19,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QToolBox>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "glscene.h"
@@ -42,9 +42,7 @@ public:
     QPushButton *button_loadObject;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
-    QToolBox *toolBox;
-    QWidget *page;
-    QWidget *page_2;
+    QTabWidget *tabWidget_settings;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -115,18 +113,10 @@ public:
 
         verticalLayout->addWidget(check_showPhys);
 
-        toolBox = new QToolBox(dockWidgetContents);
-        toolBox->setObjectName(QStringLiteral("toolBox"));
-        page = new QWidget();
-        page->setObjectName(QStringLiteral("page"));
-        page->setGeometry(QRect(0, 0, 106, 422));
-        toolBox->addItem(page, QStringLiteral("Page 1"));
-        page_2 = new QWidget();
-        page_2->setObjectName(QStringLiteral("page_2"));
-        page_2->setGeometry(QRect(0, 0, 106, 422));
-        toolBox->addItem(page_2, QStringLiteral("Page 2"));
+        tabWidget_settings = new QTabWidget(dockWidgetContents);
+        tabWidget_settings->setObjectName(QStringLiteral("tabWidget_settings"));
 
-        verticalLayout->addWidget(toolBox);
+        verticalLayout->addWidget(tabWidget_settings);
 
 
         gridLayout_2->addLayout(verticalLayout, 0, 0, 1, 1);
@@ -136,7 +126,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        toolBox->setCurrentIndex(1);
+        tabWidget_settings->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -151,8 +141,6 @@ public:
         button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show mesh", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show phys", 0));
-        toolBox->setItemText(toolBox->indexOf(page), QApplication::translate("MainWindow", "Page 1", 0));
-        toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("MainWindow", "Page 2", 0));
     } // retranslateUi
 
 };

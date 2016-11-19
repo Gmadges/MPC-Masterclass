@@ -58,10 +58,12 @@ SOURCES       = src/floorPlane.cpp \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/sphere.cpp qrc_shaders.cpp \
+		src/sphere.cpp \
+		src/tabInfo.cpp qrc_shaders.cpp \
 		qrc_style.cpp \
 		moc/moc_glscene.cpp \
-		moc/moc_mainwindow.cpp
+		moc/moc_mainwindow.cpp \
+		moc/moc_tabInfo.cpp
 OBJECTS       = obj/floorPlane.o \
 		obj/glscene.o \
 		obj/main.o \
@@ -73,10 +75,12 @@ OBJECTS       = obj/floorPlane.o \
 		obj/physicsBody.o \
 		obj/physicsWorld.o \
 		obj/sphere.o \
+		obj/tabInfo.o \
 		obj/qrc_shaders.o \
 		obj/qrc_style.o \
 		obj/moc_glscene.o \
-		obj/moc_mainwindow.o
+		obj/moc_mainwindow.o \
+		obj/moc_tabInfo.o
 DIST          = shaders/simple.vert \
 		shaders/simple.frag \
 		Masterclass.pro include/floorPlane.h \
@@ -89,6 +93,7 @@ DIST          = shaders/simple.vert \
 		include/physicsBody.h \
 		include/physicsWorld.h \
 		include/sphere.h \
+		include/tabInfo.h \
 		include/ui_mainwindow.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
@@ -99,7 +104,8 @@ DIST          = shaders/simple.vert \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/sphere.cpp
+		src/sphere.cpp \
+		src/tabInfo.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -276,8 +282,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/ui_mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/tabInfo.h include/ui_mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp src/tabInfo.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -350,14 +356,17 @@ qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
 		QDarkStyleSheet/qdarkstyle/style.qss
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name style QDarkStyleSheet/qdarkstyle/style.qrc -o qrc_style.cpp
 
-compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp
+compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_tabInfo.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp
+	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_tabInfo.cpp
 moc/moc_glscene.cpp: include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/glscene.h -o moc/moc_glscene.cpp
 
 moc/moc_mainwindow.cpp: include/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
+
+moc/moc_tabInfo.cpp: include/tabInfo.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/tabInfo.h -o moc/moc_tabInfo.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -424,6 +433,9 @@ obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
+obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/tabInfo.o src/tabInfo.cpp
+
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp
 
@@ -435,6 +447,9 @@ obj/moc_glscene.o: moc/moc_glscene.cpp
 
 obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
+
+obj/moc_tabInfo.o: moc/moc_tabInfo.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_tabInfo.o moc/moc_tabInfo.cpp
 
 ####### Install
 

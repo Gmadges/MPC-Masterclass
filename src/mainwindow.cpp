@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include <QFileDialog>
+
+#include "tabInfo.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     initConnections();
 
     initStyleSheet();
+
+    //testing
+    addObjectSetting();
 }
 
 MainWindow::~MainWindow()
@@ -66,4 +70,16 @@ void MainWindow::loadObject()
     {
         ui->scene->loadObject(fileName);
     }
+}
+
+void MainWindow::addObjectSetting()
+{
+    // get name from file name
+    std::string name = "test";
+
+    // create widget with settings
+    QWidget *test = new TabInfo();
+
+    // add to tabWidget
+    ui->tabWidget_settings->addTab(test, tr(name.c_str()));
 }
