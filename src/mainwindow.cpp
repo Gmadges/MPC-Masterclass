@@ -13,9 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initConnections();
 
     initStyleSheet();
-
-    //testing
-    addObjectSetting();
 }
 
 MainWindow::~MainWindow()
@@ -69,17 +66,22 @@ void MainWindow::loadObject()
     if(!fileName.empty())
     {
         ui->scene->loadObject(fileName);
+
+        // loaded an object lets show the data to the user
+        addObjectSetting(fileName);
     }
 }
 
-void MainWindow::addObjectSetting()
+void MainWindow::addObjectSetting(std::string fileName)
 {
     // get name from file name
-    std::string name = "test";
+
+    QStringList parts = QString(fileName.c_str()).split("/");
+    QString name = parts.at(parts.size()-1);
 
     // create widget with settings
     QWidget *test = new TabInfo();
 
     // add to tabWidget
-    ui->tabWidget_settings->addTab(test, tr(name.c_str()));
+    ui->tabWidget_settings->addTab(test, name);
 }

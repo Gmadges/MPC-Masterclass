@@ -22,7 +22,7 @@ private:
     std::string browseFiles();
     void loadObject();
 
-    void addObjectSetting();
+    void addObjectSetting(std::string fileName);
 
 private:
     Ui::MainWindow *ui;
