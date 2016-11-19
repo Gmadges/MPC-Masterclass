@@ -135,8 +135,7 @@ void GLScene::toggleSim()
 
 void GLScene::resetSim()
 {
-    //TODO rewrite this better
-    //pModelController->emptyModels();
+    pModelController->resetModels();
 }
 
 void GLScene::clearSim()

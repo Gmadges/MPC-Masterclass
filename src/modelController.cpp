@@ -47,3 +47,11 @@ void ModelController::emptyModels()
      models.clear();
 }
 
+void ModelController::resetModels()
+{
+    for(auto model :  models)
+    {
+        model->reset();
+    }
+}
+
