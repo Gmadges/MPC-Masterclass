@@ -11,9 +11,6 @@
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
-// global for testing
-static std::string MODEL_PATH = "./models/teapot.obj";
-
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
@@ -58,9 +55,6 @@ void GLScene::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_MULTISAMPLE);
-
-    //load this stuff here because we need to have openGL initialised
-    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }
@@ -141,9 +135,13 @@ void GLScene::toggleSim()
 
 void GLScene::resetSim()
 {
-    
+    //TODO rewrite this better
+    //pModelController->emptyModels();
+}
+
+void GLScene::clearSim()
+{
     pModelController->emptyModels();
-    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 }
 
 void GLScene::showMesh(bool show)
@@ -247,4 +245,9 @@ void GLScene::timerEvent(QTimerEvent *_event)
       pPhysicsWorld->step(1.0/60.0,1);
   }
   update();
+}
+
+void GLScene::loadObject(std::string filePath)
+{
+    pModelController->loadModelFromFile(filePath, pPhysicsWorld);
 }

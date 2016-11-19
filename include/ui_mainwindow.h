@@ -33,7 +33,8 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *button_toggleSim;
     QPushButton *button_resetSim;
-    QPushButton *button_loadFile;
+    QPushButton *button_clearSim;
+    QPushButton *button_loadObject;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
     QSpacerItem *verticalSpacer;
@@ -64,10 +65,15 @@ public:
 
         verticalLayout->addWidget(button_resetSim);
 
-        button_loadFile = new QPushButton(centralWidget);
-        button_loadFile->setObjectName(QStringLiteral("button_loadFile"));
+        button_clearSim = new QPushButton(centralWidget);
+        button_clearSim->setObjectName(QStringLiteral("button_clearSim"));
 
-        verticalLayout->addWidget(button_loadFile);
+        verticalLayout->addWidget(button_clearSim);
+
+        button_loadObject = new QPushButton(centralWidget);
+        button_loadObject->setObjectName(QStringLiteral("button_loadObject"));
+
+        verticalLayout->addWidget(button_loadObject);
 
         check_showMesh = new QCheckBox(centralWidget);
         check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
@@ -113,7 +119,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
-        button_loadFile->setText(QApplication::translate("MainWindow", "Load File", 0));
+        button_clearSim->setText(QApplication::translate("MainWindow", "Clear", 0));
+        button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show mesh", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show phys", 0));
     } // retranslateUi

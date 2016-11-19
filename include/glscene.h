@@ -26,9 +26,12 @@ public:
 
     void toggleSim();
     void resetSim();
+    void clearSim();
 
     void showMesh(bool show);
     void showPhys(bool show);
+
+    void loadObject(std::string filePath);
 
 protected:
 

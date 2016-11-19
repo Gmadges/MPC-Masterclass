@@ -16,7 +16,9 @@ public:
     ~MainWindow();
 
 private:
-    void browseFiles();
+    std::string browseFiles();
+
+    void loadObject();
 
 private:
     Ui::MainWindow *ui;
