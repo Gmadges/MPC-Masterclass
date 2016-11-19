@@ -21,14 +21,19 @@ public:
 
     void setShowMesh(bool show);
     void setShowPhys(bool show);
+
+    void reset();
     
 private:
     // my meshs
     std::shared_ptr<Mesh> pMesh;
     std::shared_ptr<PhysicsBody> pPhysicsBody;
+    std::shared_ptr<PhysicsWorld> pPhysWorld;
 
     bool bShowMesh;
     bool bShowPhysShapes;
+
+    int id;
 };
 
 #endif // MODEL_H

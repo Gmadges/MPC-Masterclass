@@ -40,7 +40,7 @@ private:
     //store pointers to rigid body, and radius. because it sucks trying to retrive it
     std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> rigid_bodies;
 
-    std::vector<btFixedConstraint*> constraints;
+    std::vector<std::shared_ptr<btTypedConstraint>> constraints;
 
     // sphere thing
     std::shared_ptr<Sphere> pSphere;

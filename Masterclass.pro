@@ -19,7 +19,8 @@ CONFIG-=app_bundle
 SOURCES += $$PWD/src/*.cpp
 HEADERS  += $$PWD/include/*.h     
 
-FORMS+= $$PWD/forms/mainwindow.ui
+FORMS+= $$PWD/forms/mainwindow.ui   \
+        $$PWD/forms/tabInfo.ui
 
 INCLUDEPATH += /usr/local/include/bullet ./include
 
@@ -32,6 +33,6 @@ DISTFILES += \
     $$PWD/shaders/simple.frag
 
 
-RESOURCES += shaders.qrc
+RESOURCES += shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc
 
 CONFIG += console c++11

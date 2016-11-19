@@ -11,9 +11,6 @@
 constexpr float INCREMENT=0.01f;
 constexpr float ZOOM=0.1f;
 
-// global for testing
-static std::string MODEL_PATH = "./models/teapot.obj";
-
 GLScene::GLScene(QWidget *parent) :
     QOpenGLWidget(parent),
     pModelController(new ModelController()),
@@ -39,8 +36,6 @@ GLScene::GLScene(QWidget *parent) :
     startTimer(10);
 
     pPhysicsWorld->setUseCollisionMasks(true);
-    // hardcode this to one, because i know only one model will be being loaded.
-    pPhysicsWorld->SetMaskAmount(1);
 }
 
 GLScene::~GLScene()
@@ -58,9 +53,6 @@ void GLScene::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_MULTISAMPLE);
-
-    //load this stuff here because we need to have openGL initialised
-    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 
     pFloorPlane.reset(new FloorPlane());
 }
@@ -141,9 +133,12 @@ void GLScene::toggleSim()
 
 void GLScene::resetSim()
 {
-    
+    pModelController->resetModels();
+}
+
+void GLScene::clearSim()
+{
     pModelController->emptyModels();
-    pModelController->loadModelFromFile(MODEL_PATH, pPhysicsWorld);
 }
 
 void GLScene::showMesh(bool show)
@@ -247,4 +242,23 @@ void GLScene::timerEvent(QTimerEvent *_event)
       pPhysicsWorld->step(1.0/60.0,1);
   }
   update();
+}
+
+void GLScene::loadObject(std::string filePath)
+{   
+    // if using masks we need to reset how many we have and then reset all the models
+    if(pPhysicsWorld->isUsingCollisionMask())
+    {
+        // add one to it for the next one
+        pPhysicsWorld->setMaskAmount(pModelController->getNumModels() + 1);
+
+        pModelController->resetModels();
+    }
+    
+    pModelController->loadModelFromFile(filePath, pPhysicsWorld);
+}
+
+std::shared_ptr<ModelController> GLScene::getModelController()
+{
+    return pModelController;
 }

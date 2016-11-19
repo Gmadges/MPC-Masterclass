@@ -58,9 +58,12 @@ SOURCES       = src/floorPlane.cpp \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/sphere.cpp qrc_shaders.cpp \
+		src/sphere.cpp \
+		src/tabInfo.cpp qrc_shaders.cpp \
+		qrc_style.cpp \
 		moc/moc_glscene.cpp \
-		moc/moc_mainwindow.cpp
+		moc/moc_mainwindow.cpp \
+		moc/moc_tabInfo.cpp
 OBJECTS       = obj/floorPlane.o \
 		obj/glscene.o \
 		obj/main.o \
@@ -72,9 +75,12 @@ OBJECTS       = obj/floorPlane.o \
 		obj/physicsBody.o \
 		obj/physicsWorld.o \
 		obj/sphere.o \
+		obj/tabInfo.o \
 		obj/qrc_shaders.o \
+		obj/qrc_style.o \
 		obj/moc_glscene.o \
-		obj/moc_mainwindow.o
+		obj/moc_mainwindow.o \
+		obj/moc_tabInfo.o
 DIST          = shaders/simple.vert \
 		shaders/simple.frag \
 		Masterclass.pro include/floorPlane.h \
@@ -86,7 +92,9 @@ DIST          = shaders/simple.vert \
 		include/openVDBTools.h \
 		include/physicsBody.h \
 		include/physicsWorld.h \
-		include/sphere.h src/floorPlane.cpp \
+		include/sphere.h \
+		include/tabInfo.h \
+		include/ui_mainwindow.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -96,7 +104,8 @@ DIST          = shaders/simple.vert \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
-		src/sphere.cpp
+		src/sphere.cpp \
+		src/tabInfo.cpp
 QMAKE_TARGET  = a.out
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = a.out
@@ -124,7 +133,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): include/ui_mainwindow.h $(OBJECTS)  
+$(TARGET): include/ui_mainwindow.h include/ui_tabInfo.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -187,6 +196,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Masterclass.pro \
 		shaders.qrc \
+		QDarkStyleSheet/qdarkstyle/style.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
@@ -252,6 +262,7 @@ Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/lin
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 Masterclass.pro:
 shaders.qrc:
+QDarkStyleSheet/qdarkstyle/style.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5OpenGL.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
@@ -270,10 +281,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/tabInfo.h include/ui_mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp src/tabInfo.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents forms/mainwindow.ui forms/tabInfo.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -294,31 +305,80 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all: qrc_shaders.cpp
+compiler_rcc_make_all: qrc_shaders.cpp qrc_style.cpp
 compiler_rcc_clean:
-	-$(DEL_FILE) qrc_shaders.cpp
+	-$(DEL_FILE) qrc_shaders.cpp qrc_style.cpp
 qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.frag \
 		shaders/simple.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
 
-compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp
+qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
+		QDarkStyleSheet/qdarkstyle/rc/Vsepartoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/close-pressed.png \
+		QDarkStyleSheet/qdarkstyle/rc/Hmovetoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/up_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/left_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/close-hover.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/Hsepartoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/sizegrip.png \
+		QDarkStyleSheet/qdarkstyle/rc/down_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-branch-more.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_closed-on.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_open.png \
+		QDarkStyleSheet/qdarkstyle/rc/left_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-branch-end.png \
+		QDarkStyleSheet/qdarkstyle/rc/undock.png \
+		QDarkStyleSheet/qdarkstyle/rc/right_arrow.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_indeterminate.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/stylesheet-vline.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_closed.png \
+		QDarkStyleSheet/qdarkstyle/rc/right_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/down_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/branch_open-on.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_unchecked_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/Vmovetoolbar.png \
+		QDarkStyleSheet/qdarkstyle/rc/transparent.png \
+		QDarkStyleSheet/qdarkstyle/rc/close.png \
+		QDarkStyleSheet/qdarkstyle/rc/radio_checked_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_checked.png \
+		QDarkStyleSheet/qdarkstyle/rc/up_arrow_disabled.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_indeterminate_focus.png \
+		QDarkStyleSheet/qdarkstyle/rc/checkbox_unchecked_focus.png \
+		QDarkStyleSheet/qdarkstyle/style.qss
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name style QDarkStyleSheet/qdarkstyle/style.qrc -o qrc_style.cpp
+
+compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_tabInfo.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp
+	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_tabInfo.cpp
 moc/moc_glscene.cpp: include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/glscene.h -o moc/moc_glscene.cpp
 
 moc/moc_mainwindow.cpp: include/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
 
+moc/moc_tabInfo.cpp: include/tabInfo.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/tabInfo.h -o moc/moc_tabInfo.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: include/ui_mainwindow.h
+compiler_uic_make_all: include/ui_mainwindow.h include/ui_tabInfo.h
 compiler_uic_clean:
-	-$(DEL_FILE) include/ui_mainwindow.h
+	-$(DEL_FILE) include/ui_mainwindow.h include/ui_tabInfo.h
 include/ui_mainwindow.h: forms/mainwindow.ui \
 		include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
+
+include/ui_tabInfo.h: forms/tabInfo.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/tabInfo.ui -o include/ui_tabInfo.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -344,7 +404,11 @@ obj/main.o: src/main.cpp include/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
-		include/ui_mainwindow.h
+		include/ui_mainwindow.h \
+		include/glscene.h \
+		include/tabInfo.h \
+		include/modelController.h \
+		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/mesh.o: src/mesh.cpp include/mesh.h
@@ -375,14 +439,24 @@ obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
+obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
+		include/model.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/tabInfo.o src/tabInfo.cpp
+
 obj/qrc_shaders.o: qrc_shaders.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_shaders.o qrc_shaders.cpp
+
+obj/qrc_style.o: qrc_style.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/qrc_style.o qrc_style.cpp
 
 obj/moc_glscene.o: moc/moc_glscene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_glscene.o moc/moc_glscene.cpp
 
 obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
+
+obj/moc_tabInfo.o: moc/moc_tabInfo.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_tabInfo.o moc/moc_tabInfo.cpp
 
 ####### Install
 

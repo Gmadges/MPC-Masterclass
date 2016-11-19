@@ -14,18 +14,29 @@ Model::Model(std::string _path,
 :
     pMesh(new Mesh(_path)),
     pPhysicsBody(new PhysicsBody(_phys, _id)),
+    pPhysWorld(_phys),
     bShowMesh(true),
-    bShowPhysShapes(true)
+    bShowPhysShapes(true),
+    id(_id)
 {
 
-    //testing may just leave this here.
+    //initiate physics straight away
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
     pPhysicsBody->initModelWithSpheres(spheres);
-
 }
 
 Model::~Model()
 {
+}
+
+void Model::reset()
+{
+    // destroy and create a new physics body.
+    pPhysicsBody.reset(new PhysicsBody(pPhysWorld, id));
+
+    // reload spheres
+    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
+    pPhysicsBody->initModelWithSpheres(spheres);
 }
 
 void Model::draw(QOpenGLShaderProgram *pShader)
