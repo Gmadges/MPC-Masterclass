@@ -70,6 +70,11 @@ void PhysicsWorld::removeRigidBody(btRigidBody* pBody)
 	 dynamicsWorld->removeRigidBody(pBody);
 }
 
+void PhysicsWorld::removeConstraint(btTypedConstraint* pConst)
+{
+	 dynamicsWorld->removeConstraint(pConst);
+}
+
 void PhysicsWorld::addGroundPlane()
 {
 	//hardcode plane for now no need to destructor, always leave the ground plane

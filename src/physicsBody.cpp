@@ -142,12 +142,22 @@ void PhysicsBody::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared
 
     frameInB = inv  * globalFrameA;
 
-    btFixedConstraint *constraint = new btFixedConstraint(*(pBody1.get()),
+    //lambda to clean up in pPhysicsWorld
+    auto deleter = [&](btTypedConstraint* b){
+        if(b)
+        {
+            pPhysicsWorld->removeConstraint(b);
+        }
+    };
+
+    std::shared_ptr<btTypedConstraint> constraint(new btFixedConstraint(*(pBody1.get()),
                                                             *(pBody2.get()),
                                                             frameInA,
-                                                            frameInB);
+                                                            frameInB), 
+                                                            deleter);
 
-    pPhysicsWorld->addConstraint(constraint);
+    //terrible raw pointer, but we make up for it with the ole lambda                                                         
+    pPhysicsWorld->addConstraint(constraint.get());
 
     constraints.push_back(constraint);
 }

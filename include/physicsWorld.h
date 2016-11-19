@@ -18,6 +18,7 @@ public:
     void removeRigidBody(btRigidBody* pBody);
 
     void addConstraint(btTypedConstraint* pConst);
+    void removeConstraint(btTypedConstraint* pConst);
     
     // This method is a strange one
     // we need to know masks prior to adding rigid bodies(no more than 15)
