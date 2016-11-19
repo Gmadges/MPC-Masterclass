@@ -16,8 +16,11 @@ public:
     ~MainWindow();
 
 private:
-    std::string browseFiles();
 
+    void initStyleSheet();
+    void initConnections();
+
+    std::string browseFiles();
     void loadObject();
 
 private:

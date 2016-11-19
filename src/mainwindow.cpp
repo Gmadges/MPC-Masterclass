@@ -9,6 +9,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    initConnections();
+
+    initStyleSheet();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::initStyleSheet()
+{
     //load up stylesheet
     QFile f(":qdarkstyle/style.qss");
     if (!f.exists())
@@ -21,7 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
         QTextStream ts(&f);
         this->setStyleSheet(ts.readAll());
     }
+}
 
+void MainWindow::initConnections()
+{
     // link the buttons to their methods
     connect(ui->button_toggleSim, &QPushButton::clicked, ui->scene, &GLScene::toggleSim);
     connect(ui->button_resetSim, &QPushButton::clicked, ui->scene, &GLScene::resetSim);
@@ -33,11 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // load file
     connect(ui->button_loadObject, &QPushButton::clicked, this, &MainWindow::loadObject);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 std::string MainWindow::browseFiles()
