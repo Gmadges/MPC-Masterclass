@@ -115,6 +115,7 @@ public:
 
         tabWidget_settings = new QTabWidget(dockWidgetContents);
         tabWidget_settings->setObjectName(QStringLiteral("tabWidget_settings"));
+        tabWidget_settings->setTabsClosable(true);
 
         verticalLayout->addWidget(tabWidget_settings);
 
@@ -126,7 +127,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_settings->setCurrentIndex(0);
+        tabWidget_settings->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -139,8 +140,8 @@ public:
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
         button_clearSim->setText(QApplication::translate("MainWindow", "Clear", 0));
         button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
-        check_showMesh->setText(QApplication::translate("MainWindow", "show mesh", 0));
-        check_showPhys->setText(QApplication::translate("MainWindow", "show phys", 0));
+        check_showMesh->setText(QApplication::translate("MainWindow", "show all meshes", 0));
+        check_showPhys->setText(QApplication::translate("MainWindow", "show all phys", 0));
     } // retranslateUi
 
 };

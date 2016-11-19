@@ -90,7 +90,7 @@
        <item>
         <widget class="QCheckBox" name="check_showMesh">
          <property name="text">
-          <string>show mesh</string>
+          <string>show all meshes</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -100,7 +100,7 @@
        <item>
         <widget class="QCheckBox" name="check_showPhys">
          <property name="text">
-          <string>show phys</string>
+          <string>show all phys</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -110,7 +110,10 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_settings">
          <property name="currentIndex">
-          <number>0</number>
+          <number>-1</number>
+         </property>
+         <property name="tabsClosable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

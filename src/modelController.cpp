@@ -60,3 +60,8 @@ int ModelController::getNumModels()
     return models.size();
 }
 
+void ModelController::removeModel(int id)
+{
+    models.erase(models.begin()+id);
+}
+

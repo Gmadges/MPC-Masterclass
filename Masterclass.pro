@@ -19,7 +19,8 @@ CONFIG-=app_bundle
 SOURCES += $$PWD/src/*.cpp
 HEADERS  += $$PWD/include/*.h     
 
-FORMS+= $$PWD/forms/mainwindow.ui
+FORMS+= $$PWD/forms/mainwindow.ui   \
+        $$PWD/forms/tabInfo.ui
 
 INCLUDEPATH += /usr/local/include/bullet ./include
 

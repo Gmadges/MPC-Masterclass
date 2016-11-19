@@ -133,7 +133,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): include/ui_mainwindow.h $(OBJECTS)  
+$(TARGET): include/ui_mainwindow.h include/ui_tabInfo.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -284,7 +284,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/tabInfo.h include/ui_mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp src/tabInfo.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents forms/mainwindow.ui forms/tabInfo.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -370,12 +370,15 @@ moc/moc_tabInfo.cpp: include/tabInfo.h
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: include/ui_mainwindow.h
+compiler_uic_make_all: include/ui_mainwindow.h include/ui_tabInfo.h
 compiler_uic_clean:
-	-$(DEL_FILE) include/ui_mainwindow.h
+	-$(DEL_FILE) include/ui_mainwindow.h include/ui_tabInfo.h
 include/ui_mainwindow.h: forms/mainwindow.ui \
 		include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
+
+include/ui_tabInfo.h: forms/tabInfo.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/tabInfo.ui -o include/ui_tabInfo.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -402,7 +405,10 @@ obj/main.o: src/main.cpp include/mainwindow.h
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/ui_mainwindow.h \
-		include/glscene.h
+		include/glscene.h \
+		include/tabInfo.h \
+		include/modelController.h \
+		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/mesh.o: src/mesh.cpp include/mesh.h
@@ -433,7 +439,8 @@ obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
-obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h
+obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
+		include/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/tabInfo.o src/tabInfo.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 

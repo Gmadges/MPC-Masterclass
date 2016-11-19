@@ -51,6 +51,9 @@ void MainWindow::initConnections()
 
     // load file
     connect(ui->button_loadObject, &QPushButton::clicked, this, &MainWindow::loadObject);
+
+    //closing tabs
+    connect(ui->tabWidget_settings, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 }
 
 std::string MainWindow::browseFiles()
@@ -71,7 +74,7 @@ void MainWindow::loadObject()
 
         //may regret this...
         std::shared_ptr<ModelController> pModelController = ui->scene->getModelController();
-        std::shared_ptr<Model> pModel = pModelController->getModel(pModelController->getNumModels());
+        std::shared_ptr<Model> pModel = pModelController->getModel(pModelController->getNumModels()-1);
 
         // loaded an object lets show the data to the user
         addObjectSetting(fileName, pModel);
@@ -88,4 +91,13 @@ void MainWindow::addObjectSetting(std::string fileName, std::shared_ptr<Model> p
 
     // add to tabWidget
     ui->tabWidget_settings->addTab(new TabInfo(pModel), name);
+}
+
+void MainWindow::closeTab(int idx)
+{
+    //remove from controller
+    ui->scene->getModelController()->removeModel(idx);
+
+    //remove the tab
+    ui->tabWidget_settings->removeTab(idx);
 }

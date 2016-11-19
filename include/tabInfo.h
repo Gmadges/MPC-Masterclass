@@ -6,6 +6,10 @@
 
 class Model;
 
+namespace Ui {
+class TabInfo;
+}
+
 class TabInfo : public QWidget
 {
     Q_OBJECT
@@ -15,7 +19,16 @@ public:
     virtual ~TabInfo();
 
 private:
+    void initConnections();
+
+    void setShowMesh(bool set);
+    void setShowPhys(bool set);
+    void reset();
+
+private:
     std::shared_ptr<Model> pModel;
+
+    Ui::TabInfo *ui;
 };
 
 #endif // GLSCENE_H
