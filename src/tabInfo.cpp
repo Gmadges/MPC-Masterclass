@@ -1,7 +1,9 @@
 #include "tabInfo.h"
+#include "model.h"
 
-TabInfo::TabInfo(QWidget *parent) :
-    QWidget(parent)
+TabInfo::TabInfo(std::shared_ptr<Model> _model, QWidget *parent) :
+    QWidget(parent),
+    pModel(_model)
 {
 
 }

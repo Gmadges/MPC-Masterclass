@@ -257,3 +257,8 @@ void GLScene::loadObject(std::string filePath)
     
     pModelController->loadModelFromFile(filePath, pPhysicsWorld);
 }
+
+std::shared_ptr<ModelController> GLScene::getModelController()
+{
+    return pModelController;
+}

@@ -33,6 +33,8 @@ public:
 
     void loadObject(std::string filePath);
 
+    std::shared_ptr<ModelController> getModelController();
+
 protected:
 
     // controls

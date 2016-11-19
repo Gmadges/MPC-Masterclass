@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <memory>
+
+class Model;
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +25,7 @@ private:
     std::string browseFiles();
     void loadObject();
 
-    void addObjectSetting(std::string fileName);
+    void addObjectSetting(std::string fileName, std::shared_ptr<Model> pModel);
 
 private:
     Ui::MainWindow *ui;

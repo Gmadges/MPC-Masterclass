@@ -3,6 +3,8 @@
 #include <QFileDialog>
 
 #include "tabInfo.h"
+#include "modelController.h"
+#include "model.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,12 +69,16 @@ void MainWindow::loadObject()
     {
         ui->scene->loadObject(fileName);
 
+        //may regret this...
+        std::shared_ptr<ModelController> pModelController = ui->scene->getModelController();
+        std::shared_ptr<Model> pModel = pModelController->getModel(pModelController->getNumModels());
+
         // loaded an object lets show the data to the user
-        addObjectSetting(fileName);
+        addObjectSetting(fileName, pModel);
     }
 }
 
-void MainWindow::addObjectSetting(std::string fileName)
+void MainWindow::addObjectSetting(std::string fileName, std::shared_ptr<Model> pModel)
 {
     // TODO make this more elegant, very bad
     QStringList pathParts = QString(fileName.c_str()).split("/");
@@ -80,9 +86,6 @@ void MainWindow::addObjectSetting(std::string fileName)
     QStringList fileParts = file.split(".");
     QString name = fileParts.at(fileParts.size()-2);
 
-    // create widget with settings
-    TabInfo *tab = new TabInfo();
-
     // add to tabWidget
-    ui->tabWidget_settings->addTab(tab, name);
+    ui->tabWidget_settings->addTab(new TabInfo(pModel), name);
 }
