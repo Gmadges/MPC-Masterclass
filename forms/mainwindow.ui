@@ -74,13 +74,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="button_clearSim">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="button_loadObject">
          <property name="text">
           <string>Load Object</string>

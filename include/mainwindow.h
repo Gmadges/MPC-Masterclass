@@ -28,6 +28,7 @@ private:
     void addObjectSetting(std::string fileName, std::shared_ptr<Model> pModel);
 
     void closeTab(int idx);
+    void clearAll();
 
 private:
     Ui::MainWindow *ui;

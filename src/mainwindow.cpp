@@ -43,7 +43,6 @@ void MainWindow::initConnections()
     // link the buttons to their methods
     connect(ui->button_toggleSim, &QPushButton::clicked, ui->scene, &GLScene::toggleSim);
     connect(ui->button_resetSim, &QPushButton::clicked, ui->scene, &GLScene::resetSim);
-    connect(ui->button_clearSim, &QPushButton::clicked, ui->scene, &GLScene::clearSim);
 
     //checkboxes
     connect(ui->check_showMesh, &QCheckBox::clicked, ui->scene, &GLScene::showMesh);

@@ -38,7 +38,6 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *button_toggleSim;
     QPushButton *button_resetSim;
-    QPushButton *button_clearSim;
     QPushButton *button_loadObject;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
@@ -91,11 +90,6 @@ public:
 
         verticalLayout->addWidget(button_resetSim);
 
-        button_clearSim = new QPushButton(dockWidgetContents);
-        button_clearSim->setObjectName(QStringLiteral("button_clearSim"));
-
-        verticalLayout->addWidget(button_clearSim);
-
         button_loadObject = new QPushButton(dockWidgetContents);
         button_loadObject->setObjectName(QStringLiteral("button_loadObject"));
 
@@ -138,7 +132,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
-        button_clearSim->setText(QApplication::translate("MainWindow", "Clear", 0));
         button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show all meshes", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show all phys", 0));
