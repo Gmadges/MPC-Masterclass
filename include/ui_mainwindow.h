@@ -30,40 +30,30 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    GLScene *scene;
     QVBoxLayout *verticalLayout;
     QPushButton *button_toggleSim;
     QPushButton *button_resetSim;
+    QPushButton *button_loadFile;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
     QSpacerItem *verticalSpacer;
+    GLScene *scene;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(932, 618);
+        MainWindow->resize(1084, 713);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        scene = new GLScene(centralWidget);
-        scene->setObjectName(QStringLiteral("scene"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(scene->sizePolicy().hasHeightForWidth());
-        scene->setSizePolicy(sizePolicy);
-        scene->setMinimumSize(QSize(0, 0));
-        scene->setMaximumSize(QSize(1920, 1080));
-
-        gridLayout->addWidget(scene, 0, 0, 1, 1);
-
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, -1);
         button_toggleSim = new QPushButton(centralWidget);
         button_toggleSim->setObjectName(QStringLiteral("button_toggleSim"));
 
@@ -73,6 +63,11 @@ public:
         button_resetSim->setObjectName(QStringLiteral("button_resetSim"));
 
         verticalLayout->addWidget(button_resetSim);
+
+        button_loadFile = new QPushButton(centralWidget);
+        button_loadFile->setObjectName(QStringLiteral("button_loadFile"));
+
+        verticalLayout->addWidget(button_loadFile);
 
         check_showMesh = new QCheckBox(centralWidget);
         check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
@@ -91,8 +86,21 @@ public:
         verticalLayout->addItem(verticalSpacer);
 
 
-        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
+        gridLayout->addLayout(verticalLayout, 0, 2, 1, 1);
 
+        scene = new GLScene(centralWidget);
+        scene->setObjectName(QStringLiteral("scene"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(scene->sizePolicy().hasHeightForWidth());
+        scene->setSizePolicy(sizePolicy);
+        scene->setMinimumSize(QSize(0, 0));
+        scene->setMaximumSize(QSize(1920, 1080));
+
+        gridLayout->addWidget(scene, 0, 1, 1, 1);
+
+        gridLayout->setColumnStretch(1, 1);
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -105,6 +113,7 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
+        button_loadFile->setText(QApplication::translate("MainWindow", "Load File", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show mesh", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show phys", 0));
     } // retranslateUi

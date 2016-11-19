@@ -16,6 +16,9 @@ public:
     ~MainWindow();
 
 private:
+    void browseFiles();
+
+private:
     Ui::MainWindow *ui;
 };
 
