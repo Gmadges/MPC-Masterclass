@@ -74,14 +74,15 @@ void MainWindow::loadObject()
 
 void MainWindow::addObjectSetting(std::string fileName)
 {
-    // get name from file name
-
-    QStringList parts = QString(fileName.c_str()).split("/");
-    QString name = parts.at(parts.size()-1);
+    // TODO make this more elegant
+    QStringList pathParts = QString(fileName.c_str()).split("/");
+    QString file = pathParts.at(pathParts.size()-1);
+    QStringList fileParts = file.split(".");
+    QString name = fileParts.at(fileParts.size()-2);
 
     // create widget with settings
-    QWidget *test = new TabInfo();
+    QWidget *tab = new TabInfo();
 
     // add to tabWidget
-    ui->tabWidget_settings->addTab(test, name);
+    ui->tabWidget_settings->addTab(tab, name);
 }
