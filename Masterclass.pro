@@ -14,8 +14,6 @@ isEqual(QT_MAJOR_VERSION, 5) {
 MOC_DIR=moc
 UI_DIR=./include
 
-CONFIG-=app_bundle
-
 SOURCES += $$PWD/src/*.cpp
 HEADERS  += $$PWD/include/*.h     
 
@@ -35,4 +33,4 @@ DISTFILES += \
 
 RESOURCES += shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc
 
-CONFIG += console c++11
+CONFIG += console c++11 debug
