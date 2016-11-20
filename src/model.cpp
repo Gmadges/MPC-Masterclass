@@ -45,6 +45,12 @@ void Model::draw(QOpenGLShaderProgram *pShader)
     {   
         if(bShowMesh)
         {
+            // model position
+            // Put this here because we'll probably need to change these values at some point here
+            QMatrix4x4 model;
+            model.setToIdentity();
+            pShader->setUniformValue("model_matrix", model);
+
             pMesh->drawMesh(pShader);
         }
     }
