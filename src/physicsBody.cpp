@@ -6,6 +6,32 @@
 
 #include <iostream>
 
+//Handy methods ///////////////////////////
+btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    return trans1.getOrigin();
+}
+
+void calcFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, std::shared_ptr<btRigidBody> pBodyB, btTransform& frameInA, btTransform& frameInB)
+{
+    // get positions
+    btVector3 rigid1Pos = getPositionForBody(pBodyA);
+
+    frameInA.setIdentity();
+    frameInB.setIdentity();
+    
+    frameInA.setOrigin( rigid1Pos );
+
+    btTransform inv = pBodyB->getCenterOfMassTransform().inverse();
+
+    btTransform globalFrameA = pBodyA->getCenterOfMassTransform() * frameInA;
+
+    frameInB = inv  * globalFrameA;
+}
+
+//////////class
 PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
@@ -125,7 +151,8 @@ void PhysicsBody::applyConstraints()
 
 void PhysicsBody::addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
 {
-    auto frames = getFrameMatrices(pBody1, pBody2); 
+    btTransform frameInA, frameInB;
+    calcFrameMatrices(pBody1, pBody2, frameInA, frameInB); 
 
     //lambda to clean up in pPhysicsWorld
     auto deleter = [&](btTypedConstraint* b){
@@ -137,8 +164,8 @@ void PhysicsBody::addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::s
 
     std::shared_ptr<btTypedConstraint> constraint(new btFixedConstraint(*(pBody1.get()),
                                                             *(pBody2.get()),
-                                                            frames.first,
-                                                            frames.second), 
+                                                            frameInA,
+                                                            frameInB), 
                                                             deleter);
 
     //terrible raw pointer, but we make up for it with the ole lambda                                                         
@@ -149,7 +176,8 @@ void PhysicsBody::addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::s
 
 void PhysicsBody::addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
 {
-    auto frames = getFrameMatrices(pBody1, pBody2); 
+    btTransform frameInA, frameInB;
+    calcFrameMatrices(pBody1, pBody2, frameInA, frameInB); 
     
     //lambda to clean up in pPhysicsWorld
     auto deleter = [&](btTypedConstraint* b){
@@ -161,8 +189,8 @@ void PhysicsBody::addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::
 
     std::shared_ptr<btTypedConstraint> constraint(new btSliderConstraint(*(pBody1.get()),
                                                             *(pBody2.get()),
-                                                            frames.first,
-                                                            frames.second,
+                                                            frameInA,
+                                                            frameInB,
                                                             true), 
                                                             deleter);
 
@@ -174,7 +202,8 @@ void PhysicsBody::addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::
 
 void PhysicsBody::add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
 {
-    auto frames = getFrameMatrices(pBody1, pBody2); 
+    btTransform frameInA, frameInB;
+    calcFrameMatrices(pBody1, pBody2, frameInA, frameInB); 
 
     //lambda to clean up in pPhysicsWorld
     auto deleter = [&](btTypedConstraint* b){
@@ -186,8 +215,8 @@ void PhysicsBody::add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::sh
 
     std::shared_ptr<btTypedConstraint> constraint(new btGeneric6DofConstraint(*(pBody1.get()),
                                                             *(pBody2.get()),
-                                                            frames.first,
-                                                            frames.second,
+                                                            frameInA,
+                                                            frameInB,
                                                             true), 
                                                             deleter);
 
@@ -195,33 +224,4 @@ void PhysicsBody::add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::sh
     pPhysicsWorld->addConstraint(constraint.get());
 
     constraints.push_back(constraint);
-}
-
-btVector3 PhysicsBody::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
-{
-    btTransform trans1;
-    pBody->getMotionState()->getWorldTransform(trans1);
-    return trans1.getOrigin();
-}
-
-std::pair<btTransform, btTransform> PhysicsBody::getFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, std::shared_ptr<btRigidBody> pBodyB)
-{
-    // get positions
-    btVector3 rigid1Pos = getPositionForBody(pBodyA);
-
-    btTransform frameInA;
-    btTransform frameInB;
-    
-    frameInA.setIdentity();
-    frameInB.setIdentity();
-    
-    frameInA.setOrigin( rigid1Pos );
-
-    btTransform inv = pBodyB->getCenterOfMassTransform().inverse();
-
-    btTransform globalFrameA = pBodyA->getCenterOfMassTransform() * frameInA;
-
-    frameInB = inv  * globalFrameA;
-
-    return std::pair<btTransform, btTransform>(frameInA, frameInB);
 }
