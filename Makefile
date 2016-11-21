@@ -93,7 +93,9 @@ DIST          = shaders/simple.vert \
 		include/physicsBody.h \
 		include/physicsWorld.h \
 		include/sphere.h \
-		include/tabInfo.h src/floorPlane.cpp \
+		include/tabInfo.h \
+		include/ui_mainwindow.h \
+		include/ui_tabInfo.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -281,7 +283,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/tabInfo.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/tabInfo.h include/ui_mainwindow.h include/ui_tabInfo.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp src/tabInfo.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui forms/tabInfo.ui $(DISTDIR)/
 
@@ -404,6 +406,7 @@ obj/main.o: src/main.cpp include/mainwindow.h
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/ui_mainwindow.h \
+		include/glscene.h \
 		include/tabInfo.h \
 		include/modelController.h \
 		include/model.h

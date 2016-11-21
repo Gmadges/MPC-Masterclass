@@ -10,7 +10,7 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
-     id(_id)
+    id(_id)
 {
 }
 
