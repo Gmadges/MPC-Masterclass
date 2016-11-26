@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <memory>
+#include "types.h"
 
 class Model;
 
@@ -26,6 +27,7 @@ private:
     void setShowPhys(bool set);
     void reset();
     void setConstraintType(int idx);
+    BodyConstraintType getConstType(int idx);
 
 private:
     std::shared_ptr<Model> pModel;

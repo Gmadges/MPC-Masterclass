@@ -25,7 +25,8 @@ public:
 
     void reset();
 
-    void createConstraints(BodyConstraintType _type);
+    void createConstraints();
+    void setConstraintType(BodyConstraintType _type);
     
 private:
     // my meshs

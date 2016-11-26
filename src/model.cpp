@@ -32,7 +32,10 @@ Model::~Model()
 void Model::reset()
 {
     // destroy and create a new physics body.
+    // TODO make the holding of constraint type
+    BodyConstraintType type = pPhysicsBody->getConstraintType();
     pPhysicsBody.reset(new PhysicsBody(pPhysWorld, id));
+    pPhysicsBody->setConstraintType(type);
 
     // reload spheres
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
@@ -79,7 +82,12 @@ void Model::setShowPhys(bool show)
     bShowPhysShapes = show;
 }
 
-void Model::createConstraints(BodyConstraintType _type)
+void Model::createConstraints()
 {
-    pPhysicsBody->createConstraints(_type);
+    pPhysicsBody->createConstraints();
+}
+
+void Model::setConstraintType(BodyConstraintType _type)
+{
+    pPhysicsBody->setConstraintType(_type);
 }

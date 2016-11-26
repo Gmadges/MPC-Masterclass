@@ -3,19 +3,13 @@
 
 #include <btBulletDynamicsCommon.h>
 #include <memory>
+#include <vector>
 
-#include "openVDBTools.h"
+#include "types.h"
 
 class PhysicsWorld;
 class Sphere;
 class QOpenGLShaderProgram;
-
-enum BodyConstraintType {
-    FIXED,
-    SLIDER,
-    SIX_DOF,
-    SPRING
-};
 
 class PhysicsBody
 {
@@ -27,9 +21,13 @@ public:
     void draw(QOpenGLShaderProgram *pShader);
 
     // here we pass a list of spheres to turn into the collision shapes
-    void initBodyWithSpheres(std::vector<SphereData>& _spheres, BodyConstraintType _type = BodyConstraintType::FIXED);
+    void initBodyWithSpheres(std::vector<SphereData>& _spheres);
 
-    void createConstraints(BodyConstraintType _type);
+    void createConstraints();
+
+    void setConstraintType(BodyConstraintType _type);
+
+    BodyConstraintType getConstraintType();
 
 private:
 
@@ -37,15 +35,14 @@ private:
     void addSphere(SphereData _sphere);
 
     // carries out the task of creating constraints for all the rigid bodies
-    void applyConstraints(BodyConstraintType _type);
+    void applyConstraints();
 
-    void addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2, BodyConstraintType _type);
+    void addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
 
     std::shared_ptr<btTypedConstraint> getConstraint(  std::shared_ptr<btRigidBody> pBody1, 
                                                                 std::shared_ptr<btRigidBody> pBody2, 
                                                                 btTransform frameInA, 
-                                                                btTransform frameInB,
-                                                                BodyConstraintType _type);
+                                                                btTransform frameInB);
 private:
 
     //pointer to physics world for ease
@@ -61,6 +58,8 @@ private:
 
     // ID
     int  id;
+
+    BodyConstraintType constraintType;
 
 };
 

@@ -46,30 +46,9 @@ void TabInfo::initConnections()
 }
 
 void TabInfo::setConstraintType(int idx)
-{
-   // probably shouldnt do this based on index but we know their order, its hardcoded
-   // TODO make this nicer
-
-   BodyConstraintType type;
-
-   if(idx == 0)
-   {
-       type = BodyConstraintType::FIXED;
-   }
-   else if(idx == 1)
-   {
-       type = BodyConstraintType::SLIDER;
-   }
-   else if(idx == 2)
-   {
-       type = BodyConstraintType::SIX_DOF;
-   }
-   else if(idx == 3)
-   {
-       type = BodyConstraintType::SPRING;
-   }
-   
-   pModel->createConstraints(type); 
+{  
+    pModel->setConstraintType(getConstType(idx));
+    pModel->createConstraints(); 
 }
 
 void TabInfo::setShowMesh(bool set)
@@ -84,6 +63,33 @@ void TabInfo::setShowPhys(bool set)
 
 void TabInfo::reset()
 {
-    // TODO make this take into account constraint type
     pModel->reset();
+}
+
+BodyConstraintType TabInfo::getConstType(int idx)
+{
+    // probably shouldnt do this based on index but we know their order, its hardcoded
+    // TODO make this nicer
+
+    if(idx == 0)
+    {
+        return BodyConstraintType::FIXED;
+    }
+    else if(idx == 1)
+    {
+        return BodyConstraintType::SLIDER;
+    }
+    else if(idx == 2)
+    {
+        return BodyConstraintType::SIX_DOF;
+    }
+    else if(idx == 3)
+    {
+        return BodyConstraintType::SPRING;
+    }
+    else
+    {
+        // default to fixed
+        return BodyConstraintType::FIXED;
+    }
 }
