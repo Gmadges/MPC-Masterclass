@@ -10,7 +10,6 @@ class PhysicsWorld;
 class Sphere;
 class QOpenGLShaderProgram;
 
-
 enum BodyConstraintType {
     FIXED,
     SLIDER,

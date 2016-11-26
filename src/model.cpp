@@ -78,3 +78,8 @@ void Model::setShowPhys(bool show)
 {
     bShowPhysShapes = show;
 }
+
+void Model::createConstraints(BodyConstraintType _type)
+{
+    pPhysicsBody->createConstraints(_type);
+}

@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
@@ -30,6 +31,7 @@ public:
     QCheckBox *check_showPhys;
     QCheckBox *check_showMesh;
     QPushButton *button_reset;
+    QComboBox *combo_constType;
 
     void setupUi(QWidget *TabInfo)
     {
@@ -56,6 +58,11 @@ public:
         button_reset->setObjectName(QStringLiteral("button_reset"));
 
         formLayout->setWidget(2, QFormLayout::SpanningRole, button_reset);
+
+        combo_constType = new QComboBox(TabInfo);
+        combo_constType->setObjectName(QStringLiteral("combo_constType"));
+
+        formLayout->setWidget(3, QFormLayout::SpanningRole, combo_constType);
 
 
         gridLayout_2->addLayout(formLayout, 1, 0, 1, 1);

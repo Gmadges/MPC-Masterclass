@@ -7,13 +7,25 @@ TabInfo::TabInfo(std::shared_ptr<Model> _model, QWidget *parent) :
     pModel(_model),
     ui(new Ui::TabInfo)
 {
-    ui->setupUi(this);
+    initUI();
 
     initConnections();
 }
 
 TabInfo::~TabInfo()
 {
+}
+
+void TabInfo::initUI()
+{
+    ui->setupUi(this);
+
+    // set up combo box
+    ui->combo_constType->addItem("Fixed");
+    ui->combo_constType->addItem("Slider");
+    ui->combo_constType->addItem("6DoF");
+    //default to fixed
+    ui->combo_constType->setCurrentIndex(0);
 }
 
 void TabInfo::initConnections()
@@ -24,6 +36,33 @@ void TabInfo::initConnections()
 
     //reset
     connect(ui->button_reset, &QPushButton::clicked, this, &TabInfo::reset);
+
+    //combo box
+    // need c++14 for the new qOverload stuff so we'll old skool it for now
+    connect(ui->combo_constType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TabInfo::setConstraintType);
+}
+
+void TabInfo::setConstraintType(int idx)
+{
+   // probably shouldnt do this based on index but we know their order, its hardcoded
+   // TODO make this nicer
+
+   BodyConstraintType type;
+
+   if(idx == 0)
+   {
+       type = BodyConstraintType::FIXED;
+   }
+   else if(idx == 1)
+   {
+       type = BodyConstraintType::SLIDER;
+   }
+   else if(idx == 2)
+   {
+       type = BodyConstraintType::SIX_DOF;
+   }
+   
+   pModel->createConstraints(type); 
 }
 
 void TabInfo::setShowMesh(bool set)
@@ -38,5 +77,6 @@ void TabInfo::setShowPhys(bool set)
 
 void TabInfo::reset()
 {
+    // TODO make this take into account constraint type
     pModel->reset();
 }
