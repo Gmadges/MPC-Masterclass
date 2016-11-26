@@ -10,6 +10,13 @@ class PhysicsWorld;
 class Sphere;
 class QOpenGLShaderProgram;
 
+
+enum BodyConstraintType {
+    FIXED,
+    SLIDER,
+    SIX_DOF
+};
+
 class PhysicsBody
 {
 public:
@@ -20,9 +27,9 @@ public:
     void draw(QOpenGLShaderProgram *pShader);
 
     // here we pass a list of spheres to turn into the collision shapes
-    void initModelWithSpheres(std::vector<SphereData>& _spheres);
+    void initBodyWithSpheres(std::vector<SphereData>& _spheres, BodyConstraintType _type = BodyConstraintType::FIXED);
 
-    void createConstraints();
+    void createConstraints(BodyConstraintType _type);
 
 private:
 
@@ -30,7 +37,7 @@ private:
     void addSphere(SphereData _sphere);
 
     // carries out the task of creating constraints for all the rigid bodies
-    void applyConstraints();
+    void applyConstraints(BodyConstraintType _type);
 
     void addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
     void addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);

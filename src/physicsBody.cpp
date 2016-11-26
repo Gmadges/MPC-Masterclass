@@ -44,14 +44,14 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsBody::initModelWithSpheres(std::vector<SphereData>& _spheres)
+void PhysicsBody::initBodyWithSpheres(std::vector<SphereData>& _spheres, BodyConstraintType _type)
 {
     for(auto sphere : _spheres)
     {
         addSphere(sphere);
     }
 
-    applyConstraints();
+    applyConstraints(_type);
 }
 
 void PhysicsBody::addSphere(SphereData _sphere)
@@ -106,7 +106,7 @@ void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
     }
 }
 
-void PhysicsBody::createConstraints()
+void PhysicsBody::createConstraints(BodyConstraintType _type)
 {   
     // if we have no rigid bodies do nothing
     if(rigid_bodies.empty()) return;
@@ -117,10 +117,10 @@ void PhysicsBody::createConstraints()
         constraints.clear();
     }
 
-    applyConstraints();
+    applyConstraints(_type);
 }
 
-void PhysicsBody::applyConstraints()
+void PhysicsBody::applyConstraints(BodyConstraintType _type)
 {   
     //store containts we've made'
     std::vector<std::vector<unsigned int>> consts(rigid_bodies.size());
@@ -156,8 +156,27 @@ void PhysicsBody::applyConstraints()
             //float dist = bodyPos.dot(comparePos);
             //if(abs(dist) <= bodyRadius)
             //{
-                addFixedConstraint(body, compareBody);
-                consts[i].push_back(j);
+                switch(_type)
+                {
+                    case BodyConstraintType::FIXED :
+                    {
+                        addFixedConstraint(body, compareBody);
+                        consts[i].push_back(j);
+                        break;
+                    }
+                    case BodyConstraintType::SLIDER :
+                    {
+                        addSliderConstraint(body, compareBody);
+                        consts[i].push_back(j);
+                        break;
+                    }
+                    case BodyConstraintType::SIX_DOF : 
+                    {
+                        add6DoFConstraint(body, compareBody);
+                        consts[i].push_back(j);
+                        break;
+                    }
+                }
             //}
         }
     }

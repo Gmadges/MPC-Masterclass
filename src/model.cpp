@@ -22,7 +22,7 @@ Model::Model(std::string _path,
 
     //initiate physics straight away
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
-    pPhysicsBody->initModelWithSpheres(spheres);
+    pPhysicsBody->initBodyWithSpheres(spheres);
 }
 
 Model::~Model()
@@ -36,7 +36,7 @@ void Model::reset()
 
     // reload spheres
     std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
-    pPhysicsBody->initModelWithSpheres(spheres);
+    pPhysicsBody->initBodyWithSpheres(spheres);
 }
 
 void Model::draw(QOpenGLShaderProgram *pShader)
