@@ -258,3 +258,28 @@ void PhysicsBody::add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::sh
 
     constraints.push_back(constraint);
 }
+
+void PhysicsBody::addSpringConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
+{
+    btTransform frameInA, frameInB;
+    calcFrameMatrices(pBody1, pBody2, frameInA, frameInB); 
+
+    //lambda to clean up in pPhysicsWorld
+    auto deleter = [&](btTypedConstraint* b){
+        if(b)
+        {
+            pPhysicsWorld->removeConstraint(b);
+        }
+    };
+
+    std::shared_ptr<btTypedConstraint> constraint(new btGeneric6DofSpring2Constraint(*(pBody1.get()),
+                                                            *(pBody2.get()),
+                                                            frameInA,
+                                                            frameInB), 
+                                                            deleter);
+
+    //terrible raw pointer, but we make up for it with the ole lambda                                                         
+    pPhysicsWorld->addConstraint(constraint.get());
+
+    constraints.push_back(constraint);
+}

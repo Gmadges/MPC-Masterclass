@@ -24,8 +24,11 @@ void TabInfo::initUI()
     ui->combo_constType->addItem("Fixed");
     ui->combo_constType->addItem("Slider");
     ui->combo_constType->addItem("6DoF");
+    ui->combo_constType->addItem("Spring");
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
+
+    // add the settings for each type
 }
 
 void TabInfo::initConnections()
@@ -60,6 +63,10 @@ void TabInfo::setConstraintType(int idx)
    else if(idx == 2)
    {
        type = BodyConstraintType::SIX_DOF;
+   }
+   else if(idx == 3)
+   {
+       type = BodyConstraintType::SPRING;
    }
    
    pModel->createConstraints(type); 

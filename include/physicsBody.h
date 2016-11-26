@@ -13,7 +13,8 @@ class QOpenGLShaderProgram;
 enum BodyConstraintType {
     FIXED,
     SLIDER,
-    SIX_DOF
+    SIX_DOF,
+    SPRING
 };
 
 class PhysicsBody
@@ -41,6 +42,7 @@ private:
     void addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
     void addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
     void add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
+    void addSpringConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
 
 private:
 
