@@ -39,11 +39,13 @@ private:
     // carries out the task of creating constraints for all the rigid bodies
     void applyConstraints(BodyConstraintType _type);
 
-    void addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
-    void addSliderConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
-    void add6DoFConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
-    void addSpringConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
+    void addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2, BodyConstraintType _type);
 
+    std::shared_ptr<btTypedConstraint> getConstraint(  std::shared_ptr<btRigidBody> pBody1, 
+                                                                std::shared_ptr<btRigidBody> pBody2, 
+                                                                btTransform frameInA, 
+                                                                btTransform frameInB,
+                                                                BodyConstraintType _type);
 private:
 
     //pointer to physics world for ease
