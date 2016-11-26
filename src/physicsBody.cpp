@@ -106,6 +106,20 @@ void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
     }
 }
 
+void PhysicsBody::createConstraints()
+{   
+    // if we have no rigid bodies do nothing
+    if(rigid_bodies.empty()) return;
+
+    // if we have constraints get rid of them
+    if(!constraints.empty())
+    {
+        constraints.clear();
+    }
+
+    applyConstraints();
+}
+
 void PhysicsBody::applyConstraints()
 {   
     //store containts we've made'

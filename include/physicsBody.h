@@ -22,10 +22,14 @@ public:
     // here we pass a list of spheres to turn into the collision shapes
     void initModelWithSpheres(std::vector<SphereData>& _spheres);
 
+    void createConstraints();
+
 private:
 
+    // method for adding a rigid body for each sphere
     void addSphere(SphereData _sphere);
 
+    // carries out the task of creating constraints for all the rigid bodies
     void applyConstraints();
 
     void addFixedConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
