@@ -3,8 +3,9 @@
 
 #include <btBulletDynamicsCommon.h>
 #include <memory>
+#include <vector>
 
-#include "openVDBTools.h"
+#include "types.h"
 
 class PhysicsWorld;
 class Sphere;
@@ -20,18 +21,28 @@ public:
     void draw(QOpenGLShaderProgram *pShader);
 
     // here we pass a list of spheres to turn into the collision shapes
-    void initModelWithSpheres(std::vector<SphereData>& _spheres);
+    void initBodyWithSpheres(std::vector<SphereData>& _spheres);
+
+    void createConstraints();
+
+    void setConstraintType(BodyConstraintType _type);
+
+    BodyConstraintType getConstraintType();
 
 private:
 
+    // method for adding a rigid body for each sphere
     void addSphere(SphereData _sphere);
 
+    // carries out the task of creating constraints for all the rigid bodies
     void applyConstraints();
 
     void addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2);
 
-    btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody);
-
+    std::shared_ptr<btTypedConstraint> getConstraint(  std::shared_ptr<btRigidBody> pBody1, 
+                                                                std::shared_ptr<btRigidBody> pBody2, 
+                                                                btTransform frameInA, 
+                                                                btTransform frameInB);
 private:
 
     //pointer to physics world for ease
@@ -47,6 +58,8 @@ private:
 
     // ID
     int  id;
+
+    BodyConstraintType constraintType;
 
 };
 

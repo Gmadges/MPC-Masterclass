@@ -397,6 +397,8 @@ obj/floorPlane.o: src/floorPlane.cpp include/floorPlane.h
 obj/glscene.o: src/glscene.cpp include/glscene.h \
 		include/modelController.h \
 		include/model.h \
+		include/physicsBody.h \
+		include/openVDBTools.h \
 		include/physicsWorld.h \
 		include/floorPlane.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glscene.o src/glscene.cpp
@@ -409,20 +411,24 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/glscene.h \
 		include/tabInfo.h \
 		include/modelController.h \
-		include/model.h
+		include/model.h \
+		include/physicsBody.h \
+		include/openVDBTools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/mesh.o: src/mesh.cpp include/mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
 
 obj/model.o: src/model.cpp include/model.h \
-		include/mesh.h \
 		include/physicsBody.h \
-		include/openVDBTools.h
+		include/openVDBTools.h \
+		include/mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/model.o src/model.cpp
 
 obj/modelController.o: src/modelController.cpp include/modelController.h \
-		include/model.h
+		include/model.h \
+		include/physicsBody.h \
+		include/openVDBTools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/modelController.o src/modelController.cpp
 
 obj/openVDBTools.o: src/openVDBTools.cpp include/openVDBTools.h
@@ -442,6 +448,8 @@ obj/sphere.o: src/sphere.cpp include/sphere.h
 
 obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
 		include/model.h \
+		include/physicsBody.h \
+		include/openVDBTools.h \
 		include/ui_tabInfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/tabInfo.o src/tabInfo.cpp
 

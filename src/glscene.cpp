@@ -119,20 +119,12 @@ void GLScene::initShaders()
 void GLScene::toggleSim()
 {   
     bSimulate = !bSimulate;
-
-    // just some debug 
-    if(bSimulate)
-    {
-        std::cout<< "simulation on \n";
-    }
-    else 
-    {
-        std::cout<< "simulation off \n";
-    }
 }
 
 void GLScene::resetSim()
 {
+    // personal preference - but i want the sim to stop when i reset
+    bSimulate = false;
     pModelController->resetModels();
 }
 

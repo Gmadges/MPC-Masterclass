@@ -4,8 +4,9 @@
 #include <string>
 #include <memory>
 
+#include "physicsBody.h"
+
 class Mesh;
-class PhysicsBody;
 class PhysicsWorld;
 class QOpenGLShaderProgram; 
 
@@ -23,6 +24,9 @@ public:
     void setShowPhys(bool show);
 
     void reset();
+
+    void createConstraints();
+    void setConstraintType(BodyConstraintType _type);
     
 private:
     // my meshs

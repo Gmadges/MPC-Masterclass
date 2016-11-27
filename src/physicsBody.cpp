@@ -6,11 +6,38 @@
 
 #include <iostream>
 
+//Handy methods ///////////////////////////
+btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    return trans1.getOrigin();
+}
+
+void calcFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, std::shared_ptr<btRigidBody> pBodyB, btTransform& frameInA, btTransform& frameInB)
+{
+    // get positions
+    btVector3 rigid1Pos = getPositionForBody(pBodyA);
+
+    frameInA.setIdentity();
+    frameInB.setIdentity();
+    
+    frameInA.setOrigin( rigid1Pos );
+
+    btTransform inv = pBodyB->getCenterOfMassTransform().inverse();
+
+    btTransform globalFrameA = pBodyA->getCenterOfMassTransform() * frameInA;
+
+    frameInB = inv  * globalFrameA;
+}
+
+//////////class
 PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
-    id(_id)
+    id(_id),
+    constraintType(BodyConstraintType::FIXED)
 {
 }
 
@@ -18,7 +45,7 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsBody::initModelWithSpheres(std::vector<SphereData>& _spheres)
+void PhysicsBody::initBodyWithSpheres(std::vector<SphereData>& _spheres)
 {
     for(auto sphere : _spheres)
     {
@@ -80,6 +107,20 @@ void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
     }
 }
 
+void PhysicsBody::createConstraints()
+{   
+    // if we have no rigid bodies do nothing
+    if(rigid_bodies.empty()) return;
+
+    // if we have constraints get rid of them
+    if(!constraints.empty())
+    {
+        constraints.clear();
+    }
+
+    applyConstraints();
+}
+
 void PhysicsBody::applyConstraints()
 {   
     //store containts we've made'
@@ -118,30 +159,29 @@ void PhysicsBody::applyConstraints()
             //{
                 addConstraint(body, compareBody);
                 consts[i].push_back(j);
-            //} 
+            //}
         }
     }
 }
 
 void PhysicsBody::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared_ptr<btRigidBody> pBody2)
 {
-    // get positions
-    btVector3 rigid1Pos = getPositionForBody(pBody1);
+    btTransform frameInA, frameInB;
+    calcFrameMatrices(pBody1, pBody2, frameInA, frameInB); 
 
-    btTransform frameInA;
-    btTransform frameInB;
-    
-    frameInA.setIdentity();
-    frameInB.setIdentity();
-    
-    frameInA.setOrigin( rigid1Pos );
+    std::shared_ptr<btTypedConstraint> constraint = getConstraint(pBody1, pBody2, frameInA, frameInB);
 
-    btTransform inv = pBody2->getCenterOfMassTransform().inverse();
+    //terrible raw pointer, but we make up for it with the ole lambda                                                         
+    pPhysicsWorld->addConstraint(constraint.get());
 
-    btTransform globalFrameA = pBody1->getCenterOfMassTransform() * frameInA;
+    constraints.push_back(constraint);
+}
 
-    frameInB = inv  * globalFrameA;
-
+std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<btRigidBody> pBody1, 
+                                                                std::shared_ptr<btRigidBody> pBody2, 
+                                                                btTransform frameInA, 
+                                                                btTransform frameInB)
+{
     //lambda to clean up in pPhysicsWorld
     auto deleter = [&](btTypedConstraint* b){
         if(b)
@@ -150,21 +190,73 @@ void PhysicsBody::addConstraint(std::shared_ptr<btRigidBody> pBody1, std::shared
         }
     };
 
-    std::shared_ptr<btTypedConstraint> constraint(new btFixedConstraint(*(pBody1.get()),
+    switch(constraintType)
+    {
+        case BodyConstraintType::FIXED :
+        {
+            return std::shared_ptr<btFixedConstraint>(new btFixedConstraint(*(pBody1.get()),
                                                             *(pBody2.get()),
                                                             frameInA,
                                                             frameInB), 
                                                             deleter);
+        }
+        case BodyConstraintType::SLIDER :
+        {
+            return std::shared_ptr<btSliderConstraint>(new btSliderConstraint(*(pBody1.get()),
+                                                                                *(pBody2.get()),
+                                                                                frameInA,
+                                                                                frameInB,
+                                                                                true), 
+                                                                                deleter);
+        }
+        case BodyConstraintType::SIX_DOF : 
+        {
+            return std::shared_ptr<btGeneric6DofConstraint>(new btGeneric6DofConstraint(*(pBody1.get()),
+                                                                                    *(pBody2.get()),
+                                                                                    frameInA,
+                                                                                    frameInB,
+                                                                                    true), 
+                                                                                    deleter);
+        }
+        case BodyConstraintType::SPRING :
+        {
 
-    //terrible raw pointer, but we make up for it with the ole lambda                                                         
-    pPhysicsWorld->addConstraint(constraint.get());
+            std::shared_ptr<btGeneric6DofSpring2Constraint> constraint(new btGeneric6DofSpring2Constraint(*(pBody1.get()),
+                                                                                            *(pBody2.get()),
+                                                                                            frameInA,
+                                                                                            frameInB), 
+                                                                                            deleter);
 
-    constraints.push_back(constraint);
+			constraint->setLimit(5, -1, 1);
+
+            constraint->enableSpring(5, true);
+
+            constraint->setStiffness(5, 100);
+
+            constraint->setDamping(5, 1);
+
+			constraint->setEquilibriumPoint(0, 0);
+
+            return constraint;
+        }
+        default :
+        {
+            //return fixed if nothing else
+            return std::shared_ptr<btFixedConstraint>(new btFixedConstraint(*(pBody1.get()),
+                                                                            *(pBody2.get()),
+                                                                            frameInA,
+                                                                            frameInB), 
+                                                                            deleter);
+        }
+    }
 }
 
-btVector3 PhysicsBody::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+void PhysicsBody::setConstraintType(BodyConstraintType _type)
 {
-    btTransform trans1;
-    pBody->getMotionState()->getWorldTransform(trans1);
-    return trans1.getOrigin();
+    constraintType = _type;
+}
+
+BodyConstraintType PhysicsBody::getConstraintType()
+{
+    return constraintType;
 }
