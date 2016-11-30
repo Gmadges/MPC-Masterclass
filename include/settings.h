@@ -15,6 +15,7 @@ public:
     Settings(QWidget *parent = 0);
     virtual ~Settings();
 
+public:
     Ui::Settings *ui;
 };
 

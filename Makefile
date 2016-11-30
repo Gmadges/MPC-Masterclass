@@ -106,7 +106,7 @@ DIST          = shaders/simple.vert \
 		include/tabInfo.h \
 		include/types.h \
 		include/ui_mainwindow.h \
-		include/ui_springSettings.h \
+		include/ui_settings.h \
 		include/ui_tabInfo.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
@@ -297,7 +297,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/settings.cpp src/sphere.cpp src/springSettings.cpp src/tabInfo.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui forms/settings.ui forms/tabInfo.ui $(DISTDIR)/
 
