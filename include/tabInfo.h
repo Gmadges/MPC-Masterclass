@@ -35,4 +35,4 @@ private:
     Ui::TabInfo *ui;
 };
 
-#endif // GLSCENE_H
+#endif 
