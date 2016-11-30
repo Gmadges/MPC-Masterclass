@@ -20,6 +20,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
+#include "springSettings.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -32,6 +33,7 @@ public:
     QCheckBox *check_showMesh;
     QPushButton *button_reset;
     QComboBox *combo_constType;
+    SpringSettings *widget_springSettings;
 
     void setupUi(QWidget *TabInfo)
     {
@@ -63,6 +65,11 @@ public:
         combo_constType->setObjectName(QStringLiteral("combo_constType"));
 
         formLayout->setWidget(3, QFormLayout::SpanningRole, combo_constType);
+
+        widget_springSettings = new SpringSettings(TabInfo);
+        widget_springSettings->setObjectName(QStringLiteral("widget_springSettings"));
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, widget_springSettings);
 
 
         gridLayout_2->addLayout(formLayout, 1, 0, 1, 1);

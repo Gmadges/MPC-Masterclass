@@ -28,7 +28,9 @@ void TabInfo::initUI()
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
 
-    // add the settings for each type
+    //settings
+    //hide all settings because we default to fixed
+    ui->widget_springSettings->hide();
 }
 
 void TabInfo::initConnections()
