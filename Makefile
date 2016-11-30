@@ -58,12 +58,14 @@ SOURCES       = src/floorPlane.cpp \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
+		src/settings.cpp \
 		src/sphere.cpp \
 		src/springSettings.cpp \
 		src/tabInfo.cpp qrc_shaders.cpp \
 		qrc_style.cpp \
 		moc/moc_glscene.cpp \
 		moc/moc_mainwindow.cpp \
+		moc/moc_settings.cpp \
 		moc/moc_springSettings.cpp \
 		moc/moc_tabInfo.cpp
 OBJECTS       = obj/floorPlane.o \
@@ -76,6 +78,7 @@ OBJECTS       = obj/floorPlane.o \
 		obj/openVDBTools.o \
 		obj/physicsBody.o \
 		obj/physicsWorld.o \
+		obj/settings.o \
 		obj/sphere.o \
 		obj/springSettings.o \
 		obj/tabInfo.o \
@@ -83,6 +86,7 @@ OBJECTS       = obj/floorPlane.o \
 		obj/qrc_style.o \
 		obj/moc_glscene.o \
 		obj/moc_mainwindow.o \
+		obj/moc_settings.o \
 		obj/moc_springSettings.o \
 		obj/moc_tabInfo.o
 DIST          = shaders/simple.vert \
@@ -96,6 +100,7 @@ DIST          = shaders/simple.vert \
 		include/openVDBTools.h \
 		include/physicsBody.h \
 		include/physicsWorld.h \
+		include/settings.h \
 		include/sphere.h \
 		include/springSettings.h \
 		include/tabInfo.h \
@@ -112,6 +117,7 @@ DIST          = shaders/simple.vert \
 		src/openVDBTools.cpp \
 		src/physicsBody.cpp \
 		src/physicsWorld.cpp \
+		src/settings.cpp \
 		src/sphere.cpp \
 		src/springSettings.cpp \
 		src/tabInfo.cpp
@@ -142,7 +148,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(OBJECTS)  
+$(TARGET): include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -291,9 +297,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/sphere.cpp src/springSettings.cpp src/tabInfo.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents forms/mainwindow.ui forms/springSettings.ui forms/tabInfo.ui $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/settings.cpp src/sphere.cpp src/springSettings.cpp src/tabInfo.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents forms/mainwindow.ui forms/settings.ui forms/tabInfo.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -365,16 +371,20 @@ qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
 		QDarkStyleSheet/qdarkstyle/style.qss
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name style QDarkStyleSheet/qdarkstyle/style.qrc -o qrc_style.cpp
 
-compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_springSettings.cpp moc/moc_tabInfo.cpp
+compiler_moc_header_make_all: moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_settings.cpp moc/moc_springSettings.cpp moc/moc_tabInfo.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_springSettings.cpp moc/moc_tabInfo.cpp
+	-$(DEL_FILE) moc/moc_glscene.cpp moc/moc_mainwindow.cpp moc/moc_settings.cpp moc/moc_springSettings.cpp moc/moc_tabInfo.cpp
 moc/moc_glscene.cpp: include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/glscene.h -o moc/moc_glscene.cpp
 
 moc/moc_mainwindow.cpp: include/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
 
-moc/moc_springSettings.cpp: include/springSettings.h
+moc/moc_settings.cpp: include/settings.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/settings.h -o moc/moc_settings.cpp
+
+moc/moc_springSettings.cpp: include/settings.h \
+		include/springSettings.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/george/projects/MPC-Masterclass.git -I/usr/local/include/bullet -I/home/george/projects/MPC-Masterclass.git/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include include/springSettings.h -o moc/moc_springSettings.cpp
 
 moc/moc_tabInfo.cpp: include/types.h \
@@ -383,15 +393,15 @@ moc/moc_tabInfo.cpp: include/types.h \
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h
+compiler_uic_make_all: include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h
 compiler_uic_clean:
-	-$(DEL_FILE) include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h
+	-$(DEL_FILE) include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h
 include/ui_mainwindow.h: forms/mainwindow.ui \
 		include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
 
-include/ui_springSettings.h: forms/springSettings.ui
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/springSettings.ui -o include/ui_springSettings.h
+include/ui_settings.h: forms/settings.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/settings.ui -o include/ui_settings.h
 
 include/ui_tabInfo.h: forms/tabInfo.ui
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/tabInfo.ui -o include/ui_tabInfo.h
@@ -460,11 +470,15 @@ obj/physicsBody.o: src/physicsBody.cpp include/physicsBody.h \
 obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsWorld.o src/physicsWorld.cpp
 
+obj/settings.o: src/settings.cpp include/settings.h \
+		include/ui_settings.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/settings.o src/settings.cpp
+
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
 obj/springSettings.o: src/springSettings.cpp include/springSettings.h \
-		include/ui_springSettings.h
+		include/settings.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/springSettings.o src/springSettings.cpp
 
 obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
@@ -485,6 +499,9 @@ obj/moc_glscene.o: moc/moc_glscene.cpp
 
 obj/moc_mainwindow.o: moc/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc/moc_mainwindow.cpp
+
+obj/moc_settings.o: moc/moc_settings.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_settings.o moc/moc_settings.cpp
 
 obj/moc_springSettings.o: moc/moc_springSettings.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_springSettings.o moc/moc_springSettings.cpp

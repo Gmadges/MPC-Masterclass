@@ -1,12 +1,9 @@
 #include "springSettings.h"
-#include "ui_springSettings.h"
 
 SpringSettings::SpringSettings(QWidget *parent)
 :
-    QWidget(parent),
-    ui(new Ui::SpringSettings)
+    Settings(parent)
 {
-    ui->setupUi(this);
 }
 
 SpringSettings::~SpringSettings()
