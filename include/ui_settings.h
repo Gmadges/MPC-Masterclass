@@ -15,8 +15,6 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -25,8 +23,6 @@ class Ui_Settings
 {
 public:
     QFormLayout *formLayout;
-    QLabel *label;
-    QSpinBox *spinBox;
 
     void setupUi(QWidget *Settings)
     {
@@ -35,16 +31,6 @@ public:
         Settings->resize(281, 307);
         formLayout = new QFormLayout(Settings);
         formLayout->setObjectName(QStringLiteral("formLayout"));
-        label = new QLabel(Settings);
-        label->setObjectName(QStringLiteral("label"));
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, label);
-
-        spinBox = new QSpinBox(Settings);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
-
-        formLayout->setWidget(0, QFormLayout::FieldRole, spinBox);
-
 
         retranslateUi(Settings);
 
@@ -54,7 +40,6 @@ public:
     void retranslateUi(QWidget *Settings)
     {
         Settings->setWindowTitle(QApplication::translate("Settings", "Form", 0));
-        label->setText(QApplication::translate("Settings", "test", 0));
     } // retranslateUi
 
 };

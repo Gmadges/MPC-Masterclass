@@ -11,6 +11,9 @@ public:
     
     SpringSettings(QWidget *parent = 0);
     virtual ~SpringSettings();
+
+private:
+    void initUI();
 };
 
 #endif 
