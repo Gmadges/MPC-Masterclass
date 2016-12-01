@@ -28,6 +28,7 @@ private:
     void reset();
     void setConstraintType(int idx);
     BodyConstraintType getConstType(int idx);
+    void displaySettings(BodyConstraintType type);
 
 private:
     std::shared_ptr<Model> pModel;

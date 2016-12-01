@@ -49,7 +49,16 @@ void TabInfo::initConnections()
 
 void TabInfo::setConstraintType(int idx)
 {  
-    pModel->setConstraintType(getConstType(idx));
+    BodyConstraintType type = getConstType(idx);
+
+    pModel->setConstraintType(type);
+
+    // show correct constraints
+    displaySettings(type);
+
+    //TODO
+    // apply whatever settings we already have stored, could just be default
+
     pModel->createConstraints(); 
 }
 
@@ -93,5 +102,38 @@ BodyConstraintType TabInfo::getConstType(int idx)
     {
         // default to fixed
         return BodyConstraintType::FIXED;
+    }
+}
+
+void TabInfo::displaySettings(BodyConstraintType type)
+{
+    switch(type)
+    {
+        case BodyConstraintType::FIXED :
+        {
+            ui->widget_springSettings->hide();
+            break;
+        }
+        case BodyConstraintType::SLIDER :
+        {
+            ui->widget_springSettings->hide();
+            break;
+        }
+        case BodyConstraintType::SIX_DOF : 
+        {
+            ui->widget_springSettings->hide();
+            break;
+        }
+        case BodyConstraintType::SPRING :
+        {
+            ui->widget_springSettings->show();
+            break;
+        }
+        default :
+        {
+            // default to fixed
+            ui->widget_springSettings->hide();
+            break;
+        }
     }
 }
