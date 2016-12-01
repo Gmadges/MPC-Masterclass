@@ -209,15 +209,6 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                 true), 
                                                                                 deleter);
         }
-        case BodyConstraintType::SIX_DOF : 
-        {
-            return std::shared_ptr<btGeneric6DofConstraint>(new btGeneric6DofConstraint(*(pBody1.get()),
-                                                                                    *(pBody2.get()),
-                                                                                    frameInA,
-                                                                                    frameInB,
-                                                                                    true), 
-                                                                                    deleter);
-        }
         case BodyConstraintType::SPRING :
         {
 
@@ -226,17 +217,24 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                             frameInA,
                                                                                             frameInB), 
                                                                                             deleter);
+            // just linear for now no angular
+            constraint->setLinearLowerLimit(btVector3(-50, -50, -50));
+            constraint->setLinearUpperLimit(btVector3(50, 50, 50));
+			
+			constraint->enableSpring(0, true);
+            constraint->setStiffness(0, 100, true);
+			constraint->setDamping(0, 100, true);
 
-			constraint->setLimit(5, -1, 1);
+			constraint->enableSpring(1, true);
+            constraint->setStiffness(1, 100, true);
+			constraint->setDamping(1, 100, true);
 
-            constraint->enableSpring(5, true);
+			constraint->enableSpring(2, true);
+            constraint->setStiffness(2, 100, true);
+			constraint->setDamping(2, 100, true);
 
-            constraint->setStiffness(5, 100);
-
-            constraint->setDamping(5, 1);
-
-			constraint->setEquilibriumPoint(0, 0);
-
+            constraint->setEquilibriumPoint();
+            
             return constraint;
         }
         default :

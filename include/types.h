@@ -5,7 +5,6 @@ enum BodyConstraintType
 {
     FIXED,
     SLIDER,
-    SIX_DOF,
     SPRING
 };
 

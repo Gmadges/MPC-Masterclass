@@ -23,7 +23,6 @@ void TabInfo::initUI()
     // set up combo box
     ui->combo_constType->addItem("Fixed");
     ui->combo_constType->addItem("Slider");
-    ui->combo_constType->addItem("6DoF");
     ui->combo_constType->addItem("Spring");
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
@@ -92,10 +91,6 @@ BodyConstraintType TabInfo::getConstType(int idx)
     }
     else if(idx == 2)
     {
-        return BodyConstraintType::SIX_DOF;
-    }
-    else if(idx == 3)
-    {
         return BodyConstraintType::SPRING;
     }
     else
@@ -115,11 +110,6 @@ void TabInfo::displaySettings(BodyConstraintType type)
             break;
         }
         case BodyConstraintType::SLIDER :
-        {
-            ui->widget_springSettings->hide();
-            break;
-        }
-        case BodyConstraintType::SIX_DOF : 
         {
             ui->widget_springSettings->hide();
             break;
