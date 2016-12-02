@@ -3,10 +3,6 @@
 
 #include <QWidget>
 
-namespace Ui {
-class Settings;
-}
-
 class Settings : public QWidget
 {
     Q_OBJECT
@@ -20,9 +16,6 @@ public:
     
 private:
     virtual void initUI() = 0;
-
-public:
-    Ui::Settings *ui;
 };
 
 #endif 

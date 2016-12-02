@@ -1,14 +1,12 @@
 #include "springSettings.h"
-#include "ui_settings.h"
-
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QSpinBox>
+#include "ui_springSettings.h"
 
 SpringSettings::SpringSettings(QWidget *parent)
 :
-    Settings(parent)
+    Settings(parent),
+        ui(new Ui::SpringSettings)
 {
+    ui->setupUi(this);
     initUI();
 }
 
@@ -18,14 +16,5 @@ SpringSettings::~SpringSettings()
 
 void SpringSettings::initUI()
 {
-    QLabel *label = new QLabel(this);
-    label->setObjectName(QStringLiteral("label"));
-    label->setText(QString("Testing"));
-
-    ui->formLayout->setWidget(0, QFormLayout::LabelRole, label);
-
-    QSpinBox *spinBox = new QSpinBox(this);
-    spinBox->setObjectName(QStringLiteral("spinBox"));
-
-    ui->formLayout->setWidget(0, QFormLayout::FieldRole, spinBox);
+    //TODO
 }

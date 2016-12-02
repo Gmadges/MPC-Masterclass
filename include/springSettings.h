@@ -4,6 +4,10 @@
 #include <QWidget>
 #include "settings.h"
 
+namespace Ui {
+class SpringSettings;
+}
+
 class SpringSettings : public Settings
 {
     Q_OBJECT
@@ -14,6 +18,9 @@ public:
 
 private:
     void initUI();
+
+private:
+    Ui::SpringSettings *ui;
 };
 
 #endif 

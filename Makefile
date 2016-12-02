@@ -104,9 +104,7 @@ DIST          = shaders/simple.vert \
 		include/sphere.h \
 		include/springSettings.h \
 		include/tabInfo.h \
-		include/types.h \
-		include/ui_mainwindow.h \
-		include/ui_settings.h src/floorPlane.cpp \
+		include/types.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -147,7 +145,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h $(OBJECTS)  
+$(TARGET): include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Masterclass.pro .qmake.cache /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -296,9 +294,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/settings.cpp src/sphere.cpp src/springSettings.cpp src/tabInfo.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents forms/mainwindow.ui forms/settings.ui forms/tabInfo.ui $(DISTDIR)/
+	$(COPY_FILE) --parents forms/mainwindow.ui forms/springSettings.ui forms/tabInfo.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -392,15 +390,15 @@ moc/moc_tabInfo.cpp: include/types.h \
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h
+compiler_uic_make_all: include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h
 compiler_uic_clean:
-	-$(DEL_FILE) include/ui_mainwindow.h include/ui_settings.h include/ui_tabInfo.h
+	-$(DEL_FILE) include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h
 include/ui_mainwindow.h: forms/mainwindow.ui \
 		include/glscene.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o include/ui_mainwindow.h
 
-include/ui_settings.h: forms/settings.ui
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/settings.ui -o include/ui_settings.h
+include/ui_springSettings.h: forms/springSettings.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/springSettings.ui -o include/ui_springSettings.h
 
 include/ui_tabInfo.h: forms/tabInfo.ui \
 		include/springSettings.h \
@@ -434,7 +432,6 @@ obj/main.o: src/main.cpp include/mainwindow.h
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/ui_mainwindow.h \
-		include/glscene.h \
 		include/tabInfo.h \
 		include/types.h \
 		include/modelController.h \
@@ -471,15 +468,15 @@ obj/physicsBody.o: src/physicsBody.cpp include/physicsBody.h \
 obj/physicsWorld.o: src/physicsWorld.cpp include/physicsWorld.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/physicsWorld.o src/physicsWorld.cpp
 
-obj/settings.o: src/settings.cpp include/settings.h \
-		include/ui_settings.h
+obj/settings.o: src/settings.cpp include/settings.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/settings.o src/settings.cpp
 
 obj/sphere.o: src/sphere.cpp include/sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sphere.o src/sphere.cpp
 
 obj/springSettings.o: src/springSettings.cpp include/springSettings.h \
-		include/settings.h
+		include/settings.h \
+		include/ui_springSettings.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/springSettings.o src/springSettings.cpp
 
 obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
