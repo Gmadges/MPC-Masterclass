@@ -1,6 +1,7 @@
 #include "physicsBody.h"
 #include "physicsWorld.h"
 #include "sphere.h"
+#include "openVDBTools.h"
 
 #include <QOpenGLShaderProgram>
 
@@ -37,7 +38,11 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
     id(_id),
-    constraintType(BodyConstraintType::FIXED)
+    constraintType(BodyConstraintType::FIXED),
+    maxSphereCount(1000),
+    minSphereSize(1.0f),
+    maxSphereSize(100000.0f),
+    bSphereOverlap(true)
 {
 }
 
@@ -45,9 +50,12 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsBody::initBodyWithSpheres(std::vector<SphereData>& _spheres)
+void PhysicsBody::initBodyWithSpheres(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices)
 {
-    for(auto sphere : _spheres)
+    // get spheres
+    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(verts, indices);
+
+    for(auto sphere : spheres)
     {
         addSphere(sphere);
     }
@@ -257,4 +265,44 @@ void PhysicsBody::setConstraintType(BodyConstraintType _type)
 BodyConstraintType PhysicsBody::getConstraintType()
 {
     return constraintType;
+}
+
+void PhysicsBody::setMaxSphereCount(int count)
+{
+    maxSphereCount = count;
+}
+
+void PhysicsBody::setMinSphereSize(float size)
+{
+    minSphereSize = size;
+}
+
+void PhysicsBody::setMaxSphereSize(float size)
+{
+    maxSphereSize = size;
+}
+
+void PhysicsBody::setSphereOverlap(bool enable)
+{
+    bSphereOverlap = enable;
+}
+
+int PhysicsBody::getMaxSphereCount()
+{
+    return maxSphereCount;
+}
+
+float PhysicsBody::getMinSphereSize()
+{
+    return minSphereSize;
+}
+
+float PhysicsBody::getMaxSphereSize()
+{
+    return maxSphereSize;
+}
+
+bool PhysicsBody::getSphereOverlap()
+{
+    return bSphereOverlap;
 }

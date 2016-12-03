@@ -6,8 +6,6 @@
 #include <iterator>
 #include <algorithm>
 
-#include "openVDBTools.h"
-
 Model::Model(std::string _path, 
                 std::shared_ptr<PhysicsWorld> _phys,
                 int _id)
@@ -21,8 +19,7 @@ Model::Model(std::string _path,
 {
 
     //initiate physics straight away
-    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
-    pPhysicsBody->initBodyWithSpheres(spheres);
+    pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 }
 
 Model::~Model()
@@ -38,8 +35,7 @@ void Model::reset()
     pPhysicsBody->setConstraintType(type);
 
     // reload spheres
-    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(pMesh->getVerts(), pMesh->getFaces());
-    pPhysicsBody->initBodyWithSpheres(spheres);
+    pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 }
 
 void Model::draw(QOpenGLShaderProgram *pShader)
