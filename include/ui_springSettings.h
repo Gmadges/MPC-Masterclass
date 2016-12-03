@@ -81,6 +81,8 @@ public:
 
         spin_XLower = new QDoubleSpinBox(SpringSettings);
         spin_XLower->setObjectName(QStringLiteral("spin_XLower"));
+        spin_XLower->setMinimum(-1e+07);
+        spin_XLower->setMaximum(1e+07);
 
         formLayout->setWidget(1, QFormLayout::FieldRole, spin_XLower);
 
@@ -113,6 +115,8 @@ public:
 
         spin_YLower = new QDoubleSpinBox(SpringSettings);
         spin_YLower->setObjectName(QStringLiteral("spin_YLower"));
+        spin_YLower->setMinimum(-1e+07);
+        spin_YLower->setMaximum(1e+07);
 
         formLayout->setWidget(7, QFormLayout::FieldRole, spin_YLower);
 
@@ -123,6 +127,8 @@ public:
 
         spin_YUpper = new QDoubleSpinBox(SpringSettings);
         spin_YUpper->setObjectName(QStringLiteral("spin_YUpper"));
+        spin_YUpper->setMinimum(-1e+07);
+        spin_YUpper->setMaximum(1e+07);
 
         formLayout->setWidget(8, QFormLayout::FieldRole, spin_YUpper);
 
@@ -140,6 +146,8 @@ public:
 
         spin_ZLower = new QDoubleSpinBox(SpringSettings);
         spin_ZLower->setObjectName(QStringLiteral("spin_ZLower"));
+        spin_ZLower->setMinimum(-1e+07);
+        spin_ZLower->setValue(0);
 
         formLayout->setWidget(13, QFormLayout::FieldRole, spin_ZLower);
 
@@ -150,6 +158,8 @@ public:
 
         spin_ZUpper = new QDoubleSpinBox(SpringSettings);
         spin_ZUpper->setObjectName(QStringLiteral("spin_ZUpper"));
+        spin_ZUpper->setMinimum(-1e+07);
+        spin_ZUpper->setMaximum(1e+07);
 
         formLayout->setWidget(14, QFormLayout::FieldRole, spin_ZUpper);
 
@@ -165,11 +175,15 @@ public:
 
         spin_xSpringStiff = new QDoubleSpinBox(SpringSettings);
         spin_xSpringStiff->setObjectName(QStringLiteral("spin_xSpringStiff"));
+        spin_xSpringStiff->setMinimum(-1e+07);
+        spin_xSpringStiff->setMaximum(1e+07);
 
         formLayout->setWidget(4, QFormLayout::FieldRole, spin_xSpringStiff);
 
         spin_xSpringDamping = new QDoubleSpinBox(SpringSettings);
         spin_xSpringDamping->setObjectName(QStringLiteral("spin_xSpringDamping"));
+        spin_xSpringDamping->setMinimum(-1e+07);
+        spin_xSpringDamping->setMaximum(1e+07);
 
         formLayout->setWidget(5, QFormLayout::FieldRole, spin_xSpringDamping);
 
@@ -215,11 +229,15 @@ public:
 
         spin_zSpringStiff = new QDoubleSpinBox(SpringSettings);
         spin_zSpringStiff->setObjectName(QStringLiteral("spin_zSpringStiff"));
+        spin_zSpringStiff->setMinimum(-1e+07);
+        spin_zSpringStiff->setMaximum(1e+07);
 
         formLayout->setWidget(16, QFormLayout::FieldRole, spin_zSpringStiff);
 
         spin_zSpringDamping = new QDoubleSpinBox(SpringSettings);
         spin_zSpringDamping->setObjectName(QStringLiteral("spin_zSpringDamping"));
+        spin_zSpringDamping->setMinimum(-1e+07);
+        spin_zSpringDamping->setMaximum(1e+07);
 
         formLayout->setWidget(17, QFormLayout::FieldRole, spin_zSpringDamping);
 
@@ -230,11 +248,15 @@ public:
 
         spin_ySpringStiff = new QDoubleSpinBox(SpringSettings);
         spin_ySpringStiff->setObjectName(QStringLiteral("spin_ySpringStiff"));
+        spin_ySpringStiff->setMinimum(-1e+07);
+        spin_ySpringStiff->setMaximum(1e+07);
 
         formLayout->setWidget(10, QFormLayout::FieldRole, spin_ySpringStiff);
 
         spin_ySpringDamping = new QDoubleSpinBox(SpringSettings);
         spin_ySpringDamping->setObjectName(QStringLiteral("spin_ySpringDamping"));
+        spin_ySpringDamping->setMinimum(-1e+07);
+        spin_ySpringDamping->setMaximum(1e+07);
 
         formLayout->setWidget(11, QFormLayout::FieldRole, spin_ySpringDamping);
 

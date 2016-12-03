@@ -35,7 +35,14 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="spin_XLower"/>
+    <widget class="QDoubleSpinBox" name="spin_XLower">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
@@ -75,7 +82,14 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QDoubleSpinBox" name="spin_YLower"/>
+    <widget class="QDoubleSpinBox" name="spin_YLower">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="8" column="0">
     <widget class="QLabel" name="label_6">
@@ -85,7 +99,14 @@
     </widget>
    </item>
    <item row="8" column="1">
-    <widget class="QDoubleSpinBox" name="spin_YUpper"/>
+    <widget class="QDoubleSpinBox" name="spin_YUpper">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="12" column="0" colspan="2">
     <widget class="QLabel" name="label_7">
@@ -108,7 +129,14 @@
     </widget>
    </item>
    <item row="13" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ZLower"/>
+    <widget class="QDoubleSpinBox" name="spin_ZLower">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="14" column="0">
     <widget class="QLabel" name="label_9">
@@ -118,7 +146,14 @@
     </widget>
    </item>
    <item row="14" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ZUpper"/>
+    <widget class="QDoubleSpinBox" name="spin_ZUpper">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="label_11">
@@ -135,10 +170,24 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QDoubleSpinBox" name="spin_xSpringStiff"/>
+    <widget class="QDoubleSpinBox" name="spin_xSpringStiff">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QDoubleSpinBox" name="spin_xSpringDamping"/>
+    <widget class="QDoubleSpinBox" name="spin_xSpringDamping">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="3" column="1">
     <widget class="QCheckBox" name="check_xSpringEnabled">
@@ -197,10 +246,24 @@
     </widget>
    </item>
    <item row="16" column="1">
-    <widget class="QDoubleSpinBox" name="spin_zSpringStiff"/>
+    <widget class="QDoubleSpinBox" name="spin_zSpringStiff">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="17" column="1">
-    <widget class="QDoubleSpinBox" name="spin_zSpringDamping"/>
+    <widget class="QDoubleSpinBox" name="spin_zSpringDamping">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="9" column="1">
     <widget class="QCheckBox" name="check_ySpringEnabled">
@@ -210,10 +273,24 @@
     </widget>
    </item>
    <item row="10" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ySpringStiff"/>
+    <widget class="QDoubleSpinBox" name="spin_ySpringStiff">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
    <item row="11" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ySpringDamping"/>
+    <widget class="QDoubleSpinBox" name="spin_ySpringDamping">
+     <property name="minimum">
+      <double>-10000000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000000.000000000000000</double>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
