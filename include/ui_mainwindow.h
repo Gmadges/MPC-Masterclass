@@ -97,12 +97,14 @@ public:
 
         check_showMesh = new QCheckBox(dockWidgetContents);
         check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
+        check_showMesh->setEnabled(false);
         check_showMesh->setChecked(true);
 
         verticalLayout->addWidget(check_showMesh);
 
         check_showPhys = new QCheckBox(dockWidgetContents);
         check_showPhys->setObjectName(QStringLiteral("check_showPhys"));
+        check_showPhys->setEnabled(false);
         check_showPhys->setChecked(true);
 
         verticalLayout->addWidget(check_showPhys);

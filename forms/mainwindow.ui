@@ -82,6 +82,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="check_showMesh">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>show all meshes</string>
          </property>
@@ -92,6 +95,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="check_showPhys">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>show all phys</string>
          </property>
