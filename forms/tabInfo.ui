@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>336</width>
-    <height>365</height>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,12 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <layout class="QFormLayout" name="formLayout">
-     <item row="15" column="0" colspan="2">
-      <widget class="SpringSettings" name="widget_springSettings" native="true"/>
+     <item row="3" column="0" colspan="2">
+      <widget class="QPushButton" name="button_reset">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
      </item>
      <item row="4" column="0">
       <widget class="QCheckBox" name="check_showMesh">
@@ -39,23 +43,13 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QPushButton" name="button_reset">
-       <property name="text">
-        <string>Reset</string>
+     <item row="5" column="0" colspan="2">
+      <widget class="Line" name="line_2">
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
        </property>
-      </widget>
-     </item>
-     <item row="12" column="0" colspan="2">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>&lt;b&gt;Constraints&lt;/b&gt;</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::RichText</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -103,43 +97,6 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="0" colspan="2">
-      <widget class="Line" name="line">
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="2">
-      <widget class="Line" name="line_2">
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="17" column="0" colspan="2">
-      <widget class="QPushButton" name="button_applySettings">
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="1">
-      <widget class="QComboBox" name="combo_constType"/>
-     </item>
      <item row="9" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
@@ -168,6 +125,69 @@
        </property>
        <property name="maximum">
         <double>100000000000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0" colspan="2">
+      <widget class="Line" name="line">
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0" colspan="2">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;b&gt;Constraints&lt;/b&gt;</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
+      <widget class="QComboBox" name="combo_constType"/>
+     </item>
+     <item row="15" column="0" colspan="2">
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="SpringSettings" name="widget_springSettings">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>314</width>
+          <height>73</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="16" column="0" colspan="2">
+      <widget class="QPushButton" name="button_applySettings">
+       <property name="text">
+        <string>Apply</string>
        </property>
       </widget>
      </item>

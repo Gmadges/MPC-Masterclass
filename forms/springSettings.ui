@@ -6,14 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>313</width>
-    <height>333</height>
+    <width>302</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;b&gt;X Axis&lt;/b&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
@@ -34,60 +47,14 @@
    <item row="2" column="1">
     <widget class="QDoubleSpinBox" name="spin_XUpper"/>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_10">
      <property name="text">
-      <string>Lower Limit</string>
+      <string>Enable Spring</string>
      </property>
     </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QDoubleSpinBox" name="spin_YLower"/>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Upper Limit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QDoubleSpinBox" name="spin_YUpper"/>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_8">
-     <property name="text">
-      <string>Lower Limit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ZLower"/>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="label_9">
-     <property name="text">
-      <string>Upper Limit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QDoubleSpinBox" name="spin_ZUpper"/>
    </item>
    <item row="6" column="0" colspan="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>&lt;b&gt;Z Axis&lt;/b&gt;</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::RichText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>&lt;b&gt;Y Axis&lt;/b&gt;</string>
@@ -100,10 +67,30 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>&lt;b&gt;X Axis&lt;/b&gt;</string>
+      <string>Lower Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QDoubleSpinBox" name="spin_YLower"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Upper Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QDoubleSpinBox" name="spin_YUpper"/>
+   </item>
+   <item row="12" column="0" colspan="2">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>&lt;b&gt;Z Axis&lt;/b&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::RichText</enum>
@@ -112,6 +99,121 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>Lower Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QDoubleSpinBox" name="spin_ZLower"/>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>Upper Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="QDoubleSpinBox" name="spin_ZUpper"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Spring Stiffness</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>Spring Damping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDoubleSpinBox" name="spin_xSpringStiff"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QDoubleSpinBox" name="spin_xSpringDamping"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="check_xSpringEnabled">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_13">
+     <property name="text">
+      <string>Enable Spring</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_14">
+     <property name="text">
+      <string>Spring Stiffness</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="label_15">
+     <property name="text">
+      <string>Spring Damping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0">
+    <widget class="QLabel" name="label_16">
+     <property name="text">
+      <string>Enable Spring</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="label_17">
+     <property name="text">
+      <string>Spring Stiffness</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="0">
+    <widget class="QLabel" name="label_18">
+     <property name="text">
+      <string>Spring Damping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1">
+    <widget class="QCheckBox" name="check_zSpringEnabled">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1">
+    <widget class="QDoubleSpinBox" name="spin_zSpringStiff"/>
+   </item>
+   <item row="17" column="1">
+    <widget class="QDoubleSpinBox" name="spin_zSpringDamping"/>
+   </item>
+   <item row="9" column="1">
+    <widget class="QCheckBox" name="check_ySpringEnabled">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QDoubleSpinBox" name="spin_ySpringStiff"/>
+   </item>
+   <item row="11" column="1">
+    <widget class="QDoubleSpinBox" name="spin_ySpringDamping"/>
    </item>
   </layout>
  </widget>

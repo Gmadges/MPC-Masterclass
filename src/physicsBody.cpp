@@ -234,19 +234,19 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                         constraintSettings.yLowerLimit, 
                                                         constraintSettings.zLowerLimit));
 			
-			// constraint->enableSpring(0, true);
-            // constraint->setStiffness(0, 100, true);
-			// constraint->setDamping(0, 100, true);
+			constraint->enableSpring(0, constraintSettings.xSpringEnabled);
+            constraint->setStiffness(0, constraintSettings.xSpringStiffness, true);
+			constraint->setDamping(0, constraintSettings.xSpringDamping, true);
 
-			// constraint->enableSpring(1, true);
-            // constraint->setStiffness(1, 100, true);
-			// constraint->setDamping(1, 100, true);
+			constraint->enableSpring(1, constraintSettings.ySpringEnabled);
+            constraint->setStiffness(1, constraintSettings.ySpringStiffness, true);
+			constraint->setDamping(1, constraintSettings.ySpringDamping, true);
 
-			// constraint->enableSpring(2, true);
-            // constraint->setStiffness(2, 100, true);
-			// constraint->setDamping(2, 100, true);
+			constraint->enableSpring(2, constraintSettings.zSpringEnabled);
+            constraint->setStiffness(2, constraintSettings.zSpringStiffness, true);
+			constraint->setDamping(2, constraintSettings.zSpringDamping, true);
 
-            // constraint->setEquilibriumPoint();
+            constraint->setEquilibriumPoint();
             
             return constraint;
         }
