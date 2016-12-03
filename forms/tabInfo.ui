@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>336</width>
-    <height>255</height>
+    <height>287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,7 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <layout class="QFormLayout" name="formLayout">
-     <item row="11" column="0" colspan="2">
-      <widget class="QComboBox" name="combo_constType"/>
-     </item>
-     <item row="12" column="0">
+     <item row="13" column="0" colspan="2">
       <widget class="SpringSettings" name="widget_springSettings" native="true"/>
      </item>
      <item row="4" column="0">
@@ -118,6 +115,23 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+     </item>
+     <item row="15" column="0" colspan="2">
+      <widget class="QPushButton" name="button_applySettings">
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QComboBox" name="combo_constType"/>
      </item>
     </layout>
    </item>

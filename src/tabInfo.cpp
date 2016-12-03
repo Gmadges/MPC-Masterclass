@@ -30,6 +30,9 @@ void TabInfo::initUI()
     //settings
     //hide all settings because we default to fixed
     ui->widget_springSettings->hide();
+
+    // hide the apply button
+    ui->button_applySettings->hide();
 }
 
 void TabInfo::initConnections()
@@ -107,22 +110,26 @@ void TabInfo::displaySettings(BodyConstraintType type)
         case BodyConstraintType::FIXED :
         {
             ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
             break;
         }
         case BodyConstraintType::SLIDER :
         {
             ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
             break;
         }
         case BodyConstraintType::SPRING :
         {
             ui->widget_springSettings->show();
+            ui->button_applySettings->show();
             break;
         }
         default :
         {
             // default to fixed
             ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
             break;
         }
     }

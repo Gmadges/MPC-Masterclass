@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QWidget>
+#include "types.h"
 
 class Settings : public QWidget
 {
@@ -12,7 +13,7 @@ public:
     virtual ~Settings();
 
     // TODO abstract method that returns settings
-    //virtual void getSettings() = 0;
+    virtual ConstraintSettings getSettings() = 0;
     
 private:
     virtual void initUI() = 0;

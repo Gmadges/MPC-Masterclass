@@ -32,7 +32,6 @@ class Ui_TabInfo
 public:
     QGridLayout *gridLayout_2;
     QFormLayout *formLayout;
-    QComboBox *combo_constType;
     SpringSettings *widget_springSettings;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
@@ -45,25 +44,23 @@ public:
     QSpinBox *spin_maxSpheres;
     QFrame *line;
     QFrame *line_2;
+    QPushButton *button_applySettings;
+    QLabel *label_5;
+    QComboBox *combo_constType;
 
     void setupUi(QWidget *TabInfo)
     {
         if (TabInfo->objectName().isEmpty())
             TabInfo->setObjectName(QStringLiteral("TabInfo"));
-        TabInfo->resize(336, 255);
+        TabInfo->resize(336, 287);
         gridLayout_2 = new QGridLayout(TabInfo);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         formLayout = new QFormLayout();
         formLayout->setObjectName(QStringLiteral("formLayout"));
-        combo_constType = new QComboBox(TabInfo);
-        combo_constType->setObjectName(QStringLiteral("combo_constType"));
-
-        formLayout->setWidget(11, QFormLayout::SpanningRole, combo_constType);
-
         widget_springSettings = new SpringSettings(TabInfo);
         widget_springSettings->setObjectName(QStringLiteral("widget_springSettings"));
 
-        formLayout->setWidget(12, QFormLayout::LabelRole, widget_springSettings);
+        formLayout->setWidget(13, QFormLayout::SpanningRole, widget_springSettings);
 
         check_showMesh = new QCheckBox(TabInfo);
         check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
@@ -130,6 +127,21 @@ public:
 
         formLayout->setWidget(5, QFormLayout::SpanningRole, line_2);
 
+        button_applySettings = new QPushButton(TabInfo);
+        button_applySettings->setObjectName(QStringLiteral("button_applySettings"));
+
+        formLayout->setWidget(15, QFormLayout::SpanningRole, button_applySettings);
+
+        label_5 = new QLabel(TabInfo);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        formLayout->setWidget(11, QFormLayout::LabelRole, label_5);
+
+        combo_constType = new QComboBox(TabInfo);
+        combo_constType->setObjectName(QStringLiteral("combo_constType"));
+
+        formLayout->setWidget(11, QFormLayout::FieldRole, combo_constType);
+
 
         gridLayout_2->addLayout(formLayout, 1, 0, 1, 1);
 
@@ -150,6 +162,8 @@ public:
         label_3->setText(QApplication::translate("TabInfo", "Enable Intersections", 0));
         check_sphereIntersect->setText(QString());
         label_4->setText(QApplication::translate("TabInfo", "Max Spheres", 0));
+        button_applySettings->setText(QApplication::translate("TabInfo", "Apply", 0));
+        label_5->setText(QApplication::translate("TabInfo", "Type", 0));
     } // retranslateUi
 
 };

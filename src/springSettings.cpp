@@ -18,3 +18,9 @@ void SpringSettings::initUI()
 {
     //TODO
 }
+
+ConstraintSettings SpringSettings::getSettings()
+{
+    //TODO
+    return ConstraintSettings();
+}

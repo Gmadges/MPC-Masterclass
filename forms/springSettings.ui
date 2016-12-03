@@ -77,7 +77,10 @@
    <item row="6" column="0" colspan="2">
     <widget class="QLabel" name="label_7">
      <property name="text">
-      <string>Z Axis</string>
+      <string>&lt;b&gt;Z Axis&lt;/b&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -87,7 +90,10 @@
    <item row="3" column="0" colspan="2">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Y Axis</string>
+      <string>&lt;b&gt;Y Axis&lt;/b&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -97,7 +103,10 @@
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>X Axis</string>
+      <string>&lt;b&gt;X Axis&lt;/b&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

@@ -16,6 +16,8 @@ public:
     SpringSettings(QWidget *parent = 0);
     virtual ~SpringSettings();
 
+    ConstraintSettings getSettings();
+
 private:
     void initUI();
 

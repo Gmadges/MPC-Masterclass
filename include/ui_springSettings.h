@@ -110,18 +110,21 @@ public:
 
         label_7 = new QLabel(SpringSettings);
         label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setTextFormat(Qt::RichText);
         label_7->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(6, QFormLayout::SpanningRole, label_7);
 
         label_4 = new QLabel(SpringSettings);
         label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setTextFormat(Qt::RichText);
         label_4->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(3, QFormLayout::SpanningRole, label_4);
 
         label = new QLabel(SpringSettings);
         label->setObjectName(QStringLiteral("label"));
+        label->setTextFormat(Qt::RichText);
         label->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(0, QFormLayout::SpanningRole, label);
@@ -141,9 +144,9 @@ public:
         label_6->setText(QApplication::translate("SpringSettings", "Upper Limit", 0));
         label_8->setText(QApplication::translate("SpringSettings", "Lower Limit", 0));
         label_9->setText(QApplication::translate("SpringSettings", "Upper Limit", 0));
-        label_7->setText(QApplication::translate("SpringSettings", "Z Axis", 0));
-        label_4->setText(QApplication::translate("SpringSettings", "Y Axis", 0));
-        label->setText(QApplication::translate("SpringSettings", "X Axis", 0));
+        label_7->setText(QApplication::translate("SpringSettings", "<b>Z Axis</b>", 0));
+        label_4->setText(QApplication::translate("SpringSettings", "<b>Y Axis</b>", 0));
+        label->setText(QApplication::translate("SpringSettings", "<b>X Axis</b>", 0));
     } // retranslateUi
 
 };
