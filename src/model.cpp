@@ -31,6 +31,7 @@ void Model::reset()
     // destroy and create a new physics body.
     // TODO create a more elegant solution;
     BodyConstraintType type = pPhysicsBody->getConstraintType();
+    ConstraintSettings constSettings = pPhysicsBody->getConstraintSettings();
     float maxSize = pPhysicsBody->getMaxSphereSize();
     float minSize = pPhysicsBody->getMinSphereSize();
     int maxCount = pPhysicsBody->getMaxSphereCount();
@@ -39,6 +40,7 @@ void Model::reset()
     pPhysicsBody.reset(new PhysicsBody(pPhysWorld, id));
 
     pPhysicsBody->setConstraintType(type);
+    pPhysicsBody->setConstraintSettings(constSettings);
     pPhysicsBody->setMaxSphereSize(maxSize);
     pPhysicsBody->setMinSphereSize(minSize);
     pPhysicsBody->setMaxSphereCount(maxCount);
@@ -116,4 +118,9 @@ void Model::setMaxSphereSize(float size)
 void Model::setSphereOverlap(bool enable)
 {
     pPhysicsBody->setSphereOverlap(enable);
+}
+
+void Model::setConstraintSettings(ConstraintSettings settings)
+{
+    pPhysicsBody->setConstraintSettings(settings);
 }

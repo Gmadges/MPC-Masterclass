@@ -28,12 +28,14 @@ public:
 
 // setters
     void setConstraintType(BodyConstraintType _type);
+    void setConstraintSettings(ConstraintSettings settings);
     void setMaxSphereCount(int num);
     void setMinSphereSize(float size);
     void setMaxSphereSize(float size);
     void setSphereOverlap(bool enable);
 // getters
     BodyConstraintType getConstraintType();
+    ConstraintSettings getConstraintSettings();
     int getMaxSphereCount();
     float getMinSphereSize();
     float getMaxSphereSize();
@@ -75,6 +77,8 @@ private:
     float minSphereSize;
     float maxSphereSize;
     bool bSphereOverlap;
+
+    ConstraintSettings constraintSettings;
 };
 
 #endif // PHYSICSBODY

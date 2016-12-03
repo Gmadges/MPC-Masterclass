@@ -84,8 +84,13 @@ void TabInfo::setConstraintType(int idx)
     // show correct constraints
     displaySettings(type);
 
-    //TODO
-    // apply whatever settings we already have stored, could just be default
+    if(pCurrentSettings != nullptr)
+    {
+        ConstraintSettings settings = pCurrentSettings->getSettings();
+
+        // pass them down the line
+        pModel->setConstraintSettings(settings);
+    }
 
     pModel->createConstraints(); 
 }
@@ -197,4 +202,7 @@ void TabInfo::applyConstraintSettings()
     ConstraintSettings settings = pCurrentSettings->getSettings();
 
     // pass them down the line
+    pModel->setConstraintSettings(settings);
+
+    pModel->createConstraints(); 
 }

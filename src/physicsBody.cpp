@@ -226,22 +226,27 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                             frameInB), 
                                                                                             deleter);
             // just linear for now no angular
-            constraint->setLinearLowerLimit(btVector3(-50, -50, -50));
-            constraint->setLinearUpperLimit(btVector3(50, 50, 50));
+            constraint->setLinearLowerLimit(btVector3(  constraintSettings.xLowerLimit, 
+                                                        constraintSettings.yLowerLimit, 
+                                                        constraintSettings.zLowerLimit));
+
+            constraint->setLinearUpperLimit(btVector3(  constraintSettings.xUpperLimit, 
+                                                        constraintSettings.yLowerLimit, 
+                                                        constraintSettings.zLowerLimit));
 			
-			constraint->enableSpring(0, true);
-            constraint->setStiffness(0, 100, true);
-			constraint->setDamping(0, 100, true);
+			// constraint->enableSpring(0, true);
+            // constraint->setStiffness(0, 100, true);
+			// constraint->setDamping(0, 100, true);
 
-			constraint->enableSpring(1, true);
-            constraint->setStiffness(1, 100, true);
-			constraint->setDamping(1, 100, true);
+			// constraint->enableSpring(1, true);
+            // constraint->setStiffness(1, 100, true);
+			// constraint->setDamping(1, 100, true);
 
-			constraint->enableSpring(2, true);
-            constraint->setStiffness(2, 100, true);
-			constraint->setDamping(2, 100, true);
+			// constraint->enableSpring(2, true);
+            // constraint->setStiffness(2, 100, true);
+			// constraint->setDamping(2, 100, true);
 
-            constraint->setEquilibriumPoint();
+            // constraint->setEquilibriumPoint();
             
             return constraint;
         }
@@ -305,4 +310,14 @@ float PhysicsBody::getMaxSphereSize()
 bool PhysicsBody::getSphereOverlap()
 {
     return bSphereOverlap;
+}
+
+void PhysicsBody::setConstraintSettings(ConstraintSettings settings)
+{
+    constraintSettings = settings;
+}
+
+ConstraintSettings PhysicsBody::getConstraintSettings()
+{
+    return constraintSettings;
 }
