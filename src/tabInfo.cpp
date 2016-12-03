@@ -5,7 +5,8 @@
 TabInfo::TabInfo(std::shared_ptr<Model> _model, QWidget *parent) :
     QWidget(parent),
     pModel(_model),
-    ui(new Ui::TabInfo)
+    ui(new Ui::TabInfo),
+    pCurrentSettings(nullptr)
 {
     initUI();
 
@@ -69,6 +70,9 @@ void TabInfo::initConnections()
     connect(ui->spin_maxSphereCount, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TabInfo::setMaxSphereCount);
     connect(ui->spin_maxSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMaxSize);
     connect(ui->spin_minSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMinSize);
+
+    //apply settings
+    connect(ui->button_applySettings, &QPushButton::clicked, this, &TabInfo::applyConstraintSettings);
 }
 
 void TabInfo::setConstraintType(int idx)
@@ -133,18 +137,21 @@ void TabInfo::displaySettings(BodyConstraintType type)
         {
             ui->widget_springSettings->hide();
             ui->button_applySettings->hide();
+            pCurrentSettings = nullptr;
             break;
         }
         case BodyConstraintType::SLIDER :
         {
             ui->widget_springSettings->hide();
             ui->button_applySettings->hide();
+            pCurrentSettings = nullptr;
             break;
         }
         case BodyConstraintType::SPRING :
         {
             ui->widget_springSettings->show();
             ui->button_applySettings->show();
+            pCurrentSettings = dynamic_cast<Settings*>(ui->widget_springSettings);
             break;
         }
         default :
@@ -152,6 +159,8 @@ void TabInfo::displaySettings(BodyConstraintType type)
             // default to fixed
             ui->widget_springSettings->hide();
             ui->button_applySettings->hide();
+
+            pCurrentSettings = nullptr;
             break;
         }
     }
@@ -179,4 +188,13 @@ void TabInfo::setSphereMinSize(double size)
 {
     pModel->setMinSphereSize(size);
     pModel->reset();
+}
+
+void TabInfo::applyConstraintSettings()
+{
+    if(pCurrentSettings == nullptr) return;
+
+    ConstraintSettings settings = pCurrentSettings->getSettings();
+
+    // pass them down the line
 }

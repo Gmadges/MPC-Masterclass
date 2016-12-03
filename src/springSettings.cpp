@@ -21,6 +21,16 @@ void SpringSettings::initUI()
 
 ConstraintSettings SpringSettings::getSettings()
 {
-    //TODO
-    return ConstraintSettings();
+    ConstraintSettings values;
+
+    values.xUpperLimit = ui->spin_XUpper->value();
+    values.xLowerLimit = ui->spin_XLower->value();
+
+    values.yUpperLimit = ui->spin_YUpper->value();
+    values.yLowerLimit = ui->spin_YLower->value();
+
+    values.zUpperLimit = ui->spin_ZUpper->value();
+    values.zLowerLimit = ui->spin_ZLower->value();
+
+    return values;
 }

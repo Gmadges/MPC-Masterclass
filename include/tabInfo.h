@@ -6,6 +6,7 @@
 #include "types.h"
 
 class Model;
+class Settings;
 
 namespace Ui {
 class TabInfo;
@@ -35,10 +36,14 @@ private:
     BodyConstraintType getConstType(int idx);
     void displaySettings(BodyConstraintType type);
 
+    void applyConstraintSettings();
+
 private:
     std::shared_ptr<Model> pModel;
 
     Ui::TabInfo *ui;
+
+    Settings *pCurrentSettings;
 };
 
 #endif 
