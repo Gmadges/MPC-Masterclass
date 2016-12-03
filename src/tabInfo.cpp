@@ -27,6 +27,22 @@ void TabInfo::initUI()
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
 
+    //set all our default sphere values;
+    ui->check_sphereOverlap->setCheckState(Qt::CheckState::Checked);
+    pModel->setSphereOverlap(true);
+
+    ui->spin_maxSphereCount->setValue(1000);
+    pModel->setMaxSphereCount(1000);
+
+    ui->spin_maxSphereSize->setValue(1000000000.0);
+    pModel->setMaxSphereSize(1000000000.0);
+
+    ui->spin_minSphereSize->setValue(1.0);
+    pModel->setMinSphereSize(1.0);
+
+    // and apply this to the model
+    pModel->reset();
+
     //settings
     //hide all settings because we default to fixed
     ui->widget_springSettings->hide();
@@ -47,6 +63,12 @@ void TabInfo::initConnections()
     //combo box
     // need c++14 for the new qOverload stuff so we'll old skool it for now
     connect(ui->combo_constType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TabInfo::setConstraintType);
+
+    //sphere settings
+    connect(ui->check_sphereOverlap, &QCheckBox::clicked, this, &TabInfo::setSphereOverlap);
+    connect(ui->spin_maxSphereCount, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TabInfo::setMaxSphereCount);
+    connect(ui->spin_maxSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMaxSize);
+    connect(ui->spin_minSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMinSize);
 }
 
 void TabInfo::setConstraintType(int idx)
@@ -135,12 +157,26 @@ void TabInfo::displaySettings(BodyConstraintType type)
     }
 }
 
-void TabInfo::setMaxSphere(double num)
+void TabInfo::setMaxSphereCount(int num)
 {
-    
+    pModel->setMaxSphereCount(num);
+    pModel->reset();
 }
 
-void TabInfo::setSphereIntersect(bool enable)
+void TabInfo::setSphereOverlap(bool enable)
 {
+    pModel->setSphereOverlap(enable);
+    pModel->reset();
+}
 
+void TabInfo::setSphereMaxSize(double size)
+{
+    pModel->setMaxSphereSize(size);
+    pModel->reset();
+}
+
+void TabInfo::setSphereMinSize(double size)
+{
+    pModel->setMinSphereSize(size);
+    pModel->reset();
 }

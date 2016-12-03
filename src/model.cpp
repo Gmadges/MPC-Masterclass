@@ -19,7 +19,7 @@ Model::Model(std::string _path,
 {
 
     //initiate physics straight away
-    pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
+    //pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 }
 
 Model::~Model()
@@ -29,10 +29,20 @@ Model::~Model()
 void Model::reset()
 {
     // destroy and create a new physics body.
-    // TODO make the holding of constraint type
+    // TODO create a more elegant solution;
     BodyConstraintType type = pPhysicsBody->getConstraintType();
+    float maxSize = pPhysicsBody->getMaxSphereSize();
+    float minSize = pPhysicsBody->getMinSphereSize();
+    int maxCount = pPhysicsBody->getMaxSphereCount();
+    bool bOverlap = pPhysicsBody->getSphereOverlap();
+
     pPhysicsBody.reset(new PhysicsBody(pPhysWorld, id));
+
     pPhysicsBody->setConstraintType(type);
+    pPhysicsBody->setMaxSphereSize(maxSize);
+    pPhysicsBody->setMinSphereSize(minSize);
+    pPhysicsBody->setMaxSphereCount(maxCount);
+    pPhysicsBody->setSphereOverlap(bOverlap);
 
     // reload spheres
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
@@ -86,4 +96,24 @@ void Model::createConstraints()
 void Model::setConstraintType(BodyConstraintType _type)
 {
     pPhysicsBody->setConstraintType(_type);
+}
+
+void Model::setMaxSphereCount(int num)
+{
+    pPhysicsBody->setMaxSphereCount(num);
+}
+
+void Model::setMinSphereSize(float size)
+{
+    pPhysicsBody->setMinSphereSize(size);
+}
+
+void Model::setMaxSphereSize(float size)
+{
+    pPhysicsBody->setMaxSphereSize(size);
+}
+
+void Model::setSphereOverlap(bool enable)
+{
+    pPhysicsBody->setSphereOverlap(enable);
 }

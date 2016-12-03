@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>336</width>
-    <height>287</height>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <layout class="QFormLayout" name="formLayout">
-     <item row="13" column="0" colspan="2">
+     <item row="15" column="0" colspan="2">
       <widget class="SpringSettings" name="widget_springSettings" native="true"/>
      </item>
      <item row="4" column="0">
@@ -46,7 +46,7 @@
        </property>
       </widget>
      </item>
-     <item row="10" column="0" colspan="2">
+     <item row="12" column="0" colspan="2">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>&lt;b&gt;Constraints&lt;/b&gt;</string>
@@ -75,12 +75,12 @@
      <item row="7" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Enable Intersections</string>
+        <string>Enable Overlap</string>
        </property>
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QCheckBox" name="check_sphereIntersect">
+      <widget class="QCheckBox" name="check_sphereOverlap">
        <property name="text">
         <string/>
        </property>
@@ -89,14 +89,21 @@
      <item row="8" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Max Spheres</string>
+        <string>Max Sphere Count</string>
        </property>
       </widget>
      </item>
      <item row="8" column="1">
-      <widget class="QSpinBox" name="spin_maxSpheres"/>
+      <widget class="QSpinBox" name="spin_maxSphereCount">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>2147483647</number>
+       </property>
+      </widget>
      </item>
-     <item row="9" column="0" colspan="2">
+     <item row="11" column="0" colspan="2">
       <widget class="Line" name="line">
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
@@ -116,22 +123,53 @@
        </property>
       </widget>
      </item>
-     <item row="15" column="0" colspan="2">
+     <item row="17" column="0" colspan="2">
       <widget class="QPushButton" name="button_applySettings">
        <property name="text">
         <string>Apply</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
+     <item row="13" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Type</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="13" column="1">
       <widget class="QComboBox" name="combo_constType"/>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Max Sphere Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="spin_maxSphereSize">
+       <property name="maximum">
+        <double>1000000000000000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Min Sphere Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QDoubleSpinBox" name="spin_minSphereSize">
+       <property name="minimum">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100000000000000.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -23,8 +23,11 @@ private:
     void initConnections();
     void initUI();
 
-    void setMaxSphere(double num);
-    void setSphereIntersect(bool enable);
+    void setMaxSphereCount(int num);
+    void setSphereOverlap(bool enable);
+    void setSphereMaxSize(double size);
+    void setSphereMinSize(double size);
+
     void setShowMesh(bool set);
     void setShowPhys(bool set);
     void reset();

@@ -16,7 +16,12 @@ OpenVDBTools::~OpenVDBTools()
 {
 }
 
-std::vector<SphereData> OpenVDBTools::getSpheresForMesh(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices)
+std::vector<SphereData> OpenVDBTools::getSpheresForMesh(std::vector<QVector3D>& verts, 
+                                                        std::vector<unsigned int>& indices, 
+                                                        int maxCount, 
+                                                        bool bOverlap, 
+                                                        float minSize, 
+                                                        float maxSize)
 {   
     openvdb::initialize();
 
@@ -42,7 +47,7 @@ std::vector<SphereData> OpenVDBTools::getSpheresForMesh(std::vector<QVector3D>& 
 
     // Fill volume with spheres
     std::vector<openvdb::Vec4s> spheres;
-    openvdb::tools::fillWithSpheres<openvdb::FloatGrid>(*grid, spheres, 1000, true, 1.0f);
+    openvdb::tools::fillWithSpheres<openvdb::FloatGrid>(*grid, spheres, maxCount, bOverlap, minSize, maxSize);
 
     //package data up and pass it back
     std::vector<SphereData> return_spheres;
