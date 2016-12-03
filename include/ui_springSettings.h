@@ -93,6 +93,8 @@ public:
 
         spin_XUpper = new QDoubleSpinBox(SpringSettings);
         spin_XUpper->setObjectName(QStringLiteral("spin_XUpper"));
+        spin_XUpper->setMinimum(-1e+07);
+        spin_XUpper->setMaximum(1e+07);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, spin_XUpper);
 
@@ -147,6 +149,7 @@ public:
         spin_ZLower = new QDoubleSpinBox(SpringSettings);
         spin_ZLower->setObjectName(QStringLiteral("spin_ZLower"));
         spin_ZLower->setMinimum(-1e+07);
+        spin_ZLower->setMaximum(1e+07);
         spin_ZLower->setValue(0);
 
         formLayout->setWidget(13, QFormLayout::FieldRole, spin_ZLower);
