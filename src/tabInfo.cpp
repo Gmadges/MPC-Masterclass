@@ -134,3 +134,13 @@ void TabInfo::displaySettings(BodyConstraintType type)
         }
     }
 }
+
+void TabInfo::setMaxSphere(double num)
+{
+    
+}
+
+void TabInfo::setSphereIntersect(bool enable)
+{
+
+}
