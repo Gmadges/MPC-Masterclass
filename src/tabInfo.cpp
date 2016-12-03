@@ -5,7 +5,8 @@
 TabInfo::TabInfo(std::shared_ptr<Model> _model, QWidget *parent) :
     QWidget(parent),
     pModel(_model),
-    ui(new Ui::TabInfo)
+    ui(new Ui::TabInfo),
+    pCurrentSettings(nullptr)
 {
     initUI();
 
@@ -23,12 +24,32 @@ void TabInfo::initUI()
     // set up combo box
     ui->combo_constType->addItem("Fixed");
     ui->combo_constType->addItem("Slider");
-    ui->combo_constType->addItem("6DoF");
     ui->combo_constType->addItem("Spring");
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
 
-    // add the settings for each type
+    //set all our default sphere values;
+    ui->check_sphereOverlap->setCheckState(Qt::CheckState::Checked);
+    pModel->setSphereOverlap(true);
+
+    ui->spin_maxSphereCount->setValue(1000);
+    pModel->setMaxSphereCount(1000);
+
+    ui->spin_maxSphereSize->setValue(1000000000.0);
+    pModel->setMaxSphereSize(1000000000.0);
+
+    ui->spin_minSphereSize->setValue(1.0);
+    pModel->setMinSphereSize(1.0);
+
+    // and apply this to the model
+    pModel->reset();
+
+    //settings
+    //hide all settings because we default to fixed
+    ui->widget_springSettings->hide();
+
+    // hide the apply button
+    ui->button_applySettings->hide();
 }
 
 void TabInfo::initConnections()
@@ -43,11 +64,34 @@ void TabInfo::initConnections()
     //combo box
     // need c++14 for the new qOverload stuff so we'll old skool it for now
     connect(ui->combo_constType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TabInfo::setConstraintType);
+
+    //sphere settings
+    connect(ui->check_sphereOverlap, &QCheckBox::clicked, this, &TabInfo::setSphereOverlap);
+    connect(ui->spin_maxSphereCount, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TabInfo::setMaxSphereCount);
+    connect(ui->spin_maxSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMaxSize);
+    connect(ui->spin_minSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMinSize);
+
+    //apply settings
+    connect(ui->button_applySettings, &QPushButton::clicked, this, &TabInfo::applyConstraintSettings);
 }
 
 void TabInfo::setConstraintType(int idx)
 {  
-    pModel->setConstraintType(getConstType(idx));
+    BodyConstraintType type = getConstType(idx);
+
+    pModel->setConstraintType(type);
+
+    // show correct constraints
+    displaySettings(type);
+
+    if(pCurrentSettings != nullptr)
+    {
+        ConstraintSettings settings = pCurrentSettings->getSettings();
+
+        // pass them down the line
+        pModel->setConstraintSettings(settings);
+    }
+
     pModel->createConstraints(); 
 }
 
@@ -81,10 +125,6 @@ BodyConstraintType TabInfo::getConstType(int idx)
     }
     else if(idx == 2)
     {
-        return BodyConstraintType::SIX_DOF;
-    }
-    else if(idx == 3)
-    {
         return BodyConstraintType::SPRING;
     }
     else
@@ -92,4 +132,77 @@ BodyConstraintType TabInfo::getConstType(int idx)
         // default to fixed
         return BodyConstraintType::FIXED;
     }
+}
+
+void TabInfo::displaySettings(BodyConstraintType type)
+{
+    switch(type)
+    {
+        case BodyConstraintType::FIXED :
+        {
+            ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
+            pCurrentSettings = nullptr;
+            break;
+        }
+        case BodyConstraintType::SLIDER :
+        {
+            ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
+            pCurrentSettings = nullptr;
+            break;
+        }
+        case BodyConstraintType::SPRING :
+        {
+            ui->widget_springSettings->show();
+            ui->button_applySettings->show();
+            pCurrentSettings = dynamic_cast<Settings*>(ui->widget_springSettings);
+            break;
+        }
+        default :
+        {
+            // default to fixed
+            ui->widget_springSettings->hide();
+            ui->button_applySettings->hide();
+
+            pCurrentSettings = nullptr;
+            break;
+        }
+    }
+}
+
+void TabInfo::setMaxSphereCount(int num)
+{
+    pModel->setMaxSphereCount(num);
+    pModel->reset();
+}
+
+void TabInfo::setSphereOverlap(bool enable)
+{
+    pModel->setSphereOverlap(enable);
+    pModel->reset();
+}
+
+void TabInfo::setSphereMaxSize(double size)
+{
+    pModel->setMaxSphereSize(size);
+    pModel->reset();
+}
+
+void TabInfo::setSphereMinSize(double size)
+{
+    pModel->setMinSphereSize(size);
+    pModel->reset();
+}
+
+void TabInfo::applyConstraintSettings()
+{
+    if(pCurrentSettings == nullptr) return;
+
+    ConstraintSettings settings = pCurrentSettings->getSettings();
+
+    // pass them down the line
+    pModel->setConstraintSettings(settings);
+
+    pModel->createConstraints(); 
 }

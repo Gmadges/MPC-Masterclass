@@ -1,6 +1,7 @@
 #include "physicsBody.h"
 #include "physicsWorld.h"
 #include "sphere.h"
+#include "openVDBTools.h"
 
 #include <QOpenGLShaderProgram>
 
@@ -37,7 +38,11 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
     id(_id),
-    constraintType(BodyConstraintType::FIXED)
+    constraintType(BodyConstraintType::FIXED),
+    maxSphereCount(1000),
+    minSphereSize(1.0f),
+    maxSphereSize(100000.0f),
+    bSphereOverlap(true)
 {
 }
 
@@ -45,9 +50,12 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsBody::initBodyWithSpheres(std::vector<SphereData>& _spheres)
+void PhysicsBody::initBodyWithSpheres(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices)
 {
-    for(auto sphere : _spheres)
+    // get spheres
+    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(verts, indices, maxSphereCount, bSphereOverlap, minSphereSize, maxSphereSize);
+
+    for(auto sphere : spheres)
     {
         addSphere(sphere);
     }
@@ -209,15 +217,6 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                 true), 
                                                                                 deleter);
         }
-        case BodyConstraintType::SIX_DOF : 
-        {
-            return std::shared_ptr<btGeneric6DofConstraint>(new btGeneric6DofConstraint(*(pBody1.get()),
-                                                                                    *(pBody2.get()),
-                                                                                    frameInA,
-                                                                                    frameInB,
-                                                                                    true), 
-                                                                                    deleter);
-        }
         case BodyConstraintType::SPRING :
         {
 
@@ -226,17 +225,29 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                             frameInA,
                                                                                             frameInB), 
                                                                                             deleter);
+            // just linear for now no angular
+            constraint->setLinearLowerLimit(btVector3(  constraintSettings.xLowerLimit, 
+                                                        constraintSettings.yLowerLimit, 
+                                                        constraintSettings.zLowerLimit));
 
-			constraint->setLimit(5, -1, 1);
+            constraint->setLinearUpperLimit(btVector3(  constraintSettings.xUpperLimit, 
+                                                        constraintSettings.yLowerLimit, 
+                                                        constraintSettings.zLowerLimit));
+			
+			constraint->enableSpring(0, constraintSettings.xSpringEnabled);
+            constraint->setStiffness(0, constraintSettings.xSpringStiffness, true);
+			constraint->setDamping(0, constraintSettings.xSpringDamping, true);
 
-            constraint->enableSpring(5, true);
+			constraint->enableSpring(1, constraintSettings.ySpringEnabled);
+            constraint->setStiffness(1, constraintSettings.ySpringStiffness, true);
+			constraint->setDamping(1, constraintSettings.ySpringDamping, true);
 
-            constraint->setStiffness(5, 100);
+			constraint->enableSpring(2, constraintSettings.zSpringEnabled);
+            constraint->setStiffness(2, constraintSettings.zSpringStiffness, true);
+			constraint->setDamping(2, constraintSettings.zSpringDamping, true);
 
-            constraint->setDamping(5, 1);
-
-			constraint->setEquilibriumPoint(0, 0);
-
+            constraint->setEquilibriumPoint();
+            
             return constraint;
         }
         default :
@@ -259,4 +270,54 @@ void PhysicsBody::setConstraintType(BodyConstraintType _type)
 BodyConstraintType PhysicsBody::getConstraintType()
 {
     return constraintType;
+}
+
+void PhysicsBody::setMaxSphereCount(int count)
+{
+    maxSphereCount = count;
+}
+
+void PhysicsBody::setMinSphereSize(float size)
+{
+    minSphereSize = size;
+}
+
+void PhysicsBody::setMaxSphereSize(float size)
+{
+    maxSphereSize = size;
+}
+
+void PhysicsBody::setSphereOverlap(bool enable)
+{
+    bSphereOverlap = enable;
+}
+
+int PhysicsBody::getMaxSphereCount()
+{
+    return maxSphereCount;
+}
+
+float PhysicsBody::getMinSphereSize()
+{
+    return minSphereSize;
+}
+
+float PhysicsBody::getMaxSphereSize()
+{
+    return maxSphereSize;
+}
+
+bool PhysicsBody::getSphereOverlap()
+{
+    return bSphereOverlap;
+}
+
+void PhysicsBody::setConstraintSettings(ConstraintSettings settings)
+{
+    constraintSettings = settings;
+}
+
+ConstraintSettings PhysicsBody::getConstraintSettings()
+{
+    return constraintSettings;
 }

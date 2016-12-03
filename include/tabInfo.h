@@ -6,6 +6,7 @@
 #include "types.h"
 
 class Model;
+class Settings;
 
 namespace Ui {
 class TabInfo;
@@ -23,16 +24,26 @@ private:
     void initConnections();
     void initUI();
 
+    void setMaxSphereCount(int num);
+    void setSphereOverlap(bool enable);
+    void setSphereMaxSize(double size);
+    void setSphereMinSize(double size);
+
     void setShowMesh(bool set);
     void setShowPhys(bool set);
     void reset();
     void setConstraintType(int idx);
     BodyConstraintType getConstType(int idx);
+    void displaySettings(BodyConstraintType type);
+
+    void applyConstraintSettings();
 
 private:
     std::shared_ptr<Model> pModel;
 
     Ui::TabInfo *ui;
+
+    Settings *pCurrentSettings;
 };
 
-#endif // GLSCENE_H
+#endif 

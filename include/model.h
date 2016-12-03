@@ -27,6 +27,11 @@ public:
 
     void createConstraints();
     void setConstraintType(BodyConstraintType _type);
+    void setConstraintSettings(ConstraintSettings settings);
+    void setMaxSphereCount(int num);
+    void setMinSphereSize(float size);
+    void setMaxSphereSize(float size);
+    void setSphereOverlap(bool enable);
     
 private:
     // my meshs

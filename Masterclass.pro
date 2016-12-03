@@ -17,9 +17,7 @@ UI_DIR=./include
 SOURCES += $$PWD/src/*.cpp
 HEADERS  += $$PWD/include/*.h     
 
-FORMS+= $$PWD/forms/mainwindow.ui   \
-        $$PWD/forms/tabInfo.ui
-
+FORMS+= $$PWD/forms/*.ui
 INCLUDEPATH += /usr/local/include/bullet ./include
 
 LIBS += -L/usr/local/lib -lBulletDynamics  -lBulletCollision  -lLinearMath -lopenvdb -lpthread -lHalf -ltbb -lassimp

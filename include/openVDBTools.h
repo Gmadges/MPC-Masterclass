@@ -13,7 +13,12 @@ public:
     virtual ~OpenVDBTools();
 
     // returns vector of positions and radius for spheres to fill mesh shape.
-    static std::vector<SphereData> getSpheresForMesh(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices);
+    static std::vector<SphereData> getSpheresForMesh(std::vector<QVector3D>& verts, 
+                                                    std::vector<unsigned int>& indices, 
+                                                    int maxCount, 
+                                                    bool bOverlap, 
+                                                    float minSize, 
+                                                    float maxSize);
 };
 
 #endif // OPENVDBTOOLS_H

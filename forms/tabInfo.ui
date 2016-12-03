@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>336</width>
-    <height>226</height>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,17 +16,14 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QCheckBox" name="check_showPhys">
+     <item row="3" column="0" colspan="2">
+      <widget class="QPushButton" name="button_reset">
        <property name="text">
-        <string>show Phys</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
+        <string>Reset</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="4" column="0">
       <widget class="QCheckBox" name="check_showMesh">
        <property name="text">
         <string>show Mesh</string>
@@ -36,20 +33,176 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="2">
-      <widget class="QPushButton" name="button_reset">
+     <item row="4" column="1">
+      <widget class="QCheckBox" name="check_showPhys">
        <property name="text">
-        <string>Reset</string>
+        <string>show Phys</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
+     <item row="5" column="0" colspan="2">
+      <widget class="Line" name="line_2">
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="2">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>&lt;b&gt;Spheres&lt;/b&gt;</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Enable Overlap</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QCheckBox" name="check_sphereOverlap">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Max Sphere Count</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QSpinBox" name="spin_maxSphereCount">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>2147483647</number>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Max Sphere Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="spin_maxSphereSize">
+       <property name="maximum">
+        <double>1000000000000000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Min Sphere Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QDoubleSpinBox" name="spin_minSphereSize">
+       <property name="minimum">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100000000000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0" colspan="2">
+      <widget class="Line" name="line">
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0" colspan="2">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;b&gt;Constraints&lt;/b&gt;</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
       <widget class="QComboBox" name="combo_constType"/>
+     </item>
+     <item row="15" column="0" colspan="2">
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="SpringSettings" name="widget_springSettings">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>314</width>
+          <height>73</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="16" column="0" colspan="2">
+      <widget class="QPushButton" name="button_applySettings">
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SpringSettings</class>
+   <extends>QWidget</extends>
+   <header>springSettings.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
