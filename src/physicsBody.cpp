@@ -224,15 +224,20 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                                                             *(pBody2.get()),
                                                                                             frameInA,
                                                                                             frameInB), 
-                                                                                            deleter);
+                                                                                             deleter);
+            
+            //default angular // this stops the weird rotating
+            constraint->setAngularLowerLimit(btVector3(0,0,0));
+            constraint->setAngularUpperLimit(btVector3(0,0,0));
+            
             // just linear for now no angular
             constraint->setLinearLowerLimit(btVector3(  constraintSettings.xLowerLimit, 
                                                         constraintSettings.yLowerLimit, 
                                                         constraintSettings.zLowerLimit));
 
             constraint->setLinearUpperLimit(btVector3(  constraintSettings.xUpperLimit, 
-                                                        constraintSettings.yLowerLimit, 
-                                                        constraintSettings.zLowerLimit));
+                                                        constraintSettings.yUpperLimit, 
+                                                        constraintSettings.zUpperLimit));
 			
 			constraint->enableSpring(0, constraintSettings.xSpringEnabled);
             constraint->setStiffness(0, constraintSettings.xSpringStiffness, true);
