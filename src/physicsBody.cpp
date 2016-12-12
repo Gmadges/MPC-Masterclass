@@ -134,15 +134,15 @@ void PhysicsBody::applyConstraints()
     //store containts we've made'
     std::vector<std::vector<unsigned int>> consts(rigid_bodies.size());
 
-    float lookFactor = 1.25f;
+    //float lookFactor = 1.25f;
 
     // really basic method that just applies constaints to all spheres from all others
     for(unsigned int i = 0; i < rigid_bodies.size(); i++)
     {   
         // get position and radius around 
         auto body = rigid_bodies[i].first;
-        float bodyRadius = rigid_bodies[i].second * lookFactor;
-        btVector3 bodyPos = getPositionForBody(body);
+        //float bodyRadius = rigid_bodies[i].second * lookFactor;
+        //btVector3 bodyPos = getPositionForBody(body);
 
         for(unsigned int j = 0; j < rigid_bodies.size(); j++)
         {   
@@ -159,7 +159,7 @@ void PhysicsBody::applyConstraints()
             if(bNext) break;
 
             auto compareBody = rigid_bodies[j].first;
-            btVector3 comparePos = getPositionForBody(compareBody);
+            //btVector3 comparePos = getPositionForBody(compareBody);
 
             //check if their near each other
             //float dist = bodyPos.dot(comparePos);
