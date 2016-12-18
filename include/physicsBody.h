@@ -40,7 +40,7 @@ public:
     float getMinSphereSize();
     float getMaxSphereSize();
     bool getSphereOverlap();
-    std::vector<SphereData> getSpheres();
+    std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> getRigidBodies();
 
 private:
 
@@ -60,8 +60,6 @@ private:
 
     //pointer to physics world for ease
     std::shared_ptr<PhysicsWorld> pPhysicsWorld;
-
-    std::vector<SphereData> spheres;
 
     //store pointers to rigid body, and radius. because it sucks trying to retrive it
     std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> rigid_bodies;

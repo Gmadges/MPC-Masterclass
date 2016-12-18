@@ -133,7 +133,7 @@ void Model::WeightMeshFromPhysicsBody()
     auto verts = pMesh->getVerts();
 
     //Get spheres
-    auto spheres = pPhysicsBody->getSpheres();
+    auto spheres = pPhysicsBody->getRigidBodies();
 
     // Iterate through verts and find nearest spheres based on weighting value
 
