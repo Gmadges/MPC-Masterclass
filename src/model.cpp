@@ -2,6 +2,7 @@
 
 #include "mesh.h"
 #include "physicsBody.h"
+#include "types.h"
 #include <iostream>
 #include <iterator>
 #include <algorithm>
@@ -135,7 +136,16 @@ void Model::WeightMeshFromPhysicsBody()
     //Get spheres
     auto spheres = pPhysicsBody->getRigidBodies();
 
+    //vector of weights and ids
+    std::vector<SkinWeights> weights;
+    std::vector<SkinIDs> ids;
+
     // Iterate through verts and find nearest spheres based on weighting value
+    // alot of brute force searching
+    for(auto vert : verts)
+    {
+
+    }
 
     // if there are no intersections just find the nearest sphere
     // maybe make this a bit more intelligent by looking for other that could also be close and performing a similar weight thing to it?
