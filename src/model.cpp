@@ -147,22 +147,26 @@ void Model::WeightMeshFromPhysicsBody()
     // alot of brute force searching
     for(auto vert : verts)
     {
-        SkinWeights weights;
-        SkinIDs ids;
-
         // array to store our current sphere info for later calculations;
         std::pair<std::shared_ptr<btRigidBody>, float> currentSpheres[MAX_WEIGHTS];
 
         // throught the spheres we go
         for(auto sphere : spheres)
         {
-            // find the 4(hardcoded) spheres intersecting ours
-            // if there are no intersections just find the nearest sphere
+            // find the 4(hardcoded) nearest spheres
+            // I do this instead of intersections because for verts that are distant from spheres it would be easier 
+            // to keep and delete than look again. 
 
-
-            // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
              
         }
+
+        SkinWeights weights;
+        SkinIDs ids;
+
+        // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
+
+
+
         // add to the vectors
         weightsArray.push_back(weights);
         idsArray.push_back(ids);
