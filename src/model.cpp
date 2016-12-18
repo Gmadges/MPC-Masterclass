@@ -137,19 +137,37 @@ void Model::WeightMeshFromPhysicsBody()
     auto spheres = pPhysicsBody->getRigidBodies();
 
     //vector of weights and ids
-    std::vector<SkinWeights> weights;
-    std::vector<SkinIDs> ids;
+    std::vector<SkinWeights> weightsArray;
+    std::vector<SkinIDs> idsArray;
+
+    //HARD CODED weight radius for now
+    float weightRadius = 2.0f;
 
     // Iterate through verts and find nearest spheres based on weighting value
     // alot of brute force searching
     for(auto vert : verts)
     {
+        SkinWeights weights;
+        SkinIDs ids;
 
+        // array to store our current sphere info for later calculations;
+        std::pair<std::shared_ptr<btRigidBody>, float> currentSpheres[MAX_WEIGHTS];
+
+        // throught the spheres we go
+        for(auto sphere : spheres)
+        {
+            // find the 4(hardcoded) spheres intersecting ours
+            // if there are no intersections just find the nearest sphere
+
+
+            // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
+             
+        }
+        // add to the vectors
+        weightsArray.push_back(weights);
+        idsArray.push_back(ids);
     }
 
-    // if there are no intersections just find the nearest sphere
-    // maybe make this a bit more intelligent by looking for other that could also be close and performing a similar weight thing to it?
-
-    // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
-
+    //TODO
+    // Do something with our weights and IDs;
 }

@@ -40,6 +40,8 @@ struct ConstraintSettings
 };
 
 // hardcode weights and ids to a maxiumum of 4 for now;
+#define MAX_WEIGHTS 4
+
 struct SkinWeights
 {
     float weight1 = 0.0f;
