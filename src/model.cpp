@@ -124,3 +124,22 @@ void Model::setConstraintSettings(ConstraintSettings settings)
 {
     pPhysicsBody->setConstraintSettings(settings);
 }
+
+void Model::WeightMeshFromPhysicsBody()
+{
+    //TODO
+
+    //Get mesh verts
+    auto verts = pMesh->getVerts();
+
+    //Get spheres
+    auto spheres = pPhysicsBody->getSpheres();
+
+    // Iterate through verts and find nearest spheres based on weighting value
+
+    // if there are no intersections just find the nearest sphere
+    // maybe make this a bit more intelligent by looking for other that could also be close and performing a similar weight thing to it?
+
+    // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
+
+}

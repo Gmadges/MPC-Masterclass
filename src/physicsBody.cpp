@@ -50,10 +50,15 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
+std::vector<SphereData> PhysicsBody::getSpheres()
+{
+    return spheres;
+}
+
 void PhysicsBody::initBodyWithSpheres(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices)
 {
     // get spheres
-    std::vector<SphereData> spheres = OpenVDBTools::getSpheresForMesh(verts, indices, maxSphereCount, bSphereOverlap, minSphereSize, maxSphereSize);
+    spheres = OpenVDBTools::getSpheresForMesh(verts, indices, maxSphereCount, bSphereOverlap, minSphereSize, maxSphereSize);
 
     for(auto sphere : spheres)
     {
