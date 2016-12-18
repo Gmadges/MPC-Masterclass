@@ -148,7 +148,7 @@ void Model::WeightMeshFromPhysicsBody()
     for(auto vert : verts)
     {
         // array to store our current sphere info for later calculations;
-        std::pair<std::shared_ptr<btRigidBody>, float> currentSpheres[MAX_WEIGHTS];
+        std::pair<std::shared_ptr<btRigidBody>, float> nearestSpheres[MAX_WEIGHTS];
 
         // throught the spheres we go
         for(auto sphere : spheres)
@@ -157,7 +157,10 @@ void Model::WeightMeshFromPhysicsBody()
             // I do this instead of intersections because for verts that are distant from spheres it would be easier 
             // to keep and delete than look again. 
 
-             
+            // whats defines nearest?
+            // I'm just gonna do smallest values of vert location and sphere surface
+            // other options could be to look at intersections and colume sizes etc. maybe explore later
+            
         }
 
         SkinWeights weights;
