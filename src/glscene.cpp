@@ -71,15 +71,15 @@ void GLScene::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // load matrices;
-    loadMatricesToShader();
+    loadMatricesToShaders();
 
     // draw
-    pModelController->drawAll(&program);
+    pModelController->drawAll(&simpleShaderProgram);
 
-    pFloorPlane->draw(&program); 
+    pFloorPlane->draw(&simpleShaderProgram); 
 }
 
-void GLScene::loadMatricesToShader()
+void GLScene::loadMatricesToShaders()
 {
     // create view mat
     //mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
@@ -90,29 +90,46 @@ void GLScene::loadMatricesToShader()
     normMat = viewMat.normalMatrix();
 
     // normal matrix
-    program.setUniformValue("normal_matrix", normMat);
+    simpleShaderProgram.setUniformValue("normal_matrix", normMat);
+    skinShaderProgram.setUniformValue("normal_matrix", normMat);
 
     // MVP matrix
-    program.setUniformValue("proj_matrix", projMat);
-    program.setUniformValue("view_matrix", viewMat);
+    simpleShaderProgram.setUniformValue("proj_matrix", projMat);
+    simpleShaderProgram.setUniformValue("view_matrix", viewMat);
+
+    skinShaderProgram.setUniformValue("proj_matrix", projMat);
+    skinShaderProgram.setUniformValue("view_matrix", viewMat);
 
     //light position
-    lightPosLoc = program.uniformLocation("lightPos");
-    program.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
+    lightPosLoc = simpleShaderProgram.uniformLocation("lightPos");
+    simpleShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
+
+
+    lightPosLoc = skinShaderProgram.uniformLocation("lightPos");
+    skinShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
 }
 
 void GLScene::initShaders()
 {
-    if (!program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/simple.vert"))
+    if (!simpleShaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/simple.vert"))
         close();
 
-    if (!program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag"))
+    if (!simpleShaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag"))
         close();
 
-    if (!program.link())
+    if (!skinShaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/skinning.vert"))
         close();
 
-    if (!program.bind())
+    if (!skinShaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag"))
+        close();
+
+    if (!simpleShaderProgram.link())
+        close();
+
+    if (!skinShaderProgram.link())
+        close();
+
+    if (!skinShaderProgram.bind())
         close();
 }
 

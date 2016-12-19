@@ -1,3 +1,4 @@
+#version 120
 attribute vec4 a_position;
 attribute vec3 a_normal;
 
@@ -34,11 +35,11 @@ void main(void)
     gl_Position = MVP * pos;
 
     // vert pos for frag
-    vertex = pos;
+    vertex = pos.xyz;
 
     // normal
     vec4 norm = boneTransform * a_normal;
-    vertexNormal = normal_matrix * norm;
+    vertexNormal = normal_matrix * vec4(norm, 1);
 
     // color
     col = vec4(objectColor.x, objectColor.y, objectColor.z, 1);

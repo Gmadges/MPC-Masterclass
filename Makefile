@@ -325,7 +325,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_shaders.cpp qrc_style.cpp
 qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.frag \
-		shaders/simple.vert
+		shaders/simple.vert \
+		shaders/skinning.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
 
 qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
