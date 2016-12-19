@@ -13,11 +13,19 @@ void ModelController::loadModelFromFile(std::string _path, std::shared_ptr<Physi
      models.push_back(std::make_shared<Model>(_path, _phys,  models.size()));
 }
 
-void ModelController::drawAll(QOpenGLShaderProgram *pShader)
+void ModelController::drawAllMesh(QOpenGLShaderProgram *pShader)
 {
     for(auto model :  models)
     {
-        model->draw(pShader);
+        model->drawMesh(pShader);
+    }
+}
+
+void ModelController::drawAllPhysicsBody(QOpenGLShaderProgram *pShader)
+{
+    for(auto model :  models)
+    {
+        model->drawPhysicsBody(pShader);
     }
 }
 

@@ -1,11 +1,10 @@
-#version 120
-attribute vec4 a_position;
-attribute vec3 a_normal;
+#version 330
+in vec4 a_position;
+in vec3 a_normal;
+in ivec4 a_boneIDs;
+in vec4 a_weights;
 
-attribute ivec4 a_boneIDs;
-attribute vec4 a_weights;
-
-const int MAX_BONES = 1000;
+const int MAX_BONES = 100;
 uniform mat4 bones[MAX_BONES];
 
 uniform mat4 proj_matrix;
@@ -17,9 +16,9 @@ uniform mat3 normal_matrix;
 uniform vec4 objectColor;
 uniform vec3 lightPos;
 
-varying vec3 vertex;
-varying vec3 vertexNormal;
-varying vec4 col;
+out vec3 vertex;
+out vec3 vertexNormal;
+out vec4 col;
 
 void main(void)
 {
@@ -38,8 +37,8 @@ void main(void)
     vertex = pos.xyz;
 
     // normal
-    vec4 norm = boneTransform * a_normal;
-    vertexNormal = normal_matrix * vec4(norm, 1);
+    vec4 norm = boneTransform * vec4(a_normal, 1.0f);
+    vertexNormal = normal_matrix * norm.xyz;
 
     // color
     col = vec4(objectColor.x, objectColor.y, objectColor.z, 1);

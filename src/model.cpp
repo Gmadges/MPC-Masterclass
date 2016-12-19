@@ -55,7 +55,7 @@ void Model::reset()
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 }
 
-void Model::draw(QOpenGLShaderProgram *pShader)
+void Model::drawMesh(QOpenGLShaderProgram *pShader)
 {
     if(pMesh)
     {   
@@ -70,7 +70,10 @@ void Model::draw(QOpenGLShaderProgram *pShader)
             pMesh->drawMesh(pShader);
         }
     }
+}
 
+void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
+{
     if(pPhysicsBody)
     {
         if(bShowPhysShapes)

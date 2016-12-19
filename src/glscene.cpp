@@ -74,7 +74,8 @@ void GLScene::paintGL()
     loadMatricesToShaders();
 
     // draw
-    pModelController->drawAll(&simpleShaderProgram);
+    pModelController->drawAllMesh(&simpleShaderProgram);
+    pModelController->drawAllPhysicsBody(&simpleShaderProgram);
 
     pFloorPlane->draw(&simpleShaderProgram); 
 }
@@ -91,22 +92,22 @@ void GLScene::loadMatricesToShaders()
 
     // normal matrix
     simpleShaderProgram.setUniformValue("normal_matrix", normMat);
-    skinShaderProgram.setUniformValue("normal_matrix", normMat);
+    //skinShaderProgram.setUniformValue("normal_matrix", normMat);
 
     // MVP matrix
     simpleShaderProgram.setUniformValue("proj_matrix", projMat);
     simpleShaderProgram.setUniformValue("view_matrix", viewMat);
 
-    skinShaderProgram.setUniformValue("proj_matrix", projMat);
-    skinShaderProgram.setUniformValue("view_matrix", viewMat);
+    //skinShaderProgram.setUniformValue("proj_matrix", projMat);
+    //skinShaderProgram.setUniformValue("view_matrix", viewMat);
 
     //light position
     lightPosLoc = simpleShaderProgram.uniformLocation("lightPos");
     simpleShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
 
 
-    lightPosLoc = skinShaderProgram.uniformLocation("lightPos");
-    skinShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
+    //lightPosLoc = skinShaderProgram.uniformLocation("lightPos");
+    //skinShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
 }
 
 void GLScene::initShaders()
@@ -129,7 +130,7 @@ void GLScene::initShaders()
     if (!skinShaderProgram.link())
         close();
 
-    if (!skinShaderProgram.bind())
+    if (!simpleShaderProgram.bind())
         close();
 }
 

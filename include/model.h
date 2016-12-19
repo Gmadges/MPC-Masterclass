@@ -17,7 +17,9 @@ public:
     virtual ~Model();
 
     // draw
-    void draw(QOpenGLShaderProgram *pShader);
+    void drawMesh(QOpenGLShaderProgram *pShader);
+    void drawPhysicsBody(QOpenGLShaderProgram *pShader);
+
     void update();
 
     void setShowMesh(bool show);

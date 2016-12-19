@@ -32,8 +32,8 @@ void TabInfo::initUI()
     ui->check_sphereOverlap->setCheckState(Qt::CheckState::Checked);
     pModel->setSphereOverlap(true);
 
-    ui->spin_maxSphereCount->setValue(1000);
-    pModel->setMaxSphereCount(1000);
+    ui->spin_maxSphereCount->setValue(100);
+    pModel->setMaxSphereCount(100);
 
     ui->spin_maxSphereSize->setValue(1000000000.0);
     pModel->setMaxSphereSize(1000000000.0);
