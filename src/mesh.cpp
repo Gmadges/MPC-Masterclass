@@ -46,8 +46,25 @@ void Mesh::initMesh(std::string _path)
     normalBuf.bind();
     normalBuf.allocate( normals.data(),  normals.size() * sizeof(QVector3D));
 
-    //boneIDBuf.destroy();
-    //weightBuf.destroy();
+    // fill with empty data
+    for(unsigned int i = 0; i < vertices.size(); ++i)
+    {
+        boneIDs.push_back(SkinIDs());
+
+        // wet all weight to 0.25
+        SkinWeights tmp;
+        tmp.weight[0] = 0.25;
+        tmp.weight[1] = 0.25;
+        tmp.weight[2] = 0.25;
+        tmp.weight[3] = 0.25;
+        weights.push_back(tmp);
+    }
+
+    boneIDBuf.bind();
+    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(SkinIDs));
+    
+    weightBuf.bind();
+    weightBuf.allocate( weights.data(),  weights.size() * sizeof(SkinWeights));
 }
 
 void Mesh::loadMeshFromFile(std::string _path)
@@ -107,12 +124,19 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
 
     program->setUniformValue("objectColor", color);
 
+    // hardcode for testing
+    QMatrix4x4 values[] = {QMatrix4x4()};
+    values[0].setToIdentity();
+    program->setUniformValueArray("bones", values, 1);
+
     // Offset for position
     quintptr offset = 0;
 
     // Tell OpenGL programmable pipeline how to locate vertex position data
     int vertexLocation = program->attributeLocation("a_position");
     int normalLocation = program->attributeLocation("a_normal");
+    int boneIDLocation = program->attributeLocation("a_boneIDs");
+    int weightLocation = program->attributeLocation("a_weights");
 
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(QVector3D));
@@ -120,6 +144,14 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     normalBuf.bind();
     program->enableAttributeArray(normalLocation);
     program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+    boneIDBuf.bind();
+    program->enableAttributeArray(boneIDLocation);
+    program->setAttributeBuffer(boneIDLocation, GL_UNSIGNED_INT, 0, 4, sizeof(SkinIDs));
+
+    weightBuf.bind();
+    program->enableAttributeArray(weightLocation);
+    program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4, sizeof(SkinWeights));
 
     // Draw cube geometry using indices from VBO 1
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);

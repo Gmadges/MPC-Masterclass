@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 
+#include "types.h"
+
 class Mesh : protected QOpenGLFunctions
 {
 public:
@@ -33,6 +35,9 @@ private:
     std::vector<QVector3D> vertices;
     std::vector<unsigned int> faces;
     std::vector<QVector3D> normals;
+
+    std::vector<SkinIDs> boneIDs;
+    std::vector<SkinWeights> weights;
 
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;
