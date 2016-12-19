@@ -22,6 +22,11 @@ Mesh::Mesh(std::string _path):
     initMesh(_path);
 
     color = QVector4D(98.0f/255.0f,201.0f/255.0f,109.0f/255.0f,1);
+
+    // hardcode
+    QMatrix4x4 tmp;
+    tmp.setToIdentity();
+    bones.push_back(tmp);
 }
 
 Mesh::~Mesh()
@@ -124,10 +129,7 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
 
     program->setUniformValue("objectColor", color);
 
-    // hardcode for testing
-    QMatrix4x4 values[] = {QMatrix4x4()};
-    values[0].setToIdentity();
-    program->setUniformValueArray("bones", values, 1);
+    program->setUniformValueArray("bones", bones.data(), bones.size());
 
     // Offset for position
     quintptr offset = 0;
@@ -153,7 +155,7 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     program->enableAttributeArray(weightLocation);
     program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4, sizeof(SkinWeights));
 
-    // Draw cube geometry using indices from VBO 1
+    // draw
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
 }
 
@@ -165,4 +167,23 @@ std::vector<QVector3D>& Mesh::getVerts()
 std::vector<unsigned int>& Mesh::getFaces()
 {
     return  faces;
+}
+
+void Mesh::setWeights(std::vector<SkinWeights> _weights)
+{    
+    weights = _weights;
+    weightBuf.bind();
+    weightBuf.allocate( weights.data(),  weights.size() * sizeof(SkinWeights));
+}
+
+void Mesh::setSkinIDs(std::vector<SkinIDs> _ids)
+{
+    boneIDs = _ids;
+    boneIDBuf.bind();
+    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(SkinIDs));
+}
+
+void Mesh::setBones(std::vector<QMatrix4x4> _bones)
+{
+    bones = _bones;
 }

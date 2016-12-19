@@ -18,6 +18,10 @@ public:
 
     void drawMesh(QOpenGLShaderProgram *program);
 
+    void setWeights(std::vector<SkinWeights> _weights);
+    void setSkinIDs(std::vector<SkinIDs> _ids);
+    void setBones(std::vector<QMatrix4x4> _bones);
+
     std::vector<QVector3D>& getVerts();
     std::vector<unsigned int>& getFaces();
 
@@ -45,6 +49,8 @@ private:
 
     QOpenGLBuffer boneIDBuf;
     QOpenGLBuffer weightBuf;
+
+    std::vector<QMatrix4x4> bones;
     
 };
 
