@@ -153,7 +153,7 @@ void Model::weightMeshFromPhysicsBody()
     std::vector<SkinIDs> idsArray;
 
     //HARD CODED weight radius for now
-    float weightRadius = 2.0f;
+    float weightRadius = 1.0f;
 
     // Iterate through verts and find nearest spheres based on weighting value
     // alot of brute force searching
@@ -164,35 +164,49 @@ void Model::weightMeshFromPhysicsBody()
         // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
         // iterate through from nearest to furthest
         // store volumes
-        std::vector<float> volumes;
+        std::vector<float> intersects;
 
-        for(unsigned int i =0; i < nearest.size(); i++)
+        float nearestDist = 0.0f;
+        for(unsigned int i =0; i < nearest.size(); ++i)
         {
             // first check for intersection
             auto sphere = spheres[nearest[i]];
+            auto spherePos = getPositionForBody(sphere.first);
+            float dist = QVector3D::dotProduct(vert, spherePos);
 
-            float dist = QVector3D::dotProduct(vert, getPositionForBody(sphere.first));
+            if(i == 0) { nearestDist = dist; }
 
-            if(abs(dist) < (sphere.second + weightRadius))
+            if(abs(dist) < (sphere.second + weightRadius + nearestDist))
             {
-                // if we intersect calulate by how much volume
-
-                //add volume
-                //volumes.push_back();
-            }
-            // else another way of figuring out weighting might be zero
-            else
-            {
-                //add volume
-                //volumes.push_back();
+                //add amount of intersect
+                intersects.push_back((sphere.second + weightRadius + nearestDist) - abs(dist));
             }
         }
 
         SkinWeights weights;
         SkinIDs ids;
 
-        // calc weighting by intersections
+        // calc weights
+        // should always have one value
+        for(unsigned int j = 0; j < MAX_WEIGHTS; ++j)
+        {
+            if(j < intersects.size())
+            {
+                float sum = 0.0f;
+                for(float num : intersects)
+                {
+                    sum += num;
+                }
 
+                weights.weight[j] = intersects[j] / sum;
+                ids.id[j] = nearest[j];
+            }
+            else
+            {
+                weights.weight[j] = 0.0f;
+                ids.id[j] = 0;
+            }
+        }
 
         // add to the vectors
         weightsArray.push_back(weights);
@@ -215,7 +229,7 @@ std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<s
     std::priority_queue<std::pair<unsigned int, float>, std::vector<std::pair<unsigned int, float>>, decltype(cmp)> sphereQueue(cmp);
 
     // through the spheres we go
-    for(unsigned int i = 0; i < spheres.size(); i++)
+    for(unsigned int i = 0; i < spheres.size(); ++i)
     {
         // find the 4(hardcoded) nearest spheres
         // I do this instead of intersections because for verts that are distant from spheres it would be easier 
@@ -238,7 +252,7 @@ std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<s
 
     // get 4 smallest values
     std::vector<unsigned int> nearestSpheres;
-    for(unsigned int j = 0; j < MAX_WEIGHTS; j++) 
+    for(unsigned int j = 0; j < MAX_WEIGHTS; ++j) 
     {
         nearestSpheres.push_back(sphereQueue.top().first);
         sphereQueue.pop();

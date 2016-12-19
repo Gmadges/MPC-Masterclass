@@ -44,18 +44,12 @@ struct ConstraintSettings
 
 struct SkinWeights
 {
-    float weight1 = 0.0f;
-    float weight2 = 0.0f;
-    float weight3 = 0.0f;
-    float weight4 = 0.0f;
+    float weight[MAX_WEIGHTS] = {0.0f, 0.0f, 0.0f, 0.0f};
 };
 
 struct SkinIDs
 {
-    unsigned int ID1 = 0;
-    unsigned int ID2 = 0;
-    unsigned int ID3 = 0;
-    unsigned int ID4 = 0;
+    unsigned int id[MAX_WEIGHTS] = {0,0,0,0};
 };
 
 #endif 
