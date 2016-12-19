@@ -161,11 +161,37 @@ void Model::weightMeshFromPhysicsBody()
     {
         auto nearest = getNearestSpheres(vert, spheres);
 
+        // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
+        // iterate through from nearest to furthest
+        // store volumes
+        std::vector<float> volumes;
+
+        for(unsigned int i =0; i < nearest.size(); i++)
+        {
+            // first check for intersection
+            auto sphere = spheres[nearest[i]];
+
+            float dist = QVector3D::dotProduct(vert, getPositionForBody(sphere.first));
+
+            if(abs(dist) < (sphere.second + weightRadius))
+            {
+                // if we intersect calulate by how much volume
+
+                //add volume
+                //volumes.push_back();
+            }
+            // else another way of figuring out weighting might be zero
+            else
+            {
+                //add volume
+                //volumes.push_back();
+            }
+        }
+
         SkinWeights weights;
         SkinIDs ids;
 
-        // Figure out weighting by comparing the volume intersection of the spheres with our weighting sphere
-
+        // calc weighting by intersections
 
 
         // add to the vectors
@@ -177,7 +203,7 @@ void Model::weightMeshFromPhysicsBody()
     // Do something with our weights and IDs;
 }
 
-std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> spheres)
+std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>>& spheres)
 {
     // gonna use a priority queue because it looks useful and I'll just grab the top 4 at the end
     // cant be bothered to write my own sorting thing
@@ -211,10 +237,10 @@ std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<s
     }
 
     // get 4 smallest values
-    std::vector<unsigned int> nearestSpheres(MAX_WEIGHTS);
-    for(auto it : nearestSpheres) 
+    std::vector<unsigned int> nearestSpheres;
+    for(unsigned int j = 0; j < MAX_WEIGHTS; j++) 
     {
-        it = sphereQueue.top().first;
+        nearestSpheres.push_back(sphereQueue.top().first);
         sphereQueue.pop();
     }
 

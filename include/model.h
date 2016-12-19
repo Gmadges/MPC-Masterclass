@@ -37,7 +37,7 @@ public:
 
 private:
     QVector3D getPositionForBody(std::shared_ptr<btRigidBody> pBody);
-    std::vector<unsigned int> getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> spheres);
+    std::vector<unsigned int> getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>>& spheres);
 
 private:
     // my meshs
