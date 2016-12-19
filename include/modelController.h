@@ -16,6 +16,8 @@ public:
     ModelController();
     virtual ~ModelController();
 
+    void update();
+
     // draw all meshes
     void drawAllMesh(QOpenGLShaderProgram *pShader);
     void drawAllPhysicsBody(QOpenGLShaderProgram *pShader);

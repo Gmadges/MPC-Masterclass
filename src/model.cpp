@@ -53,6 +53,9 @@ void Model::reset()
 
     // reload spheres
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
+
+    //reskin
+    weightMeshFromPhysicsBody();
 }
 
 void Model::drawMesh(QOpenGLShaderProgram *pShader)
@@ -85,7 +88,26 @@ void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
 
 void Model::update()
 {
-    // update transform
+    // update bone transforms
+    auto spheres = pPhysicsBody->getRigidBodies();
+
+    std::vector<QMatrix4x4> boneTransforms;
+    
+    for(auto sphere : spheres)
+    {
+        float modelMat[16];
+        btTransform trans;
+        sphere.first->getMotionState()->getWorldTransform(trans);
+        trans.getOpenGLMatrix(modelMat);
+
+        QMatrix4x4 transform;
+        transform.setToIdentity();
+        transform *= QMatrix4x4(modelMat).transposed();
+        
+        boneTransforms.push_back(transform);
+    }
+
+    pMesh->setBones(boneTransforms);
 }
 
 void Model::setShowMesh(bool show)
@@ -143,8 +165,6 @@ QVector3D Model::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
 
 void Model::weightMeshFromPhysicsBody()
 {
-    //TODO
-
     //Get mesh verts
     auto verts = pMesh->getVerts();
 
@@ -216,8 +236,10 @@ void Model::weightMeshFromPhysicsBody()
         idsArray.push_back(ids);
     }
 
-    //TODO
-    // Do something with our weights and IDs;
+    pMesh->setWeights(weightsArray);
+    pMesh->setSkinIDs(idsArray);
+
+    update();
 }
 
 std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>>& spheres)

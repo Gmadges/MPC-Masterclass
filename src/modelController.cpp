@@ -13,6 +13,14 @@ void ModelController::loadModelFromFile(std::string _path, std::shared_ptr<Physi
      models.push_back(std::make_shared<Model>(_path, _phys,  models.size()));
 }
 
+void ModelController::update()
+{
+    for(auto model :  models)
+    {
+        model->update();
+    }
+}
+
 void ModelController::drawAllMesh(QOpenGLShaderProgram *pShader)
 {
     for(auto model :  models)

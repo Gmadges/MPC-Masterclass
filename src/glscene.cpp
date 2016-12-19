@@ -75,6 +75,9 @@ void GLScene::paintGL()
     loadMatricesToShaders(&simpleShaderProgram);
     pFloorPlane->draw(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
+    
+    // update transforms
+    pModelController->update();
 
     // draw skinning shader
     skinShaderProgram.bind();
