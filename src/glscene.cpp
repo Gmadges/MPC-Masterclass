@@ -71,15 +71,16 @@ void GLScene::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // load matrices;
-    loadMatricesToShaders();
-
-    // draw
+    loadMatricesToShaders(&simpleShaderProgram);
+    // draw simple shader
     pFloorPlane->draw(&simpleShaderProgram);
-    pModelController->drawAllMesh(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
+    
+    // draw skinning shader
+    pModelController->drawAllMesh(&simpleShaderProgram);
 }
 
-void GLScene::loadMatricesToShaders()
+void GLScene::loadMatricesToShaders(QOpenGLShaderProgram *pProgram)
 {
     // create view mat
     //mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
@@ -90,23 +91,15 @@ void GLScene::loadMatricesToShaders()
     normMat = viewMat.normalMatrix();
 
     // normal matrix
-    simpleShaderProgram.setUniformValue("normal_matrix", normMat);
-    //skinShaderProgram.setUniformValue("normal_matrix", normMat);
+    pProgram->setUniformValue("normal_matrix", normMat);
 
     // MVP matrix
-    simpleShaderProgram.setUniformValue("proj_matrix", projMat);
-    simpleShaderProgram.setUniformValue("view_matrix", viewMat);
-
-    //skinShaderProgram.setUniformValue("proj_matrix", projMat);
-    //skinShaderProgram.setUniformValue("view_matrix", viewMat);
+    pProgram->setUniformValue("proj_matrix", projMat);
+    pProgram->setUniformValue("view_matrix", viewMat);
 
     //light position
-    lightPosLoc = simpleShaderProgram.uniformLocation("lightPos");
-    simpleShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
-
-
-    //lightPosLoc = skinShaderProgram.uniformLocation("lightPos");
-    //skinShaderProgram.setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
+    lightPosLoc = pProgram->uniformLocation("lightPos");
+    pProgram->setUniformValue(lightPosLoc, QVector3D(0, 50, 100));
 }
 
 void GLScene::initShaders()

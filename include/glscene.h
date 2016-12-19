@@ -50,7 +50,7 @@ protected:
     void paintGL() override;
 
     void initShaders();
-    void loadMatricesToShaders();
+    void loadMatricesToShaders(QOpenGLShaderProgram *pProgram);
 
 private:
     
