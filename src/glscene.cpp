@@ -74,10 +74,9 @@ void GLScene::paintGL()
     loadMatricesToShaders();
 
     // draw
+    pFloorPlane->draw(&simpleShaderProgram);
     pModelController->drawAllMesh(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
-
-    pFloorPlane->draw(&simpleShaderProgram); 
 }
 
 void GLScene::loadMatricesToShaders()
