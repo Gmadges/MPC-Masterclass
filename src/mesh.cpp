@@ -11,10 +11,12 @@ Mesh::Mesh(std::string _path):
 {
     initializeOpenGLFunctions();
 
-    // Generate 2 VBOs
+    // Generate VBOs
     arrayBuf.create();
     indexBuf.create();
     normalBuf.create();
+    boneIDBuf.create();
+    weightBuf.create();
 
     // Initializes cube geometry and transfers it to VBOs
     initMesh(_path);
@@ -27,6 +29,8 @@ Mesh::~Mesh()
     arrayBuf.destroy();
     indexBuf.destroy();
     normalBuf.destroy();
+    boneIDBuf.destroy();
+    weightBuf.destroy();
 }
 
 void Mesh::initMesh(std::string _path)
@@ -40,8 +44,10 @@ void Mesh::initMesh(std::string _path)
     indexBuf.allocate( faces.data(),  faces.size() * sizeof(unsigned int));
 
     normalBuf.bind();
-
     normalBuf.allocate( normals.data(),  normals.size() * sizeof(QVector3D));
+
+    //boneIDBuf.destroy();
+    //weightBuf.destroy();
 }
 
 void Mesh::loadMeshFromFile(std::string _path)

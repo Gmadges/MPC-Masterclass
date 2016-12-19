@@ -70,14 +70,16 @@ void GLScene::paintGL()
     // clear tings
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // load matrices;
-    loadMatricesToShaders(&simpleShaderProgram);
     // draw simple shader
+    simpleShaderProgram.bind();
+    loadMatricesToShaders(&simpleShaderProgram);
     pFloorPlane->draw(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
-    
+
     // draw skinning shader
-    pModelController->drawAllMesh(&simpleShaderProgram);
+    skinShaderProgram.bind();
+    loadMatricesToShaders(&skinShaderProgram);
+    pModelController->drawAllMesh(&skinShaderProgram);
 }
 
 void GLScene::loadMatricesToShaders(QOpenGLShaderProgram *pProgram)

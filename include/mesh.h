@@ -37,6 +37,10 @@ private:
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;
     QOpenGLBuffer normalBuf;
+
+    QOpenGLBuffer boneIDBuf;
+    QOpenGLBuffer weightBuf;
+    
 };
 
 #endif // MESH_H
