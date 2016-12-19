@@ -4,35 +4,8 @@
 #include "openVDBTools.h"
 
 #include <QOpenGLShaderProgram>
-
 #include <iostream>
 
-//Handy methods ///////////////////////////
-btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody)
-{
-    btTransform trans1;
-    pBody->getMotionState()->getWorldTransform(trans1);
-    return trans1.getOrigin();
-}
-
-void calcFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, std::shared_ptr<btRigidBody> pBodyB, btTransform& frameInA, btTransform& frameInB)
-{
-    // get positions
-    btVector3 rigid1Pos = getPositionForBody(pBodyA);
-
-    frameInA.setIdentity();
-    frameInB.setIdentity();
-    
-    frameInA.setOrigin( rigid1Pos );
-
-    btTransform inv = pBodyB->getCenterOfMassTransform().inverse();
-
-    btTransform globalFrameA = pBodyA->getCenterOfMassTransform() * frameInA;
-
-    frameInB = inv  * globalFrameA;
-}
-
-//////////class
 PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
@@ -330,4 +303,28 @@ void PhysicsBody::setConstraintSettings(ConstraintSettings settings)
 ConstraintSettings PhysicsBody::getConstraintSettings()
 {
     return constraintSettings;
+}
+
+btVector3 PhysicsBody::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    return trans1.getOrigin();
+}
+
+void PhysicsBody::calcFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, std::shared_ptr<btRigidBody> pBodyB, btTransform& frameInA, btTransform& frameInB)
+{
+    // get positions
+    btVector3 rigid1Pos = getPositionForBody(pBodyA);
+
+    frameInA.setIdentity();
+    frameInB.setIdentity();
+    
+    frameInA.setOrigin( rigid1Pos );
+
+    btTransform inv = pBodyB->getCenterOfMassTransform().inverse();
+
+    btTransform globalFrameA = pBodyA->getCenterOfMassTransform() * frameInA;
+
+    frameInB = inv  * globalFrameA;
 }

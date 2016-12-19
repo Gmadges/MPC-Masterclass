@@ -3,9 +3,13 @@
 #include "mesh.h"
 #include "physicsBody.h"
 #include "types.h"
-#include <iostream>
 #include <iterator>
 #include <algorithm>
+#include <functional>
+#include <queue>
+#include <vector>
+#include <iostream>
+#include <utility>
 
 Model::Model(std::string _path, 
                 std::shared_ptr<PhysicsWorld> _phys,
@@ -126,7 +130,15 @@ void Model::setConstraintSettings(ConstraintSettings settings)
     pPhysicsBody->setConstraintSettings(settings);
 }
 
-void Model::WeightMeshFromPhysicsBody()
+QVector3D Model::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
+{
+    btTransform trans1;
+    pBody->getMotionState()->getWorldTransform(trans1);
+    btVector3 pos = trans1.getOrigin();
+    return QVector3D(pos.x() ,pos.y(), pos.z());
+}
+
+void Model::weightMeshFromPhysicsBody()
 {
     //TODO
 
@@ -147,21 +159,7 @@ void Model::WeightMeshFromPhysicsBody()
     // alot of brute force searching
     for(auto vert : verts)
     {
-        // array to store our current sphere info for later calculations;
-        std::pair<std::shared_ptr<btRigidBody>, float> nearestSpheres[MAX_WEIGHTS];
-
-        // throught the spheres we go
-        for(auto sphere : spheres)
-        {
-            // find the 4(hardcoded) nearest spheres
-            // I do this instead of intersections because for verts that are distant from spheres it would be easier 
-            // to keep and delete than look again. 
-
-            // whats defines nearest?
-            // I'm just gonna do smallest values of vert location and sphere surface
-            // other options could be to look at intersections and colume sizes etc. maybe explore later
-            
-        }
+        auto nearest = getNearestSpheres(vert, spheres);
 
         SkinWeights weights;
         SkinIDs ids;
@@ -178,3 +176,48 @@ void Model::WeightMeshFromPhysicsBody()
     //TODO
     // Do something with our weights and IDs;
 }
+
+std::vector<unsigned int> Model::getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> spheres)
+{
+    // gonna use a priority queue because it looks useful and I'll just grab the top 4 at the end
+    // cant be bothered to write my own sorting thing
+    // comparison lambda
+    auto cmp = [](std::pair<unsigned int, float> left, std::pair<unsigned int, float> right) { 
+        return left.second > right.second;
+    };
+
+    std::priority_queue<std::pair<unsigned int, float>, std::vector<std::pair<unsigned int, float>>, decltype(cmp)> sphereQueue(cmp);
+
+    // through the spheres we go
+    for(unsigned int i = 0; i < spheres.size(); i++)
+    {
+        // find the 4(hardcoded) nearest spheres
+        // I do this instead of intersections because for verts that are distant from spheres it would be easier 
+        // to keep and delete than look again. 
+
+        // whats defines nearest?
+        // I'm just gonna do smallest values of vert location and sphere surface
+        // other options could be to look at intersections and colume sizes etc. maybe explore later
+        //btVector3 spherePos = getPositionForBody(sphere.first);
+        QVector3D spherePos = getPositionForBody(spheres[i].first);
+        float sphereRadius = spheres[i].second;
+
+        // dist from centre of sphere to vert
+        float centreDist = QVector3D::dotProduct(vert, spherePos);
+        // dist from surface to vert
+        float dist = abs(sphereRadius - centreDist);
+
+        sphereQueue.push(std::pair<unsigned int, float>(i, dist));
+    }
+
+    // get 4 smallest values
+    std::vector<unsigned int> nearestSpheres(MAX_WEIGHTS);
+    for(auto it : nearestSpheres) 
+    {
+        it = sphereQueue.top().first;
+        sphereQueue.pop();
+    }
+
+    return nearestSpheres;
+}
+
