@@ -447,7 +447,8 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/physicsBody.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
-obj/mesh.o: src/mesh.cpp include/mesh.h
+obj/mesh.o: src/mesh.cpp include/mesh.h \
+		include/types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
 
 obj/model.o: src/model.cpp include/model.h \

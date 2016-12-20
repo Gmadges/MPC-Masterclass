@@ -55,7 +55,7 @@ void Model::reset()
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 
     //reskin
-    weightMeshFromPhysicsBody();
+    //weightMeshFromPhysicsBody();
 }
 
 void Model::drawMesh(QOpenGLShaderProgram *pShader)
@@ -90,22 +90,30 @@ void Model::update()
 {
     // update bone transforms
     auto spheres = pPhysicsBody->getRigidBodies();
-
-    std::vector<QMatrix4x4> boneTransforms;
-    
-    for(auto sphere : spheres)
+    if(!spheres.empty())
     {
-        float modelMat[16];
-        btTransform trans;
-        sphere.first->getMotionState()->getWorldTransform(trans);
-        trans.getOpenGLMatrix(modelMat);
-
-        QMatrix4x4 transform(modelMat);
+        std::vector<QMatrix4x4> boneTransforms;
         
-        boneTransforms.push_back(transform);
-    }
+        for(auto sphere : spheres)
+        {
+            // just get the translate data no rotation and scale;
+            // get a standard transform
+            QMatrix4x4 transform;
+            transform.setToIdentity();
 
-    pMesh->setBones(boneTransforms);
+            // tricky part
+            // upcast the motion state to a default one which stores the original start transform and new
+            // find the translation from its starting point
+            // use this translation with the transform mattrix we will store
+            btDefaultMotionState* pState = dynamic_cast<btDefaultMotionState*>(sphere.first->getMotionState());
+            btVector3 trans = pState->m_graphicsWorldTrans.getOrigin() - pState->m_startWorldTrans.getOrigin();
+            transform.translate(QVector3D(trans.x() ,trans.y(), trans.z()));
+            
+            boneTransforms.push_back(transform);
+        }
+    
+        pMesh->setBones(boneTransforms);
+    }
 }
 
 void Model::setShowMesh(bool show)
@@ -234,24 +242,24 @@ void Model::weightMeshFromPhysicsBody()
         idsArray.push_back(ids);
     }
 
-    // //print debug
-    // for(auto itr : weightsArray)
-    // {
-    //     std::cout << "Weight ------------------------------ \n";
-    //     std::cout << "weight: " << itr.weight[0] << 
-    //                     " , " << itr.weight[1] << 
-    //                     " , " << itr.weight[2] << 
-    //                     " , " << itr.weight[3] << "\n";
-    // }
+    // // // print debug
+    // // // for(auto itr : weightsArray)
+    // // // {
+    // // //     std::cout << "Weight ------------------------------ \n";
+    // // //     std::cout << "weight: " << itr.weight[0] << 
+    // // //                     " , " << itr.weight[1] << 
+    // // //                     " , " << itr.weight[2] << 
+    // // //                     " , " << itr.weight[3] << "\n";
+    // // // }
 
-    // for(auto itr : idsArray)
-    // {
-    //     std::cout << "ID ------------------------------ \n";
-    //     std::cout << "ids : " << itr.id[0] << 
-    //                     " , " << itr.id[1] <<
-    //                     " , " << itr.id[2] <<
-    //                     " , " << itr.id[3] << "\n";
-    // }
+    // // // for(auto itr : idsArray)
+    // // // {
+    // // //     std::cout << "ID ------------------------------ \n";
+    // // //     std::cout << "ids : " << itr.id[0] << 
+    // // //                     " , " << itr.id[1] <<
+    // // //                     " , " << itr.id[2] <<
+    // // //                     " , " << itr.id[3] << "\n";
+    // // // }
 
     pMesh->setWeights(weightsArray);
     pMesh->setSkinIDs(idsArray);
