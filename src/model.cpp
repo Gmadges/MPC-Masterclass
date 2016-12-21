@@ -55,7 +55,7 @@ void Model::reset()
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 
     //reskin
-    //weightMeshFromPhysicsBody();
+    weightMeshFromPhysicsBody();
 }
 
 void Model::drawMesh(QOpenGLShaderProgram *pShader)
@@ -203,7 +203,7 @@ void Model::weightMeshFromPhysicsBody()
             auto spherePos = getPositionForBody(sphere.first);
             float dist = QVector3D::dotProduct(vert, spherePos);
 
-            if(i == 0) { nearestDist = dist; }
+            if(i == 0) { nearestDist = abs(dist); }
 
             if(abs(dist) < (sphere.second + weightRadius + nearestDist))
             {
@@ -228,12 +228,12 @@ void Model::weightMeshFromPhysicsBody()
                 }
 
                 weights.weight[j] = intersects[j] / sum;
-                ids.id[j] = nearest[j];
+                ids.id[j] = (float)nearest[j];
             }
             else
             {
                 weights.weight[j] = 0.0f;
-                ids.id[j] = nearest[j];
+                ids.id[j] = (float)nearest[j];
             }
         }
 
@@ -242,24 +242,22 @@ void Model::weightMeshFromPhysicsBody()
         idsArray.push_back(ids);
     }
 
-    // // // print debug
-    // // // for(auto itr : weightsArray)
-    // // // {
-    // // //     std::cout << "Weight ------------------------------ \n";
-    // // //     std::cout << "weight: " << itr.weight[0] << 
-    // // //                     " , " << itr.weight[1] << 
-    // // //                     " , " << itr.weight[2] << 
-    // // //                     " , " << itr.weight[3] << "\n";
-    // // // }
+    // //print debug
+    // for(auto itr : weightsArray)
+    // {
+    //     if(itr.weight[0] > 1.0f || itr.weight[0] < 1.0f)
+    //     {
+    //         std::cout << "Weight ------------------------------ \n";
+    //         std::cout << "weight: " << itr.weight[0] << "\n"; 
+    //     }
+    // }
 
-    // // // for(auto itr : idsArray)
-    // // // {
-    // // //     std::cout << "ID ------------------------------ \n";
-    // // //     std::cout << "ids : " << itr.id[0] << 
-    // // //                     " , " << itr.id[1] <<
-    // // //                     " , " << itr.id[2] <<
-    // // //                     " , " << itr.id[3] << "\n";
-    // // // }
+    // std::cout << "\n";
+    // for(auto itr : idsArray)
+    // {
+    //     std::cout << " " << itr.id[0] << " ";
+    // }
+    // std::cout << "\n";
 
     pMesh->setWeights(weightsArray);
     pMesh->setSkinIDs(idsArray);

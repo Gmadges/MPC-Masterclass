@@ -49,7 +49,7 @@ struct SkinWeights
 
 struct SkinIDs
 {
-    unsigned int id[MAX_WEIGHTS] = {0,0,0,0};
+    float id[MAX_WEIGHTS] = { 50.0f, 0.0f, 0.0f, 0.0f};
 };
 
 #endif 

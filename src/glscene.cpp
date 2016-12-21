@@ -76,12 +76,10 @@ void GLScene::paintGL()
     pFloorPlane->draw(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
     
-    // update transforms
-    pModelController->update();
-
     // draw skinning shader
     skinShaderProgram.bind();
     loadMatricesToShaders(&skinShaderProgram);
+    pModelController->update();
     pModelController->drawAllMesh(&skinShaderProgram);
 }
 

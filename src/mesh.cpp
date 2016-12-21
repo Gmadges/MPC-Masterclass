@@ -66,10 +66,10 @@ void Mesh::initMesh(std::string _path)
     }
 
     boneIDBuf.bind();
-    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(SkinIDs));
+    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(float) * MAX_WEIGHTS);
     
     weightBuf.bind();
-    weightBuf.allocate( weights.data(),  weights.size() * sizeof(SkinWeights));
+    weightBuf.allocate( weights.data(),  weights.size() * sizeof(float) * MAX_WEIGHTS);
 }
 
 void Mesh::loadMeshFromFile(std::string _path)
@@ -141,19 +141,19 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     int weightLocation = program->attributeLocation("a_weights");
 
     program->enableAttributeArray(vertexLocation);
-    program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(QVector3D));
+    program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3);
 
     normalBuf.bind();
     program->enableAttributeArray(normalLocation);
-    program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3);
 
     boneIDBuf.bind();
     program->enableAttributeArray(boneIDLocation);
-    program->setAttributeBuffer(boneIDLocation, GL_UNSIGNED_INT, 0, 4, sizeof(SkinIDs));
+    program->setAttributeBuffer(boneIDLocation, GL_FLOAT, 0, 4);
 
     weightBuf.bind();
     program->enableAttributeArray(weightLocation);
-    program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4, sizeof(SkinWeights));
+    program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4);
 
     // draw
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
