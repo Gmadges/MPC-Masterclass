@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>shaders/simple.vert</file>
         <file>shaders/simple.frag</file>
+        <file>shaders/skinning.vert</file>
     </qresource>
 </RCC>

@@ -16,8 +16,11 @@ public:
     ModelController();
     virtual ~ModelController();
 
+    void update();
+
     // draw all meshes
-    void drawAll(QOpenGLShaderProgram *pShader);
+    void drawAllMesh(QOpenGLShaderProgram *pShader);
+    void drawAllPhysicsBody(QOpenGLShaderProgram *pShader);
 
     // load mesh
     void loadModelFromFile(std::string _path, std::shared_ptr<PhysicsWorld> _phys);

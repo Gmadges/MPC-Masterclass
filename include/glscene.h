@@ -50,7 +50,7 @@ protected:
     void paintGL() override;
 
     void initShaders();
-    void loadMatricesToShader();
+    void loadMatricesToShaders(QOpenGLShaderProgram *pProgram);
 
 private:
     
@@ -63,7 +63,8 @@ private:
     int lightPosLoc;
 
     //shaders
-    QOpenGLShaderProgram program;
+    QOpenGLShaderProgram simpleShaderProgram;
+    QOpenGLShaderProgram skinShaderProgram;
 
     //matrices
     QMatrix4x4 projMat; // projection matrix

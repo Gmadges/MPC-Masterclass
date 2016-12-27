@@ -104,10 +104,7 @@ DIST          = shaders/simple.vert \
 		include/sphere.h \
 		include/springSettings.h \
 		include/tabInfo.h \
-		include/types.h \
-		include/ui_mainwindow.h \
-		include/ui_springSettings.h \
-		include/ui_tabInfo.h src/floorPlane.cpp \
+		include/types.h src/floorPlane.cpp \
 		src/glscene.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -297,7 +294,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc QDarkStyleSheet/qdarkstyle/style.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h include/ui_mainwindow.h include/ui_springSettings.h include/ui_tabInfo.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/floorPlane.h include/glscene.h include/mainwindow.h include/mesh.h include/model.h include/modelController.h include/openVDBTools.h include/physicsBody.h include/physicsWorld.h include/settings.h include/sphere.h include/springSettings.h include/tabInfo.h include/types.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/floorPlane.cpp src/glscene.cpp src/main.cpp src/mainwindow.cpp src/mesh.cpp src/model.cpp src/modelController.cpp src/openVDBTools.cpp src/physicsBody.cpp src/physicsWorld.cpp src/settings.cpp src/sphere.cpp src/springSettings.cpp src/tabInfo.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui forms/springSettings.ui forms/tabInfo.ui $(DISTDIR)/
 
@@ -325,7 +322,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_shaders.cpp qrc_style.cpp
 qrc_shaders.cpp: shaders.qrc \
 		shaders/simple.frag \
-		shaders/simple.vert
+		shaders/simple.vert \
+		shaders/skinning.vert
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name shaders shaders.qrc -o qrc_shaders.cpp
 
 qrc_style.cpp: QDarkStyleSheet/qdarkstyle/style.qrc \
@@ -438,7 +436,6 @@ obj/main.o: src/main.cpp include/mainwindow.h
 
 obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/ui_mainwindow.h \
-		include/glscene.h \
 		include/tabInfo.h \
 		include/types.h \
 		include/modelController.h \
@@ -446,7 +443,8 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		include/physicsBody.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
-obj/mesh.o: src/mesh.cpp include/mesh.h
+obj/mesh.o: src/mesh.cpp include/mesh.h \
+		include/types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o src/mesh.cpp
 
 obj/model.o: src/model.cpp include/model.h \
@@ -492,9 +490,7 @@ obj/tabInfo.o: src/tabInfo.cpp include/tabInfo.h \
 		include/types.h \
 		include/model.h \
 		include/physicsBody.h \
-		include/ui_tabInfo.h \
-		include/springSettings.h \
-		include/settings.h
+		include/ui_tabInfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/tabInfo.o src/tabInfo.cpp
 
 obj/qrc_shaders.o: qrc_shaders.cpp 

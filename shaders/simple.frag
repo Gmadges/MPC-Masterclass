@@ -1,7 +1,8 @@
-varying vec4 col;
+#version 330
+in vec4 col;
 
-varying highp vec3 vertex;
-varying highp vec3 vertexNormal;
+in highp vec3 vertex;
+in highp vec3 vertexNormal;
 uniform highp vec3 lightPos;
 
 void main()

@@ -11,15 +11,22 @@ Mesh::Mesh(std::string _path):
 {
     initializeOpenGLFunctions();
 
-    // Generate 2 VBOs
+    // Generate VBOs
     arrayBuf.create();
     indexBuf.create();
     normalBuf.create();
+    boneIDBuf.create();
+    weightBuf.create();
 
     // Initializes cube geometry and transfers it to VBOs
     initMesh(_path);
 
     color = QVector4D(98.0f/255.0f,201.0f/255.0f,109.0f/255.0f,1);
+
+    // hardcode
+    QMatrix4x4 tmp;
+    tmp.setToIdentity();
+    bones.push_back(tmp);
 }
 
 Mesh::~Mesh()
@@ -27,6 +34,8 @@ Mesh::~Mesh()
     arrayBuf.destroy();
     indexBuf.destroy();
     normalBuf.destroy();
+    boneIDBuf.destroy();
+    weightBuf.destroy();
 }
 
 void Mesh::initMesh(std::string _path)
@@ -40,8 +49,27 @@ void Mesh::initMesh(std::string _path)
     indexBuf.allocate( faces.data(),  faces.size() * sizeof(unsigned int));
 
     normalBuf.bind();
-
     normalBuf.allocate( normals.data(),  normals.size() * sizeof(QVector3D));
+
+    // fill with empty data
+    for(unsigned int i = 0; i < vertices.size(); ++i)
+    {
+        boneIDs.push_back(SkinIDs());
+
+        // wet all weight to 0.25
+        SkinWeights tmp;
+        tmp.weight[0] = 0.25;
+        tmp.weight[1] = 0.25;
+        tmp.weight[2] = 0.25;
+        tmp.weight[3] = 0.25;
+        weights.push_back(tmp);
+    }
+
+    boneIDBuf.bind();
+    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(float) * MAX_WEIGHTS);
+    
+    weightBuf.bind();
+    weightBuf.allocate( weights.data(),  weights.size() * sizeof(float) * MAX_WEIGHTS);
 }
 
 void Mesh::loadMeshFromFile(std::string _path)
@@ -101,21 +129,33 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
 
     program->setUniformValue("objectColor", color);
 
+    program->setUniformValueArray("bones", bones.data(), bones.size());
+
     // Offset for position
     quintptr offset = 0;
 
     // Tell OpenGL programmable pipeline how to locate vertex position data
     int vertexLocation = program->attributeLocation("a_position");
     int normalLocation = program->attributeLocation("a_normal");
+    int boneIDLocation = program->attributeLocation("a_boneIDs");
+    int weightLocation = program->attributeLocation("a_weights");
 
     program->enableAttributeArray(vertexLocation);
-    program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(QVector3D));
+    program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3);
 
     normalBuf.bind();
     program->enableAttributeArray(normalLocation);
-    program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3);
 
-    // Draw cube geometry using indices from VBO 1
+    boneIDBuf.bind();
+    program->enableAttributeArray(boneIDLocation);
+    program->setAttributeBuffer(boneIDLocation, GL_FLOAT, 0, 4);
+
+    weightBuf.bind();
+    program->enableAttributeArray(weightLocation);
+    program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4);
+
+    // draw
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
 }
 
@@ -127,4 +167,23 @@ std::vector<QVector3D>& Mesh::getVerts()
 std::vector<unsigned int>& Mesh::getFaces()
 {
     return  faces;
+}
+
+void Mesh::setWeights(std::vector<SkinWeights> _weights)
+{    
+    weights = _weights;
+    weightBuf.bind();
+    weightBuf.allocate( weights.data(),  weights.size() * sizeof(SkinWeights));
+}
+
+void Mesh::setSkinIDs(std::vector<SkinIDs> _ids)
+{
+    boneIDs = _ids;
+    boneIDBuf.bind();
+    boneIDBuf.allocate( boneIDs.data(),  boneIDs.size() * sizeof(SkinIDs));
+}
+
+void Mesh::setBones(std::vector<QMatrix4x4> _bones)
+{
+    bones = _bones;
 }

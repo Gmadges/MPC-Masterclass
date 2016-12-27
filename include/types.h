@@ -39,4 +39,17 @@ struct ConstraintSettings
     double zSpringDamping = 0.0;
 };
 
+// hardcode weights and ids to a maxiumum of 4 for now;
+#define MAX_WEIGHTS 4
+
+struct SkinWeights
+{
+    float weight[MAX_WEIGHTS] = {0.0f, 0.0f, 0.0f, 0.0f};
+};
+
+struct SkinIDs
+{
+    float id[MAX_WEIGHTS] = { 50.0f, 0.0f, 0.0f, 0.0f};
+};
+
 #endif 

@@ -40,6 +40,7 @@ public:
     float getMinSphereSize();
     float getMaxSphereSize();
     bool getSphereOverlap();
+    std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> getRigidBodies();
 
 private:
 
@@ -55,6 +56,14 @@ private:
                                                                 std::shared_ptr<btRigidBody> pBody2, 
                                                                 btTransform frameInA, 
                                                                 btTransform frameInB);
+
+    // handy functions
+    btVector3 getPositionForBody(std::shared_ptr<btRigidBody> pBody);
+    void calcFrameMatrices(std::shared_ptr<btRigidBody> pBodyA, 
+                            std::shared_ptr<btRigidBody> pBodyB, 
+                            btTransform& frameInA, 
+                            btTransform& frameInB);
+
 private:
 
     //pointer to physics world for ease

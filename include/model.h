@@ -3,8 +3,8 @@
 
 #include <string>
 #include <memory>
-
 #include "physicsBody.h"
+#include <QVector3D>
 
 class Mesh;
 class PhysicsWorld;
@@ -17,7 +17,9 @@ public:
     virtual ~Model();
 
     // draw
-    void draw(QOpenGLShaderProgram *pShader);
+    void drawMesh(QOpenGLShaderProgram *pShader);
+    void drawPhysicsBody(QOpenGLShaderProgram *pShader);
+
     void update();
 
     void setShowMesh(bool show);
@@ -32,7 +34,13 @@ public:
     void setMinSphereSize(float size);
     void setMaxSphereSize(float size);
     void setSphereOverlap(bool enable);
-    
+
+    void weightMeshFromPhysicsBody();
+
+private:
+    QVector3D getPositionForBody(std::shared_ptr<btRigidBody> pBody);
+    std::vector<unsigned int> getNearestSpheres(QVector3D vert, std::vector<std::pair<std::shared_ptr<btRigidBody>, float>>& spheres);
+
 private:
     // my meshs
     std::shared_ptr<Mesh> pMesh;
