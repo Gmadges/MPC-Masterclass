@@ -31,6 +31,8 @@ public:
     void showMesh(bool show);
     void showPhys(bool show);
 
+    void setSimSteps(int _steps);
+
     void loadObject(std::string filePath);
 
     std::shared_ptr<ModelController> getModelController();

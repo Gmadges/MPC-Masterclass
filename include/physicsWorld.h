@@ -12,7 +12,9 @@ public:
     virtual ~PhysicsWorld();
 
     void reset(); //TODO
-    void step(float _time, float _step);
+    void step(float _time);
+
+    void setSteps(int _step);
 
     void addRigidBody(btRigidBody* pBody, int idx);
     void removeRigidBody(btRigidBody* pBody);
@@ -47,6 +49,7 @@ private:
 
     bool bUseCollisionMasks;
     int  maskNum;
+    int steps;
 };
 
 #endif // PHYSICSWORLD

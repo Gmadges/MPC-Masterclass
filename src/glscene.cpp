@@ -129,6 +129,11 @@ void GLScene::initShaders()
         close();
 }
 
+void GLScene::setSimSteps(int _steps)
+{   
+    pPhysicsWorld->setSteps(_steps);
+}
+
 void GLScene::toggleSim()
 {   
     bSimulate = !bSimulate;
@@ -244,7 +249,7 @@ void GLScene::timerEvent(QTimerEvent *_event)
 {
   if(bSimulate)
   {
-      pPhysicsWorld->step(1.0/60.0,1);
+      pPhysicsWorld->step( 1.0/60 );
   }
   update();
 }

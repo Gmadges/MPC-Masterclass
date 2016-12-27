@@ -15,10 +15,13 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDockWidget>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -41,6 +44,9 @@ public:
     QPushButton *button_loadObject;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
+    QFrame *line;
+    QLabel *label;
+    QSpinBox *spin_simStep;
     QTabWidget *tabWidget_settings;
 
     void setupUi(QMainWindow *MainWindow)
@@ -107,6 +113,25 @@ public:
 
         verticalLayout->addWidget(check_showPhys);
 
+        line = new QFrame(dockWidgetContents);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout->addWidget(line);
+
+        label = new QLabel(dockWidgetContents);
+        label->setObjectName(QStringLiteral("label"));
+
+        verticalLayout->addWidget(label);
+
+        spin_simStep = new QSpinBox(dockWidgetContents);
+        spin_simStep->setObjectName(QStringLiteral("spin_simStep"));
+        spin_simStep->setMinimum(1);
+        spin_simStep->setMaximum(100);
+
+        verticalLayout->addWidget(spin_simStep);
+
         tabWidget_settings = new QTabWidget(dockWidgetContents);
         tabWidget_settings->setObjectName(QStringLiteral("tabWidget_settings"));
         tabWidget_settings->setTabsClosable(true);
@@ -135,6 +160,7 @@ public:
         button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show all meshes", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show all phys", 0));
+        label->setText(QApplication::translate("MainWindow", "simulation steps:", 0));
     } // retranslateUi
 
 };

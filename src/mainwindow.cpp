@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // set spinbox
+    ui->spin_simStep->setValue(1);
+    ui->scene->setSimSteps(1);
+
     initConnections();
 
     initStyleSheet();
@@ -53,6 +57,9 @@ void MainWindow::initConnections()
 
     //closing tabs
     connect(ui->tabWidget_settings, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+
+    //simulation steps
+    connect(ui->spin_simStep, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui->scene, &GLScene::setSimSteps);
 }
 
 std::string MainWindow::browseFiles()
