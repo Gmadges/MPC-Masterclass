@@ -4,7 +4,8 @@
 
 PhysicsWorld::PhysicsWorld()
 :
-bUseCollisionMasks(false)
+bUseCollisionMasks(false),
+steps(1)
 {
     // Jon snippet -----------------------------------------------------------------------------------------------------------------------
 
@@ -41,9 +42,9 @@ void PhysicsWorld::reset()
 	std::cout << "reset Sim \n";
 }
 
-void PhysicsWorld::step(float _time, float _step)
+void PhysicsWorld::step(float _time)
 {
-     dynamicsWorld->stepSimulation(_time,_step);
+    dynamicsWorld->stepSimulation(_time, steps, _time / steps );
 }
 
 void PhysicsWorld::addRigidBody(btRigidBody* pBody, int idx)
@@ -131,4 +132,9 @@ std::pair<unsigned short int, unsigned short int> PhysicsWorld::getMaskValues(in
 bool PhysicsWorld::isUsingCollisionMask()
 {
 	return bUseCollisionMasks;
+}
+
+void PhysicsWorld::setSteps(int _step)
+{
+	steps = _step;
 }

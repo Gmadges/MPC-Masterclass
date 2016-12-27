@@ -23,6 +23,16 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
+void PhysicsBody::update()
+{
+    // check things and change state dependant.
+
+
+    // maybe look for changes and collison things
+
+    // if so change something like make it fixed without movement or something
+}
+
 std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> PhysicsBody::getRigidBodies()
 {
     return rigid_bodies;

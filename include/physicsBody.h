@@ -21,6 +21,9 @@ public:
     // This draws all the physics things, mainly spheres and contrainsts when we have them
     void draw(QOpenGLShaderProgram *pShader);
 
+    // update method.
+    void update();
+
     // here we pass a list of spheres to turn into the collision shapes
     void initBodyWithSpheres(std::vector<QVector3D>& verts, std::vector<unsigned int>& indices);
 
