@@ -25,12 +25,41 @@ PhysicsBody::~PhysicsBody()
 
 void PhysicsBody::update()
 {
+    // for now lets just do this for dof2
+    if(constraintType != BodyConstraintType::SPRING) return;
+
     // check things and change state dependant.
+    for (auto constraint : constraints)
+    {
+        // cast 
+        btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
 
+        // check if axis are locked
+        btVector3 upper, lower;
 
-    // maybe look for changes and collison things
+        pSpring->getLinearUpperLimit(upper);
+        pSpring->getLinearLowerLimit(lower);
 
-    // if so change something like make it fixed without movement or something
+        if((upper ==  btVector3(0,0,0)) && (lower == btVector3(0,0,0))) continue;
+
+        // if not check whether it should be based on some kind of value
+        btTransform startA = pSpring->getFrameOffsetA();
+        btTransform startB = pSpring->getFrameOffsetB();
+
+        float origDist = startA.getOrigin().distance(startB.getOrigin());
+
+        btTransform transA = startA * pSpring->getCalculatedTransformA();
+        btTransform transB = startB * pSpring->getCalculatedTransformB();
+
+        float newDist = transA.getOrigin().distance(transB.getOrigin());
+
+        if(newDist < (origDist * 0.95))
+        {
+            std::cout << "lock\n"; 
+            pSpring->setLinearUpperLimit(btVector3(0,0,0));
+            pSpring->setLinearLowerLimit(btVector3(0,0,0));
+        }
+    }
 }
 
 std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> PhysicsBody::getRigidBodies()

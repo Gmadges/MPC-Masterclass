@@ -88,6 +88,8 @@ void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
 
 void Model::update()
 {
+    pPhysicsBody->update();
+
     // update bone transforms
     auto spheres = pPhysicsBody->getRigidBodies();
     if(!spheres.empty())
