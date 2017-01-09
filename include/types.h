@@ -49,7 +49,7 @@ struct SkinWeights
 
 struct SkinIDs
 {
-    float id[MAX_WEIGHTS] = { 50.0f, 0.0f, 0.0f, 0.0f};
+    float id[MAX_WEIGHTS] = {0.0f, 0.0f, 0.0f, 0.0f};
 };
 
 #endif 

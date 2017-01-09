@@ -21,11 +21,11 @@ void ModelController::update()
     }
 }
 
-void ModelController::drawAllMesh(QOpenGLShaderProgram *pShader)
+void ModelController::drawAllMesh(QOpenGLShaderProgram *pShader, bool bGPUSkinning)
 {
     for(auto model :  models)
     {
-        model->drawMesh(pShader);
+        model->drawMesh(pShader, bGPUSkinning);
     }
 }
 

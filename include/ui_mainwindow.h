@@ -42,6 +42,7 @@ public:
     QPushButton *button_toggleSim;
     QPushButton *button_resetSim;
     QPushButton *button_loadObject;
+    QCheckBox *check_useGPUSkinning;
     QCheckBox *check_showMesh;
     QCheckBox *check_showPhys;
     QFrame *line;
@@ -101,6 +102,11 @@ public:
 
         verticalLayout->addWidget(button_loadObject);
 
+        check_useGPUSkinning = new QCheckBox(dockWidgetContents);
+        check_useGPUSkinning->setObjectName(QStringLiteral("check_useGPUSkinning"));
+
+        verticalLayout->addWidget(check_useGPUSkinning);
+
         check_showMesh = new QCheckBox(dockWidgetContents);
         check_showMesh->setObjectName(QStringLiteral("check_showMesh"));
         check_showMesh->setChecked(true);
@@ -158,6 +164,10 @@ public:
         button_toggleSim->setText(QApplication::translate("MainWindow", "Toggle Sim", 0));
         button_resetSim->setText(QApplication::translate("MainWindow", "Reset", 0));
         button_loadObject->setText(QApplication::translate("MainWindow", "Load Object", 0));
+#ifndef QT_NO_WHATSTHIS
+        check_useGPUSkinning->setWhatsThis(QApplication::translate("MainWindow", "enables skinning on the GPU, limits the max amount of spheres to 100", 0));
+#endif // QT_NO_WHATSTHIS
+        check_useGPUSkinning->setText(QApplication::translate("MainWindow", "Use GPU Skinning", 0));
         check_showMesh->setText(QApplication::translate("MainWindow", "show all meshes", 0));
         check_showPhys->setText(QApplication::translate("MainWindow", "show all phys", 0));
         label->setText(QApplication::translate("MainWindow", "simulation steps:", 0));
