@@ -58,7 +58,7 @@ void Model::reset()
     //weightMeshFromPhysicsBody();
 }
 
-void Model::drawMesh(QOpenGLShaderProgram *pShader)
+void Model::drawMesh(QOpenGLShaderProgram *pShader, bool bGPUSkinning)
 {
     if(pMesh)
     {   
@@ -70,7 +70,7 @@ void Model::drawMesh(QOpenGLShaderProgram *pShader)
             model.setToIdentity();
             pShader->setUniformValue("model_matrix", model);
 
-            pMesh->drawMesh(pShader);
+            pMesh->drawMesh(pShader, bGPUSkinning);
         }
     }
 }

@@ -19,7 +19,7 @@ public:
     void update();
 
     // draw all meshes
-    void drawAllMesh(QOpenGLShaderProgram *pShader);
+    void drawAllMesh(QOpenGLShaderProgram *pShader, bool bGPUSkinning);
     void drawAllPhysicsBody(QOpenGLShaderProgram *pShader);
 
     // load mesh

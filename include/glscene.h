@@ -87,6 +87,7 @@ private:
 
     //sim variables
     bool bSimulate;
+    bool bUseGPUSkinning;
 };
 
 #endif // GLSCENE_H
