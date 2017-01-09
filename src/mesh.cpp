@@ -172,11 +172,12 @@ void Mesh::updateMesh()
         SkinIDs skinID = boneIDs[i];
         SkinWeights skinWeight = weights[i];
 
-        QMatrix4x4 boneTransform = bones[int(skinID.id[0])] * skinWeight.weight[0];
-        boneTransform += bones[int(skinID.id[1])] * skinWeight.weight[1];
-        boneTransform += bones[int(skinID.id[2])] * skinWeight.weight[2];
-        boneTransform += bones[int(skinID.id[3])] * skinWeight.weight[3];
+        QMatrix4x4 boneTransform;
 
+        for(unsigned int j = 0; j < MAX_WEIGHTS; ++j)
+        {
+            boneTransform += bones[int(skinID.id[j])] * skinWeight.weight[j];
+        }
         //update position via transform
         updatedVerts[i] = boneTransform * vertices[i];
     }
