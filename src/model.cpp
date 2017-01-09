@@ -55,7 +55,7 @@ void Model::reset()
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 
     //reskin
-    weightMeshFromPhysicsBody();
+    //weightMeshFromPhysicsBody();
 }
 
 void Model::drawMesh(QOpenGLShaderProgram *pShader)
