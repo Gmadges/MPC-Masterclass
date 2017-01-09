@@ -113,7 +113,7 @@ public:
         spin_maxSphereCount = new QSpinBox(TabInfo);
         spin_maxSphereCount->setObjectName(QStringLiteral("spin_maxSphereCount"));
         spin_maxSphereCount->setMinimum(1);
-        spin_maxSphereCount->setMaximum(100);
+        spin_maxSphereCount->setMaximum(100000);
 
         formLayout->setWidget(8, QFormLayout::FieldRole, spin_maxSphereCount);
 

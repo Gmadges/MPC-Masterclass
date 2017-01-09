@@ -30,6 +30,7 @@ public:
 
     void showMesh(bool show);
     void showPhys(bool show);
+    void useGPUSkinning(bool useGPU);
 
     void setSimSteps(int _steps);
 

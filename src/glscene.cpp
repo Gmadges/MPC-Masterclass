@@ -170,6 +170,11 @@ void GLScene::showPhys(bool show)
     pModelController->showAllPhysShapes(show);
 }
 
+void GLScene::useGPUSkinning(bool useGPU)
+{
+    bUseGPUSkinning = useGPU;
+}
+
 void GLScene::mousePressEvent(QMouseEvent *_event)
 {
     if(_event->button() == Qt::LeftButton)
