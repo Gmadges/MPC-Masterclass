@@ -162,6 +162,30 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program, bool bGPUSkinning)
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
 }
 
+void Mesh::updateMesh()
+{
+    // we're doing what a shader would do bruv
+    std::vector<QVector3D> updatedVerts(vertices.size());
+
+    for(unsigned int i = 0; i < vertices.size(); ++i)
+    {
+        SkinIDs skinID = boneIDs[i];
+        SkinWeights skinWeight = weights[i];
+
+        QMatrix4x4 boneTransform = bones[int(skinID.id[0])] * skinWeight.weight[0];
+        boneTransform += bones[int(skinID.id[1])] * skinWeight.weight[1];
+        boneTransform += bones[int(skinID.id[2])] * skinWeight.weight[2];
+        boneTransform += bones[int(skinID.id[3])] * skinWeight.weight[3];
+
+        //update position via transform
+        updatedVerts[i] = boneTransform * vertices[i];
+    }
+
+    // load new info on da GPU
+    arrayBuf.bind();
+    arrayBuf.allocate( updatedVerts.data(),  updatedVerts.size() * sizeof(QVector3D));
+}
+
 std::vector<QVector3D>& Mesh::getVerts()
 {
     return  vertices;
