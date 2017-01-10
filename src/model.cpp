@@ -83,9 +83,10 @@ void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
     {
         if(bShowPhysShapes)
         {
-            pPhysicsBody->draw(pShader);
+            pPhysicsBody->drawSpheres(pShader);
+            pPhysicsBody->drawConstraints(pShader);
         }
-    }
+    }   
 }
 
 void Model::update()

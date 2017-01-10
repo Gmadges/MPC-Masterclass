@@ -10,6 +10,7 @@
 
 class PhysicsWorld;
 class Sphere;
+class Line;
 class QOpenGLShaderProgram;
 
 class PhysicsBody
@@ -19,7 +20,8 @@ public:
     virtual ~PhysicsBody();
 
     // This draws all the physics things, mainly spheres and contrainsts when we have them
-    void draw(QOpenGLShaderProgram *pShader);
+    void drawSpheres(QOpenGLShaderProgram *pShader);
+    void drawConstraints(QOpenGLShaderProgram *pShader);
 
     // update method.
     void update();
@@ -79,6 +81,9 @@ private:
 
     // sphere thing
     std::shared_ptr<Sphere> pSphere;
+
+    //line thing
+    std::shared_ptr<Line> pLine;
 
     // ID
     int  id;
