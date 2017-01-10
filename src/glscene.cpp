@@ -24,7 +24,8 @@ GLScene::GLScene(QWidget *parent) :
     origYPos(0),
     spinXFace(0),
     spinYFace(0),
-    bSimulate(false)
+    bSimulate(false),
+    bUseGPUSkinning(false)
 {
     // opengl surface config
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
@@ -76,11 +77,19 @@ void GLScene::paintGL()
     pFloorPlane->draw(&simpleShaderProgram);
     pModelController->drawAllPhysicsBody(&simpleShaderProgram);
     
-    // draw skinning shader
-    skinShaderProgram.bind();
-    loadMatricesToShaders(&skinShaderProgram);
-    pModelController->update();
-    pModelController->drawAllMesh(&skinShaderProgram);
+    if(bUseGPUSkinning)
+    {
+        // draw skinning shader
+        skinShaderProgram.bind();
+        loadMatricesToShaders(&skinShaderProgram);
+        pModelController->update();
+        pModelController->drawAllMesh(&skinShaderProgram, bUseGPUSkinning);     
+    }
+    else
+    {
+        pModelController->update();
+        pModelController->drawAllMesh(&simpleShaderProgram, bUseGPUSkinning);
+    }
 }
 
 void GLScene::loadMatricesToShaders(QOpenGLShaderProgram *pProgram)
@@ -159,6 +168,11 @@ void GLScene::showMesh(bool show)
 void GLScene::showPhys(bool show)
 {   
     pModelController->showAllPhysShapes(show);
+}
+
+void GLScene::useGPUSkinning(bool useGPU)
+{
+    bUseGPUSkinning = useGPU;
 }
 
 void GLScene::mousePressEvent(QMouseEvent *_event)

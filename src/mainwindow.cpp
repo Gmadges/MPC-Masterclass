@@ -52,6 +52,9 @@ void MainWindow::initConnections()
     connect(ui->check_showMesh, &QCheckBox::clicked, ui->scene, &GLScene::showMesh);
     connect(ui->check_showPhys, &QCheckBox::clicked, ui->scene, &GLScene::showPhys);
 
+    // TODO change the max amount spheres based on this. when GPU enabled it shouldnt do more than 100;
+    connect(ui->check_useGPUSkinning, &QCheckBox::clicked, ui->scene, &GLScene::useGPUSkinning);
+
     // load file
     connect(ui->button_loadObject, &QPushButton::clicked, this, &MainWindow::loadObject);
 

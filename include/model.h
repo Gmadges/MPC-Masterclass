@@ -17,7 +17,7 @@ public:
     virtual ~Model();
 
     // draw
-    void drawMesh(QOpenGLShaderProgram *pShader);
+    void drawMesh(QOpenGLShaderProgram *pShader, bool bGPUSkinning);
     void drawPhysicsBody(QOpenGLShaderProgram *pShader);
 
     void update();

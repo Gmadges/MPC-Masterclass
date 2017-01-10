@@ -22,9 +22,6 @@ Model::Model(std::string _path,
     bShowPhysShapes(true),
     id(_id)
 {
-
-    //initiate physics straight away
-    //pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 }
 
 Model::~Model()
@@ -55,10 +52,10 @@ void Model::reset()
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
 
     //reskin
-    weightMeshFromPhysicsBody();
+    //weightMeshFromPhysicsBody();
 }
 
-void Model::drawMesh(QOpenGLShaderProgram *pShader)
+void Model::drawMesh(QOpenGLShaderProgram *pShader, bool bGPUSkinning)
 {
     if(pMesh)
     {   
@@ -70,7 +67,12 @@ void Model::drawMesh(QOpenGLShaderProgram *pShader)
             model.setToIdentity();
             pShader->setUniformValue("model_matrix", model);
 
-            pMesh->drawMesh(pShader);
+            if(!bGPUSkinning)
+            {
+                pMesh->updateMesh();
+            }
+
+            pMesh->drawMesh(pShader, bGPUSkinning);
         }
     }
 }
@@ -81,9 +83,10 @@ void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
     {
         if(bShowPhysShapes)
         {
-            pPhysicsBody->draw(pShader);
+            pPhysicsBody->drawSpheres(pShader);
+            pPhysicsBody->drawConstraints(pShader);
         }
-    }
+    }   
 }
 
 void Model::update()

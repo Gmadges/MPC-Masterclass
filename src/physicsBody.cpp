@@ -1,6 +1,7 @@
 #include "physicsBody.h"
 #include "physicsWorld.h"
 #include "sphere.h"
+#include "line.h"
 #include "openVDBTools.h"
 
 #include <QOpenGLShaderProgram>
@@ -10,6 +11,7 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
+    pLine(new Line()),
     id(_id),
     constraintType(BodyConstraintType::FIXED),
     maxSphereCount(1000),
@@ -55,7 +57,6 @@ void PhysicsBody::update()
 
         if(newDist < (origDist * 0.95))
         {
-            std::cout << "lock\n"; 
             pSpring->setLinearUpperLimit(btVector3(0,0,0));
             pSpring->setLinearLowerLimit(btVector3(0,0,0));
         }
@@ -111,7 +112,7 @@ void PhysicsBody::addSphere(SphereData _sphere)
     rigid_bodies.emplace_back(pBody, _sphere.radius);
 }
 
-void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
+void PhysicsBody::drawSpheres(QOpenGLShaderProgram *pShader)
 {   
     //iterate through all bodies
     for(auto body : rigid_bodies)
@@ -129,6 +130,24 @@ void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
         pShader->setUniformValue("model_matrix", model);
 
         pSphere->draw(pShader);
+    }
+}
+
+void PhysicsBody::drawConstraints(QOpenGLShaderProgram *pShader)
+{
+    for (auto constraint : constraints)
+    {
+        // cast, thi works because the fixed constraint inherits from spring too.
+        btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
+
+        // if not check whether it should be based on some kind of value
+        btVector3 start = pSpring->getRigidBodyA().getCenterOfMassPosition();
+        btVector3 end = pSpring->getRigidBodyB().getCenterOfMassPosition();
+
+        // pass in the 2 points
+        pLine->draw( QVector3D(start.x(), start.y(), start.z()), 
+                    QVector3D(end.x(), end.y(), end.z()), 
+                    pShader);
     }
 }
 
@@ -224,15 +243,6 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                             frameInA,
                                                             frameInB), 
                                                             deleter);
-        }
-        case BodyConstraintType::SLIDER :
-        {
-            return std::shared_ptr<btSliderConstraint>(new btSliderConstraint(*(pBody1.get()),
-                                                                                *(pBody2.get()),
-                                                                                frameInA,
-                                                                                frameInB,
-                                                                                true), 
-                                                                                deleter);
         }
         case BodyConstraintType::SPRING :
         {

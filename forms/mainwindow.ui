@@ -81,6 +81,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="check_useGPUSkinning">
+         <property name="whatsThis">
+          <string>enables skinning on the GPU, limits the max amount of spheres to 100</string>
+         </property>
+         <property name="text">
+          <string>Use GPU Skinning</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="check_showMesh">
          <property name="text">
           <string>show all meshes</string>

@@ -16,7 +16,8 @@ public:
     Mesh(std::string _path);
     virtual ~Mesh();
 
-    void drawMesh(QOpenGLShaderProgram *program);
+    void drawMesh(QOpenGLShaderProgram *program, bool bGPUSkinning);
+    void updateMesh();
 
     void setWeights(std::vector<SkinWeights> _weights);
     void setSkinIDs(std::vector<SkinIDs> _ids);

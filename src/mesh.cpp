@@ -121,7 +121,7 @@ void Mesh::loadMeshFromFile(std::string _path)
       aiReleaseImport(scene);
 }
 
-void Mesh::drawMesh(QOpenGLShaderProgram *program)
+void Mesh::drawMesh(QOpenGLShaderProgram *program, bool bGPUSkinning)
 {
     // Tell OpenGL which VBOs to use
     arrayBuf.bind();
@@ -129,16 +129,12 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
 
     program->setUniformValue("objectColor", color);
 
-    program->setUniformValueArray("bones", bones.data(), bones.size());
-
     // Offset for position
     quintptr offset = 0;
 
     // Tell OpenGL programmable pipeline how to locate vertex position data
     int vertexLocation = program->attributeLocation("a_position");
     int normalLocation = program->attributeLocation("a_normal");
-    int boneIDLocation = program->attributeLocation("a_boneIDs");
-    int weightLocation = program->attributeLocation("a_weights");
 
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3);
@@ -147,16 +143,48 @@ void Mesh::drawMesh(QOpenGLShaderProgram *program)
     program->enableAttributeArray(normalLocation);
     program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3);
 
-    boneIDBuf.bind();
-    program->enableAttributeArray(boneIDLocation);
-    program->setAttributeBuffer(boneIDLocation, GL_FLOAT, 0, 4);
+    if(bGPUSkinning)
+    {
+        int boneIDLocation = program->attributeLocation("a_boneIDs");
+        int weightLocation = program->attributeLocation("a_weights");
+        program->setUniformValueArray("bones", bones.data(), bones.size());
 
-    weightBuf.bind();
-    program->enableAttributeArray(weightLocation);
-    program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4);
+        boneIDBuf.bind();
+        program->enableAttributeArray(boneIDLocation);
+        program->setAttributeBuffer(boneIDLocation, GL_FLOAT, 0, 4);
+
+        weightBuf.bind();
+        program->enableAttributeArray(weightLocation);
+        program->setAttributeBuffer(weightLocation, GL_FLOAT, 0, 4);
+    }
 
     // draw
     glDrawElements(GL_TRIANGLES,  faces.size(), GL_UNSIGNED_INT, 0);
+}
+
+void Mesh::updateMesh()
+{
+    // we're doing what a shader would do bruv
+    std::vector<QVector3D> updatedVerts(vertices.size());
+
+    for(unsigned int i = 0; i < vertices.size(); ++i)
+    {
+        SkinIDs skinID = boneIDs[i];
+        SkinWeights skinWeight = weights[i];
+
+        QMatrix4x4 boneTransform;
+
+        for(unsigned int j = 0; j < MAX_WEIGHTS; ++j)
+        {
+            boneTransform += bones[int(skinID.id[j])] * skinWeight.weight[j];
+        }
+        //update position via transform
+        updatedVerts[i] = boneTransform * vertices[i];
+    }
+
+    // load new info on da GPU
+    arrayBuf.bind();
+    arrayBuf.allocate( updatedVerts.data(),  updatedVerts.size() * sizeof(QVector3D));
 }
 
 std::vector<QVector3D>& Mesh::getVerts()

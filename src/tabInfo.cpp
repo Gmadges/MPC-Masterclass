@@ -23,7 +23,6 @@ void TabInfo::initUI()
 
     // set up combo box
     ui->combo_constType->addItem("Fixed");
-    ui->combo_constType->addItem("Slider");
     ui->combo_constType->addItem("Spring");
     //default to fixed
     ui->combo_constType->setCurrentIndex(0);
@@ -32,8 +31,8 @@ void TabInfo::initUI()
     ui->check_sphereOverlap->setCheckState(Qt::CheckState::Checked);
     pModel->setSphereOverlap(true);
 
-    ui->spin_maxSphereCount->setValue(100);
-    pModel->setMaxSphereCount(100);
+    ui->spin_maxSphereCount->setValue(1000);
+    pModel->setMaxSphereCount(1000);
 
     ui->spin_maxSphereSize->setValue(1000000000.0);
     pModel->setMaxSphereSize(1000000000.0);
@@ -121,10 +120,6 @@ BodyConstraintType TabInfo::getConstType(int idx)
     }
     else if(idx == 1)
     {
-        return BodyConstraintType::SLIDER;
-    }
-    else if(idx == 2)
-    {
         return BodyConstraintType::SPRING;
     }
     else
@@ -139,13 +134,6 @@ void TabInfo::displaySettings(BodyConstraintType type)
     switch(type)
     {
         case BodyConstraintType::FIXED :
-        {
-            ui->widget_springSettings->hide();
-            ui->button_applySettings->hide();
-            pCurrentSettings = nullptr;
-            break;
-        }
-        case BodyConstraintType::SLIDER :
         {
             ui->widget_springSettings->hide();
             ui->button_applySettings->hide();
