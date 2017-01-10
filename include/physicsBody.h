@@ -19,7 +19,8 @@ public:
     virtual ~PhysicsBody();
 
     // This draws all the physics things, mainly spheres and contrainsts when we have them
-    void draw(QOpenGLShaderProgram *pShader);
+    void drawSpheres(QOpenGLShaderProgram *pShader);
+    void drawConstraints(QOpenGLShaderProgram *pShader);
 
     // update method.
     void update();

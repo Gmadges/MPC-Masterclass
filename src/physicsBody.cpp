@@ -82,7 +82,7 @@ void PhysicsBody::addSphere(SphereData _sphere)
     rigid_bodies.emplace_back(pBody, _sphere.radius);
 }
 
-void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
+void PhysicsBody::drawSpheres(QOpenGLShaderProgram *pShader)
 {   
     //iterate through all bodies
     for(auto body : rigid_bodies)
@@ -100,6 +100,32 @@ void PhysicsBody::draw(QOpenGLShaderProgram *pShader)
         pShader->setUniformValue("model_matrix", model);
 
         pSphere->draw(pShader);
+    }
+}
+
+void PhysicsBody::drawConstraints(QOpenGLShaderProgram *pShader)
+{
+    for (auto constraint : constraints)
+    {
+        // cast, thi works because the fixed constraint inherits from spring too.
+        btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
+
+        // if not check whether it should be based on some kind of value
+        btTransform startA = pSpring->getFrameOffsetA();
+        btTransform startB = pSpring->getFrameOffsetB();
+        btTransform transA = startA * pSpring->getCalculatedTransformA();
+        btTransform transB = startB * pSpring   ->getCalculatedTransformB();
+
+        transA.getOrigin();
+        transB.getOrigin();
+
+        // basic model thingy
+        QMatrix4x4 model;
+        model.setToIdentity();
+        pShader->setUniformValue("model_matrix", model);
+
+        // pass in the 2 points
+        //pLine->draw( , , pShader);
     }
 }
 
@@ -195,15 +221,6 @@ std::shared_ptr<btTypedConstraint> PhysicsBody::getConstraint(  std::shared_ptr<
                                                             frameInA,
                                                             frameInB), 
                                                             deleter);
-        }
-        case BodyConstraintType::SLIDER :
-        {
-            return std::shared_ptr<btSliderConstraint>(new btSliderConstraint(*(pBody1.get()),
-                                                                                *(pBody2.get()),
-                                                                                frameInA,
-                                                                                frameInB,
-                                                                                true), 
-                                                                                deleter);
         }
         case BodyConstraintType::SPRING :
         {
