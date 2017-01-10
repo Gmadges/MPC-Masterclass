@@ -38,6 +38,7 @@ public:
     void setMinSphereSize(float size);
     void setMaxSphereSize(float size);
     void setSphereOverlap(bool enable);
+    void setPlasticDeformation(bool _deform);
 // getters
     BodyConstraintType getConstraintType();
     ConstraintSettings getConstraintSettings();
@@ -69,6 +70,8 @@ private:
                             btTransform& frameInA, 
                             btTransform& frameInB);
 
+    void updatePlasticDeformation();
+
 private:
 
     //pointer to physics world for ease
@@ -96,6 +99,8 @@ private:
     bool bSphereOverlap;
 
     ConstraintSettings constraintSettings;
+
+    bool bPlasticDeform;
 };
 
 #endif // PHYSICSBODY

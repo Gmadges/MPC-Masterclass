@@ -17,7 +17,8 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
     maxSphereCount(1000),
     minSphereSize(1.0f),
     maxSphereSize(100000.0f),
-    bSphereOverlap(true)
+    bSphereOverlap(true),
+    bPlasticDeform(false)    
 {
 }
 
@@ -26,6 +27,15 @@ PhysicsBody::~PhysicsBody()
 }
 
 void PhysicsBody::update()
+{
+
+    if(bPlasticDeform)
+    {
+        updatePlasticDeformation();
+    }
+}
+
+void PhysicsBody::updatePlasticDeformation()
 {
     // for now lets just do this for dof2
     if(constraintType != BodyConstraintType::SPRING) return;
@@ -322,6 +332,11 @@ void PhysicsBody::setMaxSphereSize(float size)
 void PhysicsBody::setSphereOverlap(bool enable)
 {
     bSphereOverlap = enable;
+}
+
+void PhysicsBody::setPlasticDeformation(bool _deform)
+{
+    bPlasticDeform = _deform;
 }
 
 int PhysicsBody::getMaxSphereCount()

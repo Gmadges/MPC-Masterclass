@@ -166,6 +166,11 @@ void Model::setConstraintSettings(ConstraintSettings settings)
     pPhysicsBody->setConstraintSettings(settings);
 }
 
+void Model::setPlasticDeformation(bool _deform)
+{
+    pPhysicsBody->setPlasticDeformation(_deform);
+}
+
 QVector3D Model::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
 {
     btTransform trans1;

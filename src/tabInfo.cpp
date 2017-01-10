@@ -56,6 +56,7 @@ void TabInfo::initConnections()
     //checkboxes
     connect(ui->check_showMesh, &QCheckBox::clicked, this, &TabInfo::setShowMesh);
     connect(ui->check_showPhys, &QCheckBox::clicked, this, &TabInfo::setShowPhys);
+    connect(ui->check_plasticDeform, &QCheckBox::clicked, this, &TabInfo::setPlasticDeform);
 
     //reset
     connect(ui->button_reset, &QPushButton::clicked, this, &TabInfo::reset);
@@ -193,4 +194,9 @@ void TabInfo::applyConstraintSettings()
     pModel->setConstraintSettings(settings);
 
     pModel->createConstraints(); 
+}
+
+void TabInfo::setPlasticDeform(bool _deform)
+{
+    pModel->setPlasticDeformation(_deform);
 }

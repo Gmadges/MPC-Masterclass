@@ -34,6 +34,7 @@ public:
     void setMinSphereSize(float size);
     void setMaxSphereSize(float size);
     void setSphereOverlap(bool enable);
+    void setPlasticDeformation(bool _deform);
 
     void weightMeshFromPhysicsBody();
 

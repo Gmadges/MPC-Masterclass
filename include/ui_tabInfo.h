@@ -54,6 +54,8 @@ public:
     QScrollArea *scrollArea;
     SpringSettings *widget_springSettings;
     QPushButton *button_applySettings;
+    QCheckBox *check_plasticDeform;
+    QLabel *label_8;
 
     void setupUi(QWidget *TabInfo)
     {
@@ -152,17 +154,17 @@ public:
         label->setTextFormat(Qt::RichText);
         label->setAlignment(Qt::AlignCenter);
 
-        formLayout->setWidget(12, QFormLayout::SpanningRole, label);
+        formLayout->setWidget(13, QFormLayout::SpanningRole, label);
 
         label_5 = new QLabel(TabInfo);
         label_5->setObjectName(QStringLiteral("label_5"));
 
-        formLayout->setWidget(13, QFormLayout::LabelRole, label_5);
+        formLayout->setWidget(14, QFormLayout::LabelRole, label_5);
 
         combo_constType = new QComboBox(TabInfo);
         combo_constType->setObjectName(QStringLiteral("combo_constType"));
 
-        formLayout->setWidget(13, QFormLayout::FieldRole, combo_constType);
+        formLayout->setWidget(14, QFormLayout::FieldRole, combo_constType);
 
         scrollArea = new QScrollArea(TabInfo);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
@@ -171,15 +173,25 @@ public:
         scrollArea->setWidgetResizable(true);
         widget_springSettings = new SpringSettings();
         widget_springSettings->setObjectName(QStringLiteral("widget_springSettings"));
-        widget_springSettings->setGeometry(QRect(0, 0, 314, 73));
+        widget_springSettings->setGeometry(QRect(0, 0, 314, 46));
         scrollArea->setWidget(widget_springSettings);
 
-        formLayout->setWidget(15, QFormLayout::SpanningRole, scrollArea);
+        formLayout->setWidget(16, QFormLayout::SpanningRole, scrollArea);
 
         button_applySettings = new QPushButton(TabInfo);
         button_applySettings->setObjectName(QStringLiteral("button_applySettings"));
 
-        formLayout->setWidget(16, QFormLayout::SpanningRole, button_applySettings);
+        formLayout->setWidget(17, QFormLayout::SpanningRole, button_applySettings);
+
+        check_plasticDeform = new QCheckBox(TabInfo);
+        check_plasticDeform->setObjectName(QStringLiteral("check_plasticDeform"));
+
+        formLayout->setWidget(12, QFormLayout::FieldRole, check_plasticDeform);
+
+        label_8 = new QLabel(TabInfo);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        formLayout->setWidget(12, QFormLayout::LabelRole, label_8);
 
 
         gridLayout_2->addLayout(formLayout, 1, 0, 1, 1);
@@ -205,6 +217,8 @@ public:
         label->setText(QApplication::translate("TabInfo", "<b>Constraints</b>", 0));
         label_5->setText(QApplication::translate("TabInfo", "Type", 0));
         button_applySettings->setText(QApplication::translate("TabInfo", "Apply", 0));
+        check_plasticDeform->setText(QString());
+        label_8->setText(QApplication::translate("TabInfo", "plastic Deformation", 0));
     } // retranslateUi
 
 };
