@@ -10,6 +10,7 @@
 
 class PhysicsWorld;
 class Sphere;
+class Line;
 class QOpenGLShaderProgram;
 
 class PhysicsBody
@@ -80,6 +81,9 @@ private:
 
     // sphere thing
     std::shared_ptr<Sphere> pSphere;
+
+    //line thing
+    std::shared_ptr<Line> pLine;
 
     // ID
     int  id;

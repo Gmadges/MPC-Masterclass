@@ -1,6 +1,7 @@
 #include "physicsBody.h"
 #include "physicsWorld.h"
 #include "sphere.h"
+#include "line.h"
 #include "openVDBTools.h"
 
 #include <QOpenGLShaderProgram>
@@ -10,6 +11,7 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
 :
     pPhysicsWorld(_phys),
     pSphere(new Sphere()),
+    pLine(new Line()),
     id(_id),
     constraintType(BodyConstraintType::FIXED),
     maxSphereCount(1000),
@@ -111,21 +113,13 @@ void PhysicsBody::drawConstraints(QOpenGLShaderProgram *pShader)
         btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
 
         // if not check whether it should be based on some kind of value
-        btTransform startA = pSpring->getFrameOffsetA();
-        btTransform startB = pSpring->getFrameOffsetB();
-        btTransform transA = startA * pSpring->getCalculatedTransformA();
-        btTransform transB = startB * pSpring   ->getCalculatedTransformB();
-
-        transA.getOrigin();
-        transB.getOrigin();
-
-        // basic model thingy
-        QMatrix4x4 model;
-        model.setToIdentity();
-        pShader->setUniformValue("model_matrix", model);
+        btVector3 start = pSpring->getRigidBodyA().getCenterOfMassPosition();
+        btVector3 end = pSpring->getRigidBodyB().getCenterOfMassPosition();
 
         // pass in the 2 points
-        //pLine->draw( , , pShader);
+        pLine->draw( QVector3D(start.x(), start.y(), start.z()), 
+                    QVector3D(end.x(), end.y(), end.z()), 
+                    pShader);
     }
 }
 
