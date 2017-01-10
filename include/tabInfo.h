@@ -28,7 +28,11 @@ private:
     void setSphereOverlap(bool enable);
     void setSphereMaxSize(double size);
     void setSphereMinSize(double size);
+
+    //plastic
     void setPlasticDeform(bool _deform);
+    void setMaxPlasticForce(double _value);
+    void setMinPlasticForce(double _value);
 
     void setShowMesh(bool set);
     void setShowPhys(bool set);

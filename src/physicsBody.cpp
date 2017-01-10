@@ -18,7 +18,9 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
     minSphereSize(1.0f),
     maxSphereSize(100000.0f),
     bSphereOverlap(true),
-    bPlasticDeform(false)    
+    bPlasticDeform(false),
+    maxForceThreshold(1.0),
+    minForceThreshold(0.1)    
 {
 }
 
@@ -37,35 +39,23 @@ void PhysicsBody::update()
 
 void PhysicsBody::updatePlasticDeformation()
 {
-    // for now lets just do this for dof2
-    if(constraintType != BodyConstraintType::SPRING) return;
+    // only work on fixed for now
+    if(constraintType != BodyConstraintType::FIXED) return;
 
-    // check things and change state dependant.
     for (auto constraint : constraints)
     {
         // cast 
         btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
 
-        // check if axis are locked
-        btVector3 upper, lower;
-
-        pSpring->getLinearUpperLimit(upper);
-        pSpring->getLinearLowerLimit(lower);
-
-        if((upper ==  btVector3(0,0,0)) && (lower == btVector3(0,0,0))) continue;
-
-        // if not check whether it should be based on some kind of value
-        btTransform startA = pSpring->getFrameOffsetA();
-        btTransform startB = pSpring->getFrameOffsetB();
-
-        float origDist = startA.getOrigin().distance(startB.getOrigin());
-
-        btTransform transA = startA * pSpring->getCalculatedTransformA();
-        btTransform transB = startB * pSpring->getCalculatedTransformB();
-
-        float newDist = transA.getOrigin().distance(transB.getOrigin());
-
-        if(newDist < (origDist * 0.95))
+        if(pSpring->getAppliedImpulse() > maxForceThreshold)
+        {
+            // if fixed relax it a bit and then lock again
+            pSpring->setLinearUpperLimit(btVector3(100,100,100));
+            pSpring->setLinearLowerLimit(btVector3(-100,-100,-100));
+            
+        }
+        // not much force applied now lock it
+        else if(pSpring->getAppliedImpulse() < minForceThreshold)
         {
             pSpring->setLinearUpperLimit(btVector3(0,0,0));
             pSpring->setLinearLowerLimit(btVector3(0,0,0));
@@ -337,6 +327,31 @@ void PhysicsBody::setSphereOverlap(bool enable)
 void PhysicsBody::setPlasticDeformation(bool _deform)
 {
     bPlasticDeform = _deform;
+}
+
+void PhysicsBody::setMaxPlasticForce(double _value)
+{
+    maxForceThreshold = _value;
+}
+
+void PhysicsBody::setMinPlasticForce(double _value)
+{
+    minForceThreshold = _value;
+}
+
+bool PhysicsBody::getPlasticDeformation()
+{
+    return bPlasticDeform;
+}
+
+double PhysicsBody::getMaxPlasticForce()
+{
+    return maxForceThreshold;
+}
+
+double PhysicsBody::getMinPlasticForce()
+{
+    return minForceThreshold;
 }
 
 int PhysicsBody::getMaxSphereCount()
