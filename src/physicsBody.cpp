@@ -40,7 +40,7 @@ void PhysicsBody::update()
 void PhysicsBody::updatePlasticDeformation()
 {
     // only work on fixed for now
-    if(constraintType != BodyConstraintType::FIXED) return;
+    //if(constraintType != BodyConstraintType::FIXED) return;
 
     for (auto constraint : constraints)
     {
@@ -50,9 +50,8 @@ void PhysicsBody::updatePlasticDeformation()
         if(pSpring->getAppliedImpulse() > maxForceThreshold)
         {
             // if fixed relax it a bit and then lock again
-            pSpring->setLinearUpperLimit(btVector3(100,100,100));
-            pSpring->setLinearLowerLimit(btVector3(-100,-100,-100));
-            
+            pSpring->setLinearUpperLimit(btVector3(1,1,1));
+            pSpring->setLinearLowerLimit(btVector3(-1,-1,-1));   
         }
         // not much force applied now lock it
         else if(pSpring->getAppliedImpulse() < minForceThreshold)
