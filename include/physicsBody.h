@@ -38,6 +38,9 @@ public:
     void setMinSphereSize(float size);
     void setMaxSphereSize(float size);
     void setSphereOverlap(bool enable);
+    void setPlasticDeformation(bool _deform);
+    void setMaxPlasticForce(double _value);
+    void setMinPlasticForce(double _value);
 // getters
     BodyConstraintType getConstraintType();
     ConstraintSettings getConstraintSettings();
@@ -46,6 +49,9 @@ public:
     float getMaxSphereSize();
     bool getSphereOverlap();
     std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> getRigidBodies();
+    bool getPlasticDeformation();
+    double getMaxPlasticForce();
+    double getMinPlasticForce();
 
 private:
 
@@ -68,6 +74,8 @@ private:
                             std::shared_ptr<btRigidBody> pBodyB, 
                             btTransform& frameInA, 
                             btTransform& frameInB);
+
+    void updatePlasticDeformation();
 
 private:
 
@@ -96,6 +104,10 @@ private:
     bool bSphereOverlap;
 
     ConstraintSettings constraintSettings;
+
+    bool bPlasticDeform;
+    double maxForceThreshold;
+    double minForceThreshold;
 };
 
 #endif // PHYSICSBODY

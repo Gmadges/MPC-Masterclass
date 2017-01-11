@@ -17,7 +17,10 @@ PhysicsBody::PhysicsBody(std::shared_ptr<PhysicsWorld> _phys, int _id)
     maxSphereCount(1000),
     minSphereSize(1.0f),
     maxSphereSize(100000.0f),
-    bSphereOverlap(true)
+    bSphereOverlap(true),
+    bPlasticDeform(false),
+    maxForceThreshold(1.0),
+    minForceThreshold(0.1)    
 {
 }
 
@@ -27,12 +30,36 @@ PhysicsBody::~PhysicsBody()
 
 void PhysicsBody::update()
 {
-    // check things and change state dependant.
 
+    if(bPlasticDeform)
+    {
+        updatePlasticDeformation();
+    }
+}
 
-    // maybe look for changes and collison things
+void PhysicsBody::updatePlasticDeformation()
+{
+    // only work on fixed for now
+    //if(constraintType != BodyConstraintType::FIXED) return;
 
-    // if so change something like make it fixed without movement or something
+    for (auto constraint : constraints)
+    {
+        // cast 
+        btGeneric6DofSpring2Constraint* pSpring = (btGeneric6DofSpring2Constraint*)constraint.get();
+
+        if(pSpring->getAppliedImpulse() > maxForceThreshold)
+        {
+            // if fixed relax it a bit and then lock again
+            pSpring->setLinearUpperLimit(btVector3(1,1,1));
+            pSpring->setLinearLowerLimit(btVector3(-1,-1,-1));   
+        }
+        // not much force applied now lock it
+        else if(pSpring->getAppliedImpulse() < minForceThreshold)
+        {
+            pSpring->setLinearUpperLimit(btVector3(0,0,0));
+            pSpring->setLinearLowerLimit(btVector3(0,0,0));
+        }
+    }
 }
 
 std::vector<std::pair<std::shared_ptr<btRigidBody>, float>> PhysicsBody::getRigidBodies()
@@ -294,6 +321,36 @@ void PhysicsBody::setMaxSphereSize(float size)
 void PhysicsBody::setSphereOverlap(bool enable)
 {
     bSphereOverlap = enable;
+}
+
+void PhysicsBody::setPlasticDeformation(bool _deform)
+{
+    bPlasticDeform = _deform;
+}
+
+void PhysicsBody::setMaxPlasticForce(double _value)
+{
+    maxForceThreshold = _value;
+}
+
+void PhysicsBody::setMinPlasticForce(double _value)
+{
+    minForceThreshold = _value;
+}
+
+bool PhysicsBody::getPlasticDeformation()
+{
+    return bPlasticDeform;
+}
+
+double PhysicsBody::getMaxPlasticForce()
+{
+    return maxForceThreshold;
+}
+
+double PhysicsBody::getMinPlasticForce()
+{
+    return minForceThreshold;
 }
 
 int PhysicsBody::getMaxSphereCount()

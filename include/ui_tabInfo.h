@@ -54,12 +54,20 @@ public:
     QScrollArea *scrollArea;
     SpringSettings *widget_springSettings;
     QPushButton *button_applySettings;
+    QCheckBox *check_plasticDeform;
+    QLabel *label_8;
+    QDoubleSpinBox *spin_maxPlasticForce;
+    QDoubleSpinBox *spin_minPlasticForce;
+    QFrame *line_3;
+    QLabel *label_9;
+    QLabel *label_maxForce;
+    QLabel *label_minForce;
 
     void setupUi(QWidget *TabInfo)
     {
         if (TabInfo->objectName().isEmpty())
             TabInfo->setObjectName(QStringLiteral("TabInfo"));
-        TabInfo->resize(336, 434);
+        TabInfo->resize(346, 559);
         gridLayout_2 = new QGridLayout(TabInfo);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         formLayout = new QFormLayout();
@@ -152,17 +160,17 @@ public:
         label->setTextFormat(Qt::RichText);
         label->setAlignment(Qt::AlignCenter);
 
-        formLayout->setWidget(12, QFormLayout::SpanningRole, label);
+        formLayout->setWidget(17, QFormLayout::SpanningRole, label);
 
         label_5 = new QLabel(TabInfo);
         label_5->setObjectName(QStringLiteral("label_5"));
 
-        formLayout->setWidget(13, QFormLayout::LabelRole, label_5);
+        formLayout->setWidget(18, QFormLayout::LabelRole, label_5);
 
         combo_constType = new QComboBox(TabInfo);
         combo_constType->setObjectName(QStringLiteral("combo_constType"));
 
-        formLayout->setWidget(13, QFormLayout::FieldRole, combo_constType);
+        formLayout->setWidget(18, QFormLayout::FieldRole, combo_constType);
 
         scrollArea = new QScrollArea(TabInfo);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
@@ -171,15 +179,62 @@ public:
         scrollArea->setWidgetResizable(true);
         widget_springSettings = new SpringSettings();
         widget_springSettings->setObjectName(QStringLiteral("widget_springSettings"));
-        widget_springSettings->setGeometry(QRect(0, 0, 314, 73));
+        widget_springSettings->setGeometry(QRect(0, 0, 324, 73));
         scrollArea->setWidget(widget_springSettings);
 
-        formLayout->setWidget(15, QFormLayout::SpanningRole, scrollArea);
+        formLayout->setWidget(20, QFormLayout::SpanningRole, scrollArea);
 
         button_applySettings = new QPushButton(TabInfo);
         button_applySettings->setObjectName(QStringLiteral("button_applySettings"));
 
-        formLayout->setWidget(16, QFormLayout::SpanningRole, button_applySettings);
+        formLayout->setWidget(21, QFormLayout::SpanningRole, button_applySettings);
+
+        check_plasticDeform = new QCheckBox(TabInfo);
+        check_plasticDeform->setObjectName(QStringLiteral("check_plasticDeform"));
+
+        formLayout->setWidget(13, QFormLayout::FieldRole, check_plasticDeform);
+
+        label_8 = new QLabel(TabInfo);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        formLayout->setWidget(13, QFormLayout::LabelRole, label_8);
+
+        spin_maxPlasticForce = new QDoubleSpinBox(TabInfo);
+        spin_maxPlasticForce->setObjectName(QStringLiteral("spin_maxPlasticForce"));
+        spin_maxPlasticForce->setDecimals(5);
+        spin_maxPlasticForce->setSingleStep(0.1);
+
+        formLayout->setWidget(14, QFormLayout::FieldRole, spin_maxPlasticForce);
+
+        spin_minPlasticForce = new QDoubleSpinBox(TabInfo);
+        spin_minPlasticForce->setObjectName(QStringLiteral("spin_minPlasticForce"));
+        spin_minPlasticForce->setDecimals(5);
+        spin_minPlasticForce->setSingleStep(0.1);
+
+        formLayout->setWidget(15, QFormLayout::FieldRole, spin_minPlasticForce);
+
+        line_3 = new QFrame(TabInfo);
+        line_3->setObjectName(QStringLiteral("line_3"));
+        line_3->setFrameShape(QFrame::HLine);
+        line_3->setFrameShadow(QFrame::Sunken);
+
+        formLayout->setWidget(16, QFormLayout::LabelRole, line_3);
+
+        label_9 = new QLabel(TabInfo);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        label_9->setAlignment(Qt::AlignCenter);
+
+        formLayout->setWidget(12, QFormLayout::SpanningRole, label_9);
+
+        label_maxForce = new QLabel(TabInfo);
+        label_maxForce->setObjectName(QStringLiteral("label_maxForce"));
+
+        formLayout->setWidget(14, QFormLayout::LabelRole, label_maxForce);
+
+        label_minForce = new QLabel(TabInfo);
+        label_minForce->setObjectName(QStringLiteral("label_minForce"));
+
+        formLayout->setWidget(15, QFormLayout::LabelRole, label_minForce);
 
 
         gridLayout_2->addLayout(formLayout, 1, 0, 1, 1);
@@ -205,6 +260,11 @@ public:
         label->setText(QApplication::translate("TabInfo", "<b>Constraints</b>", 0));
         label_5->setText(QApplication::translate("TabInfo", "Type", 0));
         button_applySettings->setText(QApplication::translate("TabInfo", "Apply", 0));
+        check_plasticDeform->setText(QString());
+        label_8->setText(QApplication::translate("TabInfo", "Plastic Deformation", 0));
+        label_9->setText(QApplication::translate("TabInfo", "<b>Plastic Deform</b>", 0));
+        label_maxForce->setText(QApplication::translate("TabInfo", "Max Threshold", 0));
+        label_minForce->setText(QApplication::translate("TabInfo", "Min Threshold", 0));
     } // retranslateUi
 
 };

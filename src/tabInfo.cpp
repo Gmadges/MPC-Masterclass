@@ -49,6 +49,14 @@ void TabInfo::initUI()
 
     // hide the apply button
     ui->button_applySettings->hide();
+
+    //plastic deformer
+    ui->spin_maxPlasticForce->setValue(1.0);
+    setMaxPlasticForce(1.0);
+    ui->spin_minPlasticForce->setValue(0.1);
+    setMinPlasticForce(0.1);
+    ui->check_plasticDeform->setCheckState(Qt::CheckState::Unchecked);
+    setPlasticDeform(false);
 }
 
 void TabInfo::initConnections()
@@ -69,6 +77,11 @@ void TabInfo::initConnections()
     connect(ui->spin_maxSphereCount, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TabInfo::setMaxSphereCount);
     connect(ui->spin_maxSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMaxSize);
     connect(ui->spin_minSphereSize, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setSphereMinSize);
+
+    //plastic
+    connect(ui->check_plasticDeform, &QCheckBox::clicked, this, &TabInfo::setPlasticDeform);
+    connect(ui->spin_maxPlasticForce, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setMaxPlasticForce);
+    connect(ui->spin_minPlasticForce, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &TabInfo::setMinPlasticForce);
 
     //apply settings
     connect(ui->button_applySettings, &QPushButton::clicked, this, &TabInfo::applyConstraintSettings);
@@ -194,3 +207,37 @@ void TabInfo::applyConstraintSettings()
 
     pModel->createConstraints(); 
 }
+
+void TabInfo::setPlasticDeform(bool _deform)
+{
+    if(_deform)
+    {
+        // spin boxes
+        ui->spin_maxPlasticForce->show();
+        ui->spin_minPlasticForce->show();
+        // labels
+        ui->label_maxForce->show();
+        ui->label_minForce->show();
+    }
+    else
+    {
+        ui->spin_maxPlasticForce->hide();
+        ui->spin_minPlasticForce->hide();
+
+        ui->label_maxForce->hide();
+        ui->label_minForce->hide();
+    }
+
+    pModel->setPlasticDeformation(_deform);
+}
+
+void TabInfo::setMaxPlasticForce(double _value)
+{
+    pModel->setMaxPlasticForce(_value);
+}
+
+void TabInfo::setMinPlasticForce(double _value)
+{
+    pModel->setMinPlasticForce(_value);
+}
+

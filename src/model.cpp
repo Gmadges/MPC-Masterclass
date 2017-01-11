@@ -38,6 +38,9 @@ void Model::reset()
     float minSize = pPhysicsBody->getMinSphereSize();
     int maxCount = pPhysicsBody->getMaxSphereCount();
     bool bOverlap = pPhysicsBody->getSphereOverlap();
+    bool bPlastic = pPhysicsBody->getPlasticDeformation();
+    double maxPlasticForce = pPhysicsBody->getMaxPlasticForce();
+    double minPlasticForce = pPhysicsBody->getMinPlasticForce();
 
     pPhysicsBody.reset(new PhysicsBody(pPhysWorld, id));
 
@@ -47,6 +50,9 @@ void Model::reset()
     pPhysicsBody->setMinSphereSize(minSize);
     pPhysicsBody->setMaxSphereCount(maxCount);
     pPhysicsBody->setSphereOverlap(bOverlap);
+    pPhysicsBody->setPlasticDeformation(bPlastic);
+    pPhysicsBody->setMaxPlasticForce(maxPlasticForce);
+    pPhysicsBody->setMinPlasticForce(minPlasticForce);
 
     // reload spheres
     pPhysicsBody->initBodyWithSpheres(pMesh->getVerts(), pMesh->getFaces());
@@ -91,6 +97,8 @@ void Model::drawPhysicsBody(QOpenGLShaderProgram *pShader)
 
 void Model::update()
 {
+    pPhysicsBody->update();
+
     // update bone transforms
     auto spheres = pPhysicsBody->getRigidBodies();
     if(!spheres.empty())
@@ -162,6 +170,21 @@ void Model::setSphereOverlap(bool enable)
 void Model::setConstraintSettings(ConstraintSettings settings)
 {
     pPhysicsBody->setConstraintSettings(settings);
+}
+
+void Model::setPlasticDeformation(bool _deform)
+{
+    pPhysicsBody->setPlasticDeformation(_deform);
+}
+
+void Model::setMaxPlasticForce(double _value)
+{
+    pPhysicsBody->setMaxPlasticForce(_value);
+}
+
+void Model::setMinPlasticForce(double _value)
+{
+    pPhysicsBody->setMinPlasticForce(_value);
 }
 
 QVector3D Model::getPositionForBody(std::shared_ptr<btRigidBody> pBody)
