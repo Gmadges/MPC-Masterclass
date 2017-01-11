@@ -201,11 +201,15 @@ public:
 
         spin_maxPlasticForce = new QDoubleSpinBox(TabInfo);
         spin_maxPlasticForce->setObjectName(QStringLiteral("spin_maxPlasticForce"));
+        spin_maxPlasticForce->setDecimals(5);
+        spin_maxPlasticForce->setSingleStep(0.1);
 
         formLayout->setWidget(14, QFormLayout::FieldRole, spin_maxPlasticForce);
 
         spin_minPlasticForce = new QDoubleSpinBox(TabInfo);
         spin_minPlasticForce->setObjectName(QStringLiteral("spin_minPlasticForce"));
+        spin_minPlasticForce->setDecimals(5);
+        spin_minPlasticForce->setSingleStep(0.1);
 
         formLayout->setWidget(15, QFormLayout::FieldRole, spin_minPlasticForce);
 
