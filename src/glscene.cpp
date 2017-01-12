@@ -97,7 +97,7 @@ void GLScene::loadMatricesToShaders(QOpenGLShaderProgram *pProgram)
     // create view mat
     //mat.rotate(QQuaternion::fromEulerAngles(spinXFace, spinYFace, 0.0f));
     viewMat.setToIdentity();
-    viewMat.lookAt(cam_pos, QVector3D(0,5,0), QVector3D(0,1,0));
+    viewMat.lookAt(cam_pos, QVector3D(0,20,0), QVector3D(0,1,0));
 
 
     normMat = viewMat.normalMatrix();
